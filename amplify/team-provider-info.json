@@ -1,0 +1,53 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-contestsitegod-dev-102707-authRole",
+            "UnauthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-dev-102707-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-dev-102707-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "amplify-contestsitegod-dev-102707-deployment",
+            "UnauthRoleName": "amplify-contestsitegod-dev-102707-unauthRole",
+            "StackName": "amplify-contestsitegod-dev-102707",
+            "StackId": "arn:aws:cloudformation:eu-west-1:026820084767:stack/amplify-contestsitegod-dev-102707/651888a0-2566-11ea-90b7-02abe6210ac8",
+            "AmplifyAppId": "d365p2o67erdag"
+        },
+        "categories": {
+            "auth": {
+                "contestsitegodf9c1e021": {}
+            }
+        }
+    },
+    "developers": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-contestsitegod-developers-105140-authRole",
+            "UnauthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-developers-105140-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-developers-105140-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-contestsitegod-developers-105140-deployment",
+            "UnauthRoleName": "amplify-contestsitegod-developers-105140-unauthRole",
+            "StackName": "amplify-contestsitegod-developers-105140",
+            "StackId": "arn:aws:cloudformation:us-east-1:026820084767:stack/amplify-contestsitegod-developers-105140/d36c10d0-2569-11ea-9a35-126c97cb5bc1",
+            "AmplifyAppId": "d2p1ed8emy3l7y"
+        }
+    },
+    "test": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-contestsitegod-test-92047-authRole",
+            "UnauthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-test-92047-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-test-92047-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-contestsitegod-test-92047-deployment",
+            "UnauthRoleName": "amplify-contestsitegod-test-92047-unauthRole",
+            "StackName": "amplify-contestsitegod-test-92047",
+            "StackId": "arn:aws:cloudformation:us-east-1:026820084767:stack/amplify-contestsitegod-test-92047/c7612a40-31ef-11ea-913c-0e1aa735f904",
+            "AmplifyAppId": "d2p1ed8emy3l7y"
+        },
+        "categories": {
+            "auth": {
+                "contestsitegod309bdf3d": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"779204449266915\",\"client_secret\":\"099660226feaa76bc7b688550d5402dc\"},{\"ProviderName\":\"Google\",\"client_id\":\"934932606671-7fc3j9lccsqd5g7q55g2ro4hl6g5o1iu.apps.googleusercontent.com\",\"client_secret\":\"w9yqrGdklyt_bwVOm_5qrwFm\"}]"
+                }
+            }
+        }
+    }
+}

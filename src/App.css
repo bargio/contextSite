@@ -1,0 +1,50 @@
+.App {
+  text-align: center;
+  
+}
+
+.App-header {
+  background-color: transparent;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: black;
+}
+
+.Middler{
+  width:800px;
+   margin:0 auto;
+}
+.App-link {
+  color: #09d3ac;
+}
+
+.Footer {
+  background-color: #282c34;
+  position:absolute;
+  left:0;
+  bottom:0;
+  right:0;
+}
+
+
+.MuiTypography-h1{
+  font-size: 1.912em;
+  line-height: calc(18px + 1.8vw); /* Responsive Vertical Rhythm */
+}
+.MuiTypography-h2 {
+  font-size: 1.616em;
+  line-height: calc(18px + 1vw); /* Responsive Vertical Rhythm */
+}
+h3 {
+  font-size: 1.471em;
+  line-height: calc(18px + .7vw); /* Responsive Vertical Rhythm */
+}
+h4 { font-size: 1.3em; }
+h5 { font-size: 1.243em; }
+.MuiTypography-h6 { 
+  line-height: calc(18px + .2vw); /* Responsive Vertical Rhythm */
+}
+.MuiTypography-body2 { 
+  line-height: calc(18px + .2vw); /* Responsive Vertical Rhythm */
+}

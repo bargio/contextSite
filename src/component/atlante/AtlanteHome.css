@@ -1,0 +1,19 @@
+.search{
+    position: absolute;
+    z-index: 1;
+}
+
+.imgwithborderatlante{
+    display: block;
+    width: 100%;
+    height: auto;
+    min-width: 97%;
+    /*max-height: 90%;*/
+    margin: 20px;
+    background-repeat:   no-repeat;
+    background-size:     cover;
+  }
+
+  .mdc-grid-tile {
+    --mdc-grid-list-tile-width: 100px;
+  }

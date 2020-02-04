@@ -1,0 +1,33 @@
+type Quiz @model {
+  id: ID!
+  name: String!
+  creator: String
+  createDate: String
+  expireDate: String
+  smallDescription: String
+  description: String
+  image_url: String
+  active: Boolean
+  quizQuestionsID: String
+}
+
+type QuizQuestions @model {
+  id: ID!
+  quizDetails: String!
+}
+
+type QuizResult @model {
+  id: ID!
+  quizId: String!
+  quizUser: String!
+  quizResult: Int!
+  quizID: String
+}
+
+type Users @model {
+  id: ID!
+  userId: String!
+  userEmail: String!
+  userLevel: Int!
+}
+

@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/addQuiz",
+            "lambdaFunction": "lambdaQuizResource",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "quizresource",
+    "apiName": "quizresource",
+    "functionArns": [
+        {
+            "lambdaFunction": "lambdaQuizResource"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-contestsitegod-developers-105140-authRole",
+        "unAuthRoleName": "amplify-contestsitegod-developers-105140-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "lambdaQuizResource",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
