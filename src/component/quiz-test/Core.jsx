@@ -463,15 +463,15 @@ class Core extends Component {
     )
   }
 
-  saveResult = (totalPoints)=>{
+  saveResult = (correctPoints)=>{
     console.log("Save result")
-    console.log(totalPoints)
+    console.log(correctPoints)
     var quizId = window.location.pathname.split("/")[2]
     console.log(quizId)
     var userState = window.profilecomponent.getUserDetails()
     console.log(userState.userLogged)
     var userData = userState.userLogged.username+"####"+userState.userLogged.email
-    QuizResources.insertQuizResult(quizId,userData,totalPoints)
+    QuizResources.insertQuizResult(quizId,userData,correctPoints)
   }
 
   render() {
@@ -571,7 +571,7 @@ class Core extends Component {
               {appLocale.resultPagePoint.replace("<correctPoints>", correctPoints).replace("<totalPoints>", totalPoints)}
             </h2>
             <br />
-           {this.saveResult(totalPoints)/* {this.renderQuizResultFilter()}
+           {this.saveResult(correctPoints)/* {this.renderQuizResultFilter()}
             {this.renderQuizResultQuestions()}*/}
           </div>
         }

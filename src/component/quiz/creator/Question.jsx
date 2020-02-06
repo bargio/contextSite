@@ -4,6 +4,7 @@ import { InputGroup, FormControl, FormCheck, Badge, Button, OverlayTrigger, Tool
 import { PhotoPicker } from 'aws-amplify-react';
 import StorageResource from '../../resource/Storage';
 import { TextField } from '@material-ui/core';
+import UtilsResource from '../../utils/Utils';
 
 class Response {
     constructor(text, isCorrect) {
@@ -143,7 +144,7 @@ export class Question extends React.Component {
 
     updateImageQuestionType1 = (data) => {
         StorageResource.putImage(new Blob([data.file], { type: 'image/png' }), new Date().valueOf()).then(
-            data => { this.setState({ imageType1: data }); console.log(this.state) }
+            data => { this.setState({ imageType1: data }); console.log(data);UtilsResource.progressBarUpdate(100) }
         )
     }
 

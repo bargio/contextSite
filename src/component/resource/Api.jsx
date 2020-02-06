@@ -9,20 +9,56 @@ const QuizResources = {
 
     getAllQuizs: async function getAllQuiz() {
         const allTodos = await API.graphql(graphqlOperation(queries.listQuizs));
-        
+
         return allTodos;
     },
 
-    getUserQuizAndAdministrator: async function getUserQuizAndAdministrator(user){
+    getUserQuizAndAdministrator: async function getUserQuizAndAdministrator(user) {
         var adminQuiz = await API.graphql(graphqlOperation(queries.listQuizs,
             {
                 filter: {
-                    or:[
-                        {creator: { eq: "admin"}},
-                        {creator: { eq: user }}
+                    or: [
+                        { creator: { eq: "admin" } },
+                        { creator: { eq: user } }
                     ]
                 }
             }));
+        return adminQuiz
+    },
+    getAdministratorQuizs: async function getUserQuizAndAdministrator() {
+        var adminQuiz = await API.graphql(graphqlOperation(queries.listQuizs,
+            {
+                filter: {
+                    or: [
+                        { creator: { eq: "admin" } }
+                    ]
+                }
+            }));
+        return adminQuiz
+    },
+
+    getQuizIds: async function getQuizIds(listIds) {
+        console.log(listIds)
+        var adminQuiz = await API.graphql(graphqlOperation(queries.listQuizs,
+            {
+                limit:9999999,
+                filter: {
+                    or: listIds,
+                    creator:{eq:"admin"}
+                }
+            }));
+        console.log(adminQuiz)
+        return adminQuiz
+    },
+
+    getUsersQuiz: async function getUsersQuiz(user) {
+        console.log("Search quiz for user ",user)
+        var adminQuiz = await API.graphql(graphqlOperation(queries.quizByCreator,
+            {
+                creator: user
+                
+            }));
+        console.log(adminQuiz)
         return adminQuiz
     },
 
@@ -111,21 +147,20 @@ const QuizResources = {
         }
     },
     getUserQuizResult: async function getUserQuizResult(user) {
-        var userResults = await API.graphql(graphqlOperation(queries.listQuizResults,
+        var userResults = await API.graphql(graphqlOperation(queries.quizResultByUser,
             {
-                filter: {
-                    quizUser: {
-                        eq: user
-                    }
-                }
+               
+                quizUser: user
+                   
             }));
+        console.log(userResults)
         return userResults
     },
-    getUserQuizResultWithQuizID: async function getUserQuizResultWithQuizID(user,id) {
+    getUserQuizResultWithQuizID: async function getUserQuizResultWithQuizID(user, id) {
         var userResults = await API.graphql(graphqlOperation(queries.listQuizResults,
             {
                 filter: {
-                    quizId:{
+                    quizId: {
                         eq: id
                     }
                 }

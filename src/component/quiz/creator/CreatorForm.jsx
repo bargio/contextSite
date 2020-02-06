@@ -11,6 +11,7 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 import DatePicker from "react-datepicker";
 import AuthenticationManager from '../../auth/AuthenticationManager';
 import { TextField } from '@material-ui/core';
+import UtilsResource from '../../utils/Utils';
 registerLocale('it', it)
 
 export class CreatorForm extends React.Component {
@@ -115,18 +116,19 @@ export class CreatorForm extends React.Component {
         if (user != "Error") {
             console.log(user)
             if (user.name == undefined) {
-                PrepareJsonForSave(this.state, user.username);
+                PrepareJsonForSave(this.state, user.username,this.reloadPage);
             } else {
-                PrepareJsonForSave(this.state, user.name);
+                PrepareJsonForSave(this.state, user.name,this.reloadPage);
             }
             this.setState({ showAlert: false, showLoader: true })
-            setTimeout(function () {
-                this.props.backButton()
-            }.bind(this), 3000)
             console.log(this)
         } else {
             window.errorcomponent.showMessage("Errore Utenza", "danger")
         }
+    }
+
+    reloadPage = ()=>{
+        this.props.backButton()
     }
 
 
@@ -139,8 +141,8 @@ export class CreatorForm extends React.Component {
                 }
                 {!this.state.showLoader &&
                     <div>
-                        <div style={{ maxWidth: "min-content", margin: "auto" }}>
-                            <PhotoPicker preview headerText="Foto" headerHint='Aggiungi una foto cliccando sotto' title="Seleziona una foto" onPick={data => this.setState({ image: data })} ></PhotoPicker>
+                        <div style={{ maxWidth: "max-content", margin: "auto" }}>
+                        <PhotoPicker preview headerText="Foto" headerHint='Aggiungi una foto cliccando sotto' title="Seleziona una foto" onPick={data => this.setState({ image: data })} ></PhotoPicker>
                         </div>
                         <Form.Group>
                             <TextField

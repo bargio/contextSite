@@ -1,4 +1,5 @@
-type Quiz @model {
+type Quiz @model 
+@key(name: "byCreator", fields: ["creator"], queryField: "quizByCreator"){
   id: ID!
   name: String!
   creator: String
@@ -16,7 +17,8 @@ type QuizQuestions @model {
   quizDetails: String!
 }
 
-type QuizResult @model {
+type QuizResult @model 
+@key(name: "byUser", fields: ["quizUser"], queryField: "quizResultByUser"){
   id: ID!
   quizId: String!
   quizUser: String!

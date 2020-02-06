@@ -1,5 +1,6 @@
 import Amplify, { Storage, Auth } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
+import Utils from '../utils/Utils';
 
 Amplify.configure(awsconfig);
 
@@ -10,6 +11,7 @@ const StorageResource = {
         await Storage.put(name+'.png', file, {
             contentType: 'image/png',
             progressCallback(progress) {
+                Utils.progressBarUpdate(10+progress.loaded/progress.total*20)
                 console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
             },
         })

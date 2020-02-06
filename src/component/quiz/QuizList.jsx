@@ -44,17 +44,17 @@ export class QuizList extends React.Component {
             var userState = window.profilecomponent.getUserDetails()
             if (userState != null) {
                 var userData = userState.userLogged.username + "####" + userState.userLogged.email
-                this.setState({username:userState.userLogged.username})
+                this.setState({ username: userState.userLogged.username })
                 QuizResources.getUserQuizResult(userData).then(data => {
                     this.setState({ quizResult: data.data.listQuizResults.items, showLoader: false });
                 })
-                QuizResources.getUserQuizAndAdministrator(userState.userLogged.username)
+                QuizResources.getAdministratorQuizs()
                     .then(result => { console.log(result); this.setState({ quizList: result.data.listQuizs.items }); })
             }
         } else {
             this.setState({ showLoader: false })
-            QuizResources.getUserQuizAndAdministrator("admin")
-                    .then(result => { console.log(result); this.setState({ quizList: result.data.listQuizs.items }); })
+            QuizResources.getAdministratorQuizs()
+                .then(result => { console.log(result); this.setState({ quizList: result.data.listQuizs.items }); })
         }
     }
 
@@ -88,9 +88,9 @@ export class QuizList extends React.Component {
             }
             {this.state.quizList && !this.state.showLoader &&
                 <Grid container justify="center" spacing={3} style={{ paddingTop: '5%', gridAutoRow: '1fr' }}>
-                    <Grid item xs={10} sm={10} md={5} large={4} xl={2} >
+                    {/*<Grid item xs={10} sm={10} md={5} large={4} xl={2} >
                         <QuizMediaCard quiz={this.state.addQuiz} user={this.state.username}></QuizMediaCard>
-                    </Grid>
+                    </Grid>*/}
                     {this.state.quizList.map(quiz => {
                         console.log(quiz)
                         return (

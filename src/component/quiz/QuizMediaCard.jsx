@@ -18,7 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import StorageResource from '../resource/Storage';
 import { Overlay, Popover, OverlayTrigger } from 'react-bootstrap';
 import { ShareButtons } from '../share/ShareButtons';
-
+import './QuizMediaCard.css';
 
 export class QuizMediaCard extends React.Component {
 
@@ -57,7 +57,7 @@ export class QuizMediaCard extends React.Component {
     componentDidMount = () => {
         this.setState({ quiz: this.props.quiz })
         var quizResultExist = this.props.result != undefined ? true : false
-        console.log(quizResultExist)
+       
         StorageResource.getImage(this.props.quiz.image_url).then(data => this.setState({ quizImg: data }))
     }
 
@@ -65,17 +65,19 @@ export class QuizMediaCard extends React.Component {
         const quiz = this.props.quiz;
         let quizUrl = 'quiz/' + quiz.id;
         var shareUrl = window.location.origin + "/quiz/" + quiz.id
-        console.log(this.props)
+       
         var avatarCustom = this.props.result ? (<Avatar aria-label="recipe" style={{ backgroundColor: '#28a745' }}>✔</Avatar>) : (<Avatar aria-label="recipe">?</Avatar>)
         const b = <ShareButtons url={shareUrl}></ShareButtons>
         return (
             <Card style={{ maxWidth: '345' }}>
                 <CardActionArea onClick={() => window.location.href = quizUrl}>
                     <CardHeader
+                    //className="textTooLong"
+                        //style={{textOverflow:"ellipsis",whiteSpace:"nowrap",width:"90%",overflow:"hidden"}}
                         avatar={
                             avatarCustom
                         }
-                        title={quiz.name}
+                        title={<div style={{textOverflow:"ellipsis",whiteSpace:"nowrap",width:"90%",overflow:"hidden"}}>{quiz.name}</div>}
                         subheader={quiz.creator}
                     />
                     <CardMedia

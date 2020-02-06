@@ -22,7 +22,7 @@ export class Footer extends React.Component {
     this.interval = setInterval(() => {
       if (this.state.progress < this.state.toReach) {
         this.setState({ progress: this.state.progress + 1 })
-      } else if (this.state.progress < this.state.toReach) {
+      } else if (this.state.progress == this.state.toReach && this.state.toReach==100) {
         this.setState({ progress: 0, toReach: 0, show:false })
       }
     }, 10);
@@ -36,7 +36,7 @@ export class Footer extends React.Component {
     return (
       <div>
         {this.state.show &&
-          <ProgressBar show={false} animated style={{ minWidth: '100%', position: "absolute", bottom: '0', zIndex: '100' }} now={this.state.progress}></ProgressBar>
+          <ProgressBar show={false} animated style={{ minWidth: '100%', position: "fixed", bottom: '0', zIndex: '100' }} now={this.state.progress}></ProgressBar>
         }
       </div>
     );

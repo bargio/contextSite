@@ -82,7 +82,6 @@ const AuthenticationManager = {
 
     isLoggedIn: function isLoggedIn(callBackFunction) {
         Auth.currentAuthenticatedUser().then(user => {
-        console.log(user)
         callBackFunction(user)
         }).catch(e => {
             console.log(e);

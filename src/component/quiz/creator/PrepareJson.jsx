@@ -1,5 +1,6 @@
 import QuizResources from "../../resource/Api";
 import StorageResource from "../../resource/Storage";
+import UtilsResource from '../../utils/Utils';
 
 
 
@@ -40,15 +41,17 @@ function createQuestionJson(question) {
     return jsonQuestion;
 }
 
-export function PrepareJsonForSave(quiz, username) {
+export async function PrepareJsonForSave(quiz, username,callBackFunction) {
     try {
 
         console.log("Preparo il json")
         console.log(quiz)
+        UtilsResource.progressBarUpdate(10)
         let questions = []
         quiz.questions.map((question) => (
             questions.push(createQuestionJson(question)))
         );
+        UtilsResource.progressBarUpdate(20)
         let jsonQuiz = {
             "timer": 300,
             "quiz": {
@@ -73,10 +76,16 @@ export function PrepareJsonForSave(quiz, username) {
         }
         console.log(quiz)
         if (quiz.image != null) {
-            var imageUrl = StorageResource.putImage(new Blob([quiz.image.file], { type: 'image/png' }), new Date().valueOf())
-            imageUrl.then(result => QuizResources.insertQuiz(jsonQuiz, result, username, quiz.expireDate, new Date(), quiz.smallDescription).then(data => console.log(data)))
+            var imageUrl = await StorageResource.putImage(new Blob([quiz.image.file], { type: 'image/png' }), new Date().valueOf())
+            UtilsResource.progressBarUpdate(80)
+            await QuizResources.insertQuiz(jsonQuiz, imageUrl, username, quiz.expireDate, new Date(), quiz.smallDescription)
+            UtilsResource.progressBarUpdate(90)
+            //var imageUrl = StorageResource.putImage(new Blob([quiz.image.file], { type: 'image/png' }), new Date().valueOf())
+            //imageUrl.then(result => {UtilsResource.progressBarUpdate(80);QuizResources.insertQuiz(jsonQuiz, result, username, quiz.expireDate, new Date(), quiz.smallDescription).then(data =>  {UtilsResource.progressBarUpdate(90);console.log(data)})})
         } else {
-            QuizResources.insertQuiz(jsonQuiz, "", username, quiz.expireDate, new Date(), quiz.smallDescription).then(data => console.log(data))
+            await QuizResources.insertQuiz(jsonQuiz, "defaultQuiz.png", username, quiz.expireDate, new Date(), quiz.smallDescription)
+            UtilsResource.progressBarUpdate(90)
+            //QuizResources.insertQuiz(jsonQuiz, "defaultQuiz.png", username, quiz.expireDate, new Date(), quiz.smallDescription).then(data => {UtilsResource.progressBarUpdate(90);console.log(data)})
         }
 
         /*
@@ -86,12 +95,13 @@ export function PrepareJsonForSave(quiz, username) {
             error => alert(error) // doesn't run
         )*/
         //console.log("ID: "+ id);
-        console.log(quiz.image);
         //StorageResource.putImage(quiz.image,id)
-
+        UtilsResource.progressBarUpdate(100)
+        callBackFunction()
     } catch (error) {
         console.log("******************")
         console.log(error)
+        UtilsResource.showMessage()
     }
 
 }

@@ -62,7 +62,7 @@ export class QuizCreator extends React.Component {
             </Button>
         );
         return (
-            <Jumbotron style={{ backgroundColor: 'aliceblue', alignItems: 'center', margin: '20px' }}>
+            <Jumbotron style={{ backgroundColor: 'aliceblue', alignItems: 'center', margin: '10px' }}>
                 {!this.state.create &&
                     !this.state.update &&
                     <Grid container

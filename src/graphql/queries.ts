@@ -12,6 +12,19 @@ export const getQuiz = `query GetQuiz($id: ID!) {
   }
 }
 `;
+
+export const getQuizFromCreator = `query GetQuiz($creator: creator!) {
+  getQuiz(creator: $creator) {
+    id
+    name
+    description
+    image_url
+    active
+    quizQuestionsID
+  }
+}
+`;
+
 export const listQuizs = `query ListQuizs(
   $filter: ModelQuizFilterInput
   $limit: Int

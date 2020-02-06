@@ -111,3 +111,58 @@ export const listUserss = `query ListUserss(
   }
 }
 `;
+export const quizByCreator = `query QuizByCreator(
+  $creator: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelQuizFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  quizByCreator(
+    creator: $creator
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      creator
+      createDate
+      expireDate
+      smallDescription
+      description
+      image_url
+      active
+      quizQuestionsID
+    }
+    nextToken
+  }
+}
+`;
+export const quizResultByUser = `query QuizResultByUser(
+  $quizUser: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelQuizResultFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  quizResultByUser(
+    quizUser: $quizUser
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      quizId
+      quizUser
+      quizResult
+      quizID
+    }
+    nextToken
+  }
+}
+`;
