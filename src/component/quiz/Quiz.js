@@ -2,7 +2,7 @@ import React from 'react';
 import Quiz from 'react-quiz-component';
 import { quizOld } from './QuizQuestion';
 import CountDownQuestion from './CountDownQuestion';
-import { Grid, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { Grid, ListItem, ListItemText, Typography, ListItemAvatar, Avatar, ListItemSecondaryAction } from '@material-ui/core';
 import QuizTest from '../quiz-test/QuizTest';
 import { Redirect } from 'react-router-dom'
 import QuizResources from '../resource/Api';
@@ -96,14 +96,26 @@ export class QuizContest extends React.Component {
                         <MyLoader></MyLoader>
                     }
                     {this.state.showResult && this.state.quiz &&
-                        < h2 > Classifica</h2>
+                        <h2> Classifica</h2>
                     }
                     {this.state.showResult && this.state.result != null && this.state.result.map((item, i) => {
                         var value = item.quizUser.split("####");
                         this.isCompleted(item)
                         return (
                             <ListItem key={i} autoFocus={this.isCompleted(item)}>
-                                <ListItemText primary={<Typography variant="h6" style={this.isCompleted(item)?{ color: '#ff6f00' }:{ color: '#000000' }}>{value[0]}</Typography>} secondary={item.quizResult} />
+                                <ListItemAvatar>
+                                    <Avatar>
+                                        Q
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText 
+                                primary={<Typography variant="h6" style={this.isCompleted(item) ? { color: '#ff6f00' } : { color: '#000000' }}>{value[0]}</Typography>} 
+                               />
+                                
+                                    <ListItemText
+                                        primary={item.quizResult}
+                                    />
+                                
                             </ListItem>
                         );
                     })}

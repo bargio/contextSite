@@ -6,6 +6,7 @@ export const onCreateQuiz = `subscription OnCreateQuiz {
     id
     name
     creator
+    groupCreator
     createDate
     expireDate
     smallDescription
@@ -21,6 +22,7 @@ export const onUpdateQuiz = `subscription OnUpdateQuiz {
     id
     name
     creator
+    groupCreator
     createDate
     expireDate
     smallDescription
@@ -36,6 +38,7 @@ export const onDeleteQuiz = `subscription OnDeleteQuiz {
     id
     name
     creator
+    groupCreator
     createDate
     expireDate
     smallDescription

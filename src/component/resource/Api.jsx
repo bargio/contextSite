@@ -44,7 +44,6 @@ const QuizResources = {
                 limit:9999999,
                 filter: {
                     or: listIds,
-                    creator:{eq:"admin"}
                 }
             }));
         console.log(adminQuiz)
@@ -61,6 +60,15 @@ const QuizResources = {
         console.log(adminQuiz)
         return adminQuiz
     },
+    getQuizByGroupCreator: async function getQuizByGroupCreator(user) {
+        console.log("Search quiz for user ",user)
+        var adminQuiz = await API.graphql(graphqlOperation(queries.quizByGroupCreator,
+            {
+                groupCreator: "[administrators]"
+            }));
+        console.log(adminQuiz)
+        return adminQuiz
+    },
 
     getQuiz: async function getQuiz(id) {
         const oneTodo = await API.graphql(graphqlOperation(queries.getQuiz, { id: id }));
@@ -68,7 +76,7 @@ const QuizResources = {
         return oneTodo
     },
 
-    insertQuiz: async function insertQuiz(quiz, image_url, creator, expireDate, createDate, smallDescription) {
+    insertQuiz: async function insertQuiz(quiz, image_url, creator, expireDate, createDate, smallDescription,userGroups) {
         const quizQuestions = {
             quizDetails: JSON.stringify({ quiz })
         };
@@ -77,6 +85,7 @@ const QuizResources = {
             const quiz1 = {
                 name: quiz.quiz.quizTitle,
                 creator: creator,
+                groupCreator:userGroups,
                 createDate: createDate,
                 expireDate: expireDate,
                 smallDescription: smallDescription,

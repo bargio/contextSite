@@ -46,15 +46,15 @@ export class QuizList extends React.Component {
                 var userData = userState.userLogged.username + "####" + userState.userLogged.email
                 this.setState({ username: userState.userLogged.username })
                 QuizResources.getUserQuizResult(userData).then(data => {
-                    this.setState({ quizResult: data.data.listQuizResults.items, showLoader: false });
+                    this.setState({ quizResult: data.data.quizResultByUser.items, showLoader: false });
                 })
-                QuizResources.getAdministratorQuizs()
-                    .then(result => { console.log(result); this.setState({ quizList: result.data.listQuizs.items }); })
+                QuizResources.getQuizByGroupCreator()
+                    .then(result => { console.log(result); this.setState({ quizList: result.data.quizByGroupCreator.items }); })
             }
         } else {
             this.setState({ showLoader: false })
-            QuizResources.getAdministratorQuizs()
-                .then(result => { console.log(result); this.setState({ quizList: result.data.listQuizs.items }); })
+            QuizResources.getQuizByGroupCreator()
+                .then(result => { console.log(result); this.setState({ quizList: result.data.quizByGroupCreator.items }); })
         }
     }
 
@@ -94,7 +94,7 @@ export class QuizList extends React.Component {
                     {this.state.quizList.map(quiz => {
                         console.log(quiz)
                         return (
-                            <Grid key={quiz.id} item xs={10} sm={10} md={5} large={4} xl={2} zeroMinWidth >
+                            <Grid key={quiz.id} item xs={10} sm={5} md={5} large={4} xl={2} zeroMinWidth >
                                 <QuizMediaCard quiz={quiz} user={this.state.username} result={this.checkIfFoundResult(quiz.id)}></QuizMediaCard>
                             </Grid>
                         );

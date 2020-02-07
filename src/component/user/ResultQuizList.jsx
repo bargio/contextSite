@@ -49,7 +49,7 @@ export class ResultQuizList extends React.Component {
                     {this.state.quizList.map(quiz => {
                         console.log(quiz)
                         return (
-                            <Grid key={quiz.id} item xs={10} sm={10} md={5} large={4} xl={2} zeroMinWidth >
+                            <Grid key={quiz.id} item xs={10} sm={5} md={5} large={4} xl={2} zeroMinWidth >
                                 <QuizMediaCard quiz={quiz} user={this.props.username}></QuizMediaCard>
                             </Grid>
                         );

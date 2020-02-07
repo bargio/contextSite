@@ -82,6 +82,7 @@ const AuthenticationManager = {
 
     isLoggedIn: function isLoggedIn(callBackFunction) {
         Auth.currentAuthenticatedUser().then(user => {
+            console.log(user.signInUserSession.getIdToken().payload['cognito:groups'])
         callBackFunction(user)
         }).catch(e => {
             console.log(e);

@@ -6,6 +6,7 @@ export const getQuiz = `query GetQuiz($id: ID!) {
     id
     name
     creator
+    groupCreator
     createDate
     expireDate
     smallDescription
@@ -26,6 +27,7 @@ export const listQuizs = `query ListQuizs(
       id
       name
       creator
+      groupCreator
       createDate
       expireDate
       smallDescription
@@ -129,6 +131,38 @@ export const quizByCreator = `query QuizByCreator(
       id
       name
       creator
+      groupCreator
+      createDate
+      expireDate
+      smallDescription
+      description
+      image_url
+      active
+      quizQuestionsID
+    }
+    nextToken
+  }
+}
+`;
+export const quizByGroupCreator = `query QuizByGroupCreator(
+  $groupCreator: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelQuizFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  quizByGroupCreator(
+    groupCreator: $groupCreator
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      name
+      creator
+      groupCreator
       createDate
       expireDate
       smallDescription

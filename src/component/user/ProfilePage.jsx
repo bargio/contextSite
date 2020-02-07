@@ -4,7 +4,7 @@ import { Auth } from 'aws-amplify';
 import QuizResources from '../resource/Api';
 import { QuizList } from '../quiz/QuizList';
 import { ResultQuizList } from './ResultQuizList';
-import { Grid, Divider, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core';
+import { Grid, Divider, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, IconButton, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarIcon from '@material-ui/icons/Star';
 import AuthenticationManager from '../auth/AuthenticationManager';
@@ -20,11 +20,13 @@ export class ProfilePage extends React.Component {
             email: null,
             isLogged: false,
             onLoading: true,
-            totalPoints: 0,
+            globalPoints: 0,
+            privatePoints: 0,
             quizResult: null,
             quizCompleted: null,
-            myQuiz: true,
-            results: false,
+            myQuizFlag: true,
+            globalResultsFlag: false,
+            privateResultsFlag: false,
         }
     }
 
@@ -68,23 +70,43 @@ export class ProfilePage extends React.Component {
     }
 
     getUserQuizResult = (username, email) => {
-        var userData = username + "####" + email
-        var listId = []
-        QuizResources.getUserQuizResult(userData).then(data => {
-
-            var point = 0
-            var quizResult = data.data.quizResultByUser.items;
-            quizResult.map(result => {
-                point = point + result.quizResult
-                listId.push({ id: { eq: result.quizId } })
+        var userDataForFilterQuery = username + "####" + email
+        var listIdForFilterQuery = []
+        //Get user Quiz Results
+        QuizResources.getUserQuizResult(userDataForFilterQuery).then(result => {
+            var quizResultItems = result.data.quizResultByUser.items;
+            quizResultItems.map(quizElement => {
+                listIdForFilterQuery.push({ id: { eq: quizElement.quizId } })
             })
-            QuizResources.getQuizIds(listId).then(data => {
-                console.log(data)
-                var quizCompleted = data.data.listQuizs.items
-                this.setState({ quizResult: quizResult, totalPoints: point, quizCompleted: quizCompleted });
+            //Get, using id quiz, details of quiz
+            QuizResources.getQuizIds(listIdForFilterQuery).then(result => {
+                console.log("getQuizIds",result)
+                var quizDetailsItems = result.data.listQuizs.items
+                this.calculatePoint(quizResultItems, quizDetailsItems)
+
             })
 
         })
+    }
+
+    calculatePoint = (quizResultItems, quizDetailsItems) => {
+        var globalPoints = 0
+        var privatePoints = 0;
+        console.log("quizResultItems",quizResultItems)
+        console.log("quizDetailsItems",quizDetailsItems)
+        quizResultItems.map(qResult => {
+            var qCompleted = quizDetailsItems.filter(qComple => {
+                return qComple.id == qResult.quizId
+            })
+            if (qCompleted.length > 0) {
+                if (qCompleted[0].groupCreator == "[administrator]") {
+                    globalPoints += qResult.quizResult
+                } else {
+                    privatePoints += qResult.quizResult
+                }
+            }
+        })
+        this.setState({ quizResult: quizResultItems, globalPoints: globalPoints, privatePoints: privatePoints, quizCompleted: quizDetailsItems });
     }
 
     createErrorMessage = () => {
@@ -108,18 +130,21 @@ export class ProfilePage extends React.Component {
     switchTabs = (tab) => {
         switch (tab) {
             case "myQuiz":
-                this.setState({ myQuiz: true, results: false })
+                this.setState({ myQuizFlag: true, globalResultsFlag: false,privateResultsFlag: false })
                 break;
-            case "results":
-                this.setState({ myQuiz: false, results: true })
+            case "globalResults":
+                this.setState({ myQuizFlag: false, globalResultsFlag: true,privateResultsFlag: false })
+                break;
+            case "privateResults":
+                this.setState({ myQuizFlag: false, globalResultsFlag: false ,privateResultsFlag: true})
                 break;
         }
     }
 
     render() {
-        var numberOfStars = this.state.totalPoints / 100;
+        var numberOfStars = this.state.globalPoints / 100;
         console.log(this.state)
-        var numberOfPoints = this.state.totalPoints % 100;
+        var numberOfPoints = this.state.globalPoints % 100;
         if (numberOfStars >= 10) {
             numberOfPoints = 100;
         }
@@ -143,23 +168,26 @@ export class ProfilePage extends React.Component {
                             </Grid>
                         </Grid>
                         <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
+                        <BottomNavigation
+>
+  <BottomNavigationAction label="Recents" />
+  <BottomNavigationAction label="Favorites" />
+  <BottomNavigationAction label="Nearby"  />
+</BottomNavigation>
                             <Tabs defaultActiveKey="myQuiz" id="uncontrolled-tab-example" onSelect={(d) => { this.switchTabs(d) }}>
-                                <Tab eventKey="myQuiz" title="I miei quiz" >
-                                </Tab>
-                                <Tab eventKey="results" title="Risultati">
-
-                                </Tab>
-                                <Tab eventKey="others" title="In arrivo..." disabled>
-                                </Tab>
+                                <Tab eventKey="myQuiz" title="I miei quiz" />
+                                <Tab eventKey="globalResults" title="Classifica globale"/>
+                                <Tab eventKey="privateResults" title="Classifica privata"/>
+                                <Tab eventKey="..." title="In arrivo..." disabled/>
                             </Tabs>
                         </Grid>
-                        {this.state.username && this.state.myQuiz &&
+                        {this.state.username && this.state.myQuizFlag &&
                             <ResultQuizList username={this.state.username} />
                         }
-                        {this.state.results && this.state.quizResult &&
+                        {this.state.globalResultsFlag && this.state.quizResult &&
                             <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
-                                <h1>Punti totali</h1>
-                                <h2>{this.state.totalPoints}</h2>
+                                <h1>Punti globali</h1>
+                                <h2>{this.state.globalPoints}</h2>
                                 <List style={{ minWidth: '30%' }}>
                                     {this.state.quizResult.map(qResult => {
                                         var qCompleted = this.state.quizCompleted.filter(qComple => {
@@ -167,7 +195,44 @@ export class ProfilePage extends React.Component {
                                             return qComple.id == qResult.quizId
                                         })
                                         console.log(qCompleted)
-                                        if (qCompleted.length > 0) {
+                                        if (qCompleted.length > 0 && qCompleted[0].groupCreator=="[administrators]") {
+                                            return (<ListItem >
+                                                <ListItemAvatar>
+                                                    <Avatar>
+                                                        Q
+                                                </Avatar>
+                                                </ListItemAvatar>
+                                                <ListItemText
+                                                    primary={qCompleted[0].name}
+                                                    secondary={qResult.quizResult}
+                                                />
+                                                <ListItemSecondaryAction>
+                                                    <IconButton edge="end" aria-label="delete" href={"quiz/"+qCompleted[0].id}>
+                                                        <ArrowForwardIosIcon></ArrowForwardIosIcon>
+                                                    </IconButton>
+                                                </ListItemSecondaryAction>
+                                            </ListItem>)
+
+                                        }
+                                        //<ListGroup.Item>{qCompleted[0].creator} <Divider orientation="vertical"></Divider>{qResult.quizResult}</ListGroup.Item>
+                                    })}
+                                </List>
+
+                            </Grid>
+
+                        }
+                         {this.state.privateResultsFlag && this.state.quizResult &&
+                            <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
+                                <h1>Punti privati</h1>
+                                <h2>{this.state.privatePoints}</h2>
+                                <List style={{ minWidth: '30%' }}>
+                                    {this.state.quizResult.map(qResult => {
+                                        var qCompleted = this.state.quizCompleted.filter(qComple => {
+                                            console.log(qComple.id, qResult.quizId, qComple.id == qResult.quizId)
+                                            return qComple.id == qResult.quizId
+                                        })
+                                        console.log(qCompleted)
+                                        if (qCompleted.length > 0 && qCompleted[0].creator!="admin") {
                                             return (<ListItem >
                                                 <ListItemAvatar>
                                                     <Avatar>
@@ -179,16 +244,16 @@ export class ProfilePage extends React.Component {
                                                     secondary={qResult.quizResult}
                                                 />
                                                 <ListItemSecondaryAction>
-                                                    <IconButton edge="end" aria-label="delete">
+                                                    <IconButton edge="end" aria-label="delete" href={"quiz/"+qCompleted[0].id}>
                                                         <ArrowForwardIosIcon></ArrowForwardIosIcon>
                                                     </IconButton>
                                                 </ListItemSecondaryAction>
-                                        </ListItem>)
-                                        
-                                    }
+                                            </ListItem>)
+
+                                        }
                                         //<ListGroup.Item>{qCompleted[0].creator} <Divider orientation="vertical"></Divider>{qResult.quizResult}</ListGroup.Item>
-                                })}
-                                    </List>
+                                    })}
+                                </List>
 
                             </Grid>
 

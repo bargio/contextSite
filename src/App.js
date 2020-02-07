@@ -15,11 +15,34 @@ import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { QuizCreator } from './component/quiz/QuizCreator';
 import { ProfilePage } from './component/user/ProfilePage';
+import * as firebase from "firebase/app";
+/*import 'firebase/messaging';
 
-Amplify.configure(awsconfig);
+var firebaseConfig = {
+  apiKey: "AIzaSyBzIK9fVha251nGOuDLmHr9GzzZvR3VZTg",
+  authDomain: "nowtv-web-push-notification.firebaseapp.com",
+  databaseURL: "https://nowtv-web-push-notification.firebaseio.com",
+  projectId: "nowtv-web-push-notification",
+  storageBucket: "nowtv-web-push-notification.appspot.com",
+  messagingSenderId: "707730405200",
+  appId: "1:707730405200:web:ed3a4930fa074d4f3e9e55",
+  measurementId: "G-Y5SRBM0JBV"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+Amplify.configure(awsconfig);*/
 
 function App() {
+  
+  /*const messaging = firebase.messaging();
 
+  messaging.onMessage((payload) => {
+    console.log('Message received. ', payload);
+    // ...
+  });*/
+  
   
   return (
     

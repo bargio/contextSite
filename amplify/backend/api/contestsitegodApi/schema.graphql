@@ -1,8 +1,10 @@
 type Quiz @model 
-@key(name: "byCreator", fields: ["creator"], queryField: "quizByCreator"){
+@key(name: "byCreator", fields: ["creator"], queryField: "quizByCreator")
+@key(name: "byGroup", fields: ["groupCreator"], queryField: "quizByGroupCreator"){
   id: ID!
   name: String!
   creator: String
+  groupCreator: String
   createDate: String
   expireDate: String
   smallDescription: String

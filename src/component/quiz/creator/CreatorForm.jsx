@@ -113,12 +113,14 @@ export class CreatorForm extends React.Component {
     }
 
     saveQuestion = (user) => {
+        var userGroups = user.signInUserSession.getIdToken().payload['cognito:groups'];
+        console.log("groups ",user.signInUserSession.getIdToken().payload['cognito:groups'])
         if (user != "Error") {
             console.log(user)
             if (user.name == undefined) {
-                PrepareJsonForSave(this.state, user.username,this.reloadPage);
+                PrepareJsonForSave(this.state, user.username,this.reloadPage,userGroups);
             } else {
-                PrepareJsonForSave(this.state, user.name,this.reloadPage);
+                PrepareJsonForSave(this.state, user.name,this.reloadPage,userGroups);
             }
             this.setState({ showAlert: false, showLoader: true })
             console.log(this)

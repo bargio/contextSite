@@ -9,6 +9,7 @@ export const createQuiz = `mutation CreateQuiz(
     id
     name
     creator
+    groupCreator
     createDate
     expireDate
     smallDescription
@@ -27,6 +28,7 @@ export const updateQuiz = `mutation UpdateQuiz(
     id
     name
     creator
+    groupCreator
     createDate
     expireDate
     smallDescription
@@ -45,6 +47,7 @@ export const deleteQuiz = `mutation DeleteQuiz(
     id
     name
     creator
+    groupCreator
     createDate
     expireDate
     smallDescription
