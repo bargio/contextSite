@@ -1,0 +1,7 @@
+{
+    "tableName": "Quiz",
+    "partitionKeyName": "quiz_id",
+    "partitionKeyType": "N",
+    "sortKeyName": "quiz_is_active",
+    "sortKeyType": "S"
+}

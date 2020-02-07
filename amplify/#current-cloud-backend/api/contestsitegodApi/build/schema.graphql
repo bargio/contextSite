@@ -1,0 +1,360 @@
+type Quiz {
+  id: ID!
+  name: String!
+  creator: String
+  groupCreator: String
+  createDate: String
+  expireDate: String
+  smallDescription: String
+  description: String
+  image_url: String
+  active: Boolean
+  quizQuestionsID: String
+}
+
+type QuizQuestions {
+  id: ID!
+  quizDetails: String!
+}
+
+type QuizResult {
+  id: ID!
+  quizId: String!
+  quizUser: String!
+  quizResult: Int!
+  quizID: String
+}
+
+type Users {
+  id: ID!
+  userId: String!
+  userEmail: String!
+  userLevel: Int!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelQuizConnection {
+  items: [Quiz]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelQuizFilterInput {
+  id: ModelIDInput
+  name: ModelStringInput
+  creator: ModelStringInput
+  groupCreator: ModelStringInput
+  createDate: ModelStringInput
+  expireDate: ModelStringInput
+  smallDescription: ModelStringInput
+  description: ModelStringInput
+  image_url: ModelStringInput
+  active: ModelBooleanInput
+  quizQuestionsID: ModelStringInput
+  and: [ModelQuizFilterInput]
+  or: [ModelQuizFilterInput]
+  not: ModelQuizFilterInput
+}
+
+type Query {
+  getQuiz(id: ID!): Quiz
+  listQuizs(filter: ModelQuizFilterInput, limit: Int, nextToken: String): ModelQuizConnection
+  getQuizQuestions(id: ID!): QuizQuestions
+  listQuizQuestionss(filter: ModelQuizQuestionsFilterInput, limit: Int, nextToken: String): ModelQuizQuestionsConnection
+  getQuizResult(id: ID!): QuizResult
+  listQuizResults(filter: ModelQuizResultFilterInput, limit: Int, nextToken: String): ModelQuizResultConnection
+  getUsers(id: ID!): Users
+  listUserss(filter: ModelUsersFilterInput, limit: Int, nextToken: String): ModelUsersConnection
+  quizByCreator(creator: String, sortDirection: ModelSortDirection, filter: ModelQuizFilterInput, limit: Int, nextToken: String): ModelQuizConnection
+  quizByGroupCreator(groupCreator: String, sortDirection: ModelSortDirection, filter: ModelQuizFilterInput, limit: Int, nextToken: String): ModelQuizConnection
+  quizResultByUser(quizUser: String, sortDirection: ModelSortDirection, filter: ModelQuizResultFilterInput, limit: Int, nextToken: String): ModelQuizResultConnection
+}
+
+input CreateQuizInput {
+  id: ID
+  name: String!
+  creator: String
+  groupCreator: String
+  createDate: String
+  expireDate: String
+  smallDescription: String
+  description: String
+  image_url: String
+  active: Boolean
+  quizQuestionsID: String
+}
+
+input UpdateQuizInput {
+  id: ID!
+  name: String
+  creator: String
+  groupCreator: String
+  createDate: String
+  expireDate: String
+  smallDescription: String
+  description: String
+  image_url: String
+  active: Boolean
+  quizQuestionsID: String
+}
+
+input DeleteQuizInput {
+  id: ID
+}
+
+type Mutation {
+  createQuiz(input: CreateQuizInput!, condition: ModelQuizConditionInput): Quiz
+  updateQuiz(input: UpdateQuizInput!, condition: ModelQuizConditionInput): Quiz
+  deleteQuiz(input: DeleteQuizInput!, condition: ModelQuizConditionInput): Quiz
+  createQuizQuestions(input: CreateQuizQuestionsInput!, condition: ModelQuizQuestionsConditionInput): QuizQuestions
+  updateQuizQuestions(input: UpdateQuizQuestionsInput!, condition: ModelQuizQuestionsConditionInput): QuizQuestions
+  deleteQuizQuestions(input: DeleteQuizQuestionsInput!, condition: ModelQuizQuestionsConditionInput): QuizQuestions
+  createQuizResult(input: CreateQuizResultInput!, condition: ModelQuizResultConditionInput): QuizResult
+  updateQuizResult(input: UpdateQuizResultInput!, condition: ModelQuizResultConditionInput): QuizResult
+  deleteQuizResult(input: DeleteQuizResultInput!, condition: ModelQuizResultConditionInput): QuizResult
+  createUsers(input: CreateUsersInput!, condition: ModelUsersConditionInput): Users
+  updateUsers(input: UpdateUsersInput!, condition: ModelUsersConditionInput): Users
+  deleteUsers(input: DeleteUsersInput!, condition: ModelUsersConditionInput): Users
+}
+
+input ModelQuizConditionInput {
+  name: ModelStringInput
+  creator: ModelStringInput
+  groupCreator: ModelStringInput
+  createDate: ModelStringInput
+  expireDate: ModelStringInput
+  smallDescription: ModelStringInput
+  description: ModelStringInput
+  image_url: ModelStringInput
+  active: ModelBooleanInput
+  quizQuestionsID: ModelStringInput
+  and: [ModelQuizConditionInput]
+  or: [ModelQuizConditionInput]
+  not: ModelQuizConditionInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Subscription {
+  onCreateQuiz: Quiz @aws_subscribe(mutations: ["createQuiz"])
+  onUpdateQuiz: Quiz @aws_subscribe(mutations: ["updateQuiz"])
+  onDeleteQuiz: Quiz @aws_subscribe(mutations: ["deleteQuiz"])
+  onCreateQuizQuestions: QuizQuestions @aws_subscribe(mutations: ["createQuizQuestions"])
+  onUpdateQuizQuestions: QuizQuestions @aws_subscribe(mutations: ["updateQuizQuestions"])
+  onDeleteQuizQuestions: QuizQuestions @aws_subscribe(mutations: ["deleteQuizQuestions"])
+  onCreateQuizResult: QuizResult @aws_subscribe(mutations: ["createQuizResult"])
+  onUpdateQuizResult: QuizResult @aws_subscribe(mutations: ["updateQuizResult"])
+  onDeleteQuizResult: QuizResult @aws_subscribe(mutations: ["deleteQuizResult"])
+  onCreateUsers: Users @aws_subscribe(mutations: ["createUsers"])
+  onUpdateUsers: Users @aws_subscribe(mutations: ["updateUsers"])
+  onDeleteUsers: Users @aws_subscribe(mutations: ["deleteUsers"])
+}
+
+type ModelQuizQuestionsConnection {
+  items: [QuizQuestions]
+  nextToken: String
+}
+
+input ModelQuizQuestionsFilterInput {
+  id: ModelIDInput
+  quizDetails: ModelStringInput
+  and: [ModelQuizQuestionsFilterInput]
+  or: [ModelQuizQuestionsFilterInput]
+  not: ModelQuizQuestionsFilterInput
+}
+
+input CreateQuizQuestionsInput {
+  id: ID
+  quizDetails: String!
+}
+
+input UpdateQuizQuestionsInput {
+  id: ID!
+  quizDetails: String
+}
+
+input DeleteQuizQuestionsInput {
+  id: ID
+}
+
+input ModelQuizQuestionsConditionInput {
+  quizDetails: ModelStringInput
+  and: [ModelQuizQuestionsConditionInput]
+  or: [ModelQuizQuestionsConditionInput]
+  not: ModelQuizQuestionsConditionInput
+}
+
+type ModelQuizResultConnection {
+  items: [QuizResult]
+  nextToken: String
+}
+
+input ModelQuizResultFilterInput {
+  id: ModelIDInput
+  quizId: ModelStringInput
+  quizUser: ModelStringInput
+  quizResult: ModelIntInput
+  quizID: ModelStringInput
+  and: [ModelQuizResultFilterInput]
+  or: [ModelQuizResultFilterInput]
+  not: ModelQuizResultFilterInput
+}
+
+input CreateQuizResultInput {
+  id: ID
+  quizId: String!
+  quizUser: String!
+  quizResult: Int!
+  quizID: String
+}
+
+input UpdateQuizResultInput {
+  id: ID!
+  quizId: String
+  quizUser: String
+  quizResult: Int
+  quizID: String
+}
+
+input DeleteQuizResultInput {
+  id: ID
+}
+
+input ModelQuizResultConditionInput {
+  quizId: ModelStringInput
+  quizUser: ModelStringInput
+  quizResult: ModelIntInput
+  quizID: ModelStringInput
+  and: [ModelQuizResultConditionInput]
+  or: [ModelQuizResultConditionInput]
+  not: ModelQuizResultConditionInput
+}
+
+type ModelUsersConnection {
+  items: [Users]
+  nextToken: String
+}
+
+input ModelUsersFilterInput {
+  id: ModelIDInput
+  userId: ModelStringInput
+  userEmail: ModelStringInput
+  userLevel: ModelIntInput
+  and: [ModelUsersFilterInput]
+  or: [ModelUsersFilterInput]
+  not: ModelUsersFilterInput
+}
+
+input CreateUsersInput {
+  id: ID
+  userId: String!
+  userEmail: String!
+  userLevel: Int!
+}
+
+input UpdateUsersInput {
+  id: ID!
+  userId: String
+  userEmail: String
+  userLevel: Int
+}
+
+input DeleteUsersInput {
+  id: ID
+}
+
+input ModelUsersConditionInput {
+  userId: ModelStringInput
+  userEmail: ModelStringInput
+  userLevel: ModelIntInput
+  and: [ModelUsersConditionInput]
+  or: [ModelUsersConditionInput]
+  not: ModelUsersConditionInput
+}

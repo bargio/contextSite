@@ -1,0 +1,101 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplify-contestsitegod-test-92047-authRole",
+			"UnauthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-test-92047-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-test-92047-authRole",
+			"Region": "us-east-1",
+			"DeploymentBucketName": "amplify-contestsitegod-test-92047-deployment",
+			"UnauthRoleName": "amplify-contestsitegod-test-92047-unauthRole",
+			"StackName": "amplify-contestsitegod-test-92047",
+			"StackId": "arn:aws:cloudformation:us-east-1:026820084767:stack/amplify-contestsitegod-test-92047/c7612a40-31ef-11ea-913c-0e1aa735f904",
+			"AmplifyAppId": "d2p1ed8emy3l7y"
+		}
+	},
+	"auth": {
+		"contestsitegod309bdf3d": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-test-92047-deployment/amplify-cfn-templates/auth/contestsitegod309bdf3d-cloudformation-template.yml",
+				"logicalId": "authcontestsitegod309bdf3d"
+			},
+			"lastPushTimeStamp": "2020-02-06T15:58:37.314Z",
+			"output": {
+				"AppClientSecret": "12opomj5lqk0q3suj7knoqt1777g2nb0c9hm79n6vi01jm6ft4g3",
+				"UserPoolId": "us-east-1_jvmvqZbNP",
+				"AppClientIDWeb": "4jqfrhk8hop4ti6pp144haenb6",
+				"AppClientID": "44cr97dapous45at30dfk5sn84",
+				"IdentityPoolId": "us-east-1:610b220a-a80a-4765-9f60-2e2da2c075fc",
+				"IdentityPoolName": "contestsitegod309bdf3d_identitypool_309bdf3d__test",
+				"UserPoolName": "contestsitegod309bdf3d_userpool_309bdf3d",
+				"HostedUIDomain": "contestsitegodcbd831c0-cbd831c0-test",
+				"OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://contextsite.com/login/\"],\"LogoutURLs\":[\"https://contextsite.com/logout/\"]}"
+			},
+			"lastPushDirHash": "CvCtc1/4+T5sM92rDS4Ner3JRHU="
+		}
+	},
+	"hosting": {
+		"S3AndCloudFront": {
+			"service": "S3AndCloudFront",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-test-92047-deployment/amplify-cfn-templates/hosting/template.json",
+				"logicalId": "hostingS3AndCloudFront"
+			},
+			"lastPushTimeStamp": "2020-02-06T15:58:37.317Z",
+			"output": {
+				"S3BucketSecureURL": "https://contestsitegod-20200109174043-hostingbucket-test.s3.amazonaws.com",
+				"WebsiteURL": "http://contestsitegod-20200109174043-hostingbucket-test.s3-website-us-east-1.amazonaws.com",
+				"Region": "us-east-1",
+				"HostingBucketName": "contestsitegod-20200109174043-hostingbucket-test"
+			},
+			"lastPushDirHash": "cWQN2GEZEYF64N13nA8TrWa+IDM="
+		}
+	},
+	"storage": {
+		"authSite": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-test-92047-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"logicalId": "storageauthSite"
+			},
+			"lastPushTimeStamp": "2020-02-06T15:58:37.320Z",
+			"output": {
+				"BucketName": "bucketsite92047-test",
+				"Region": "us-east-1"
+			},
+			"lastPushDirHash": "NOZFSNc8D1q8NmDUG9i4TyiLSvs="
+		}
+	},
+	"function": {},
+	"api": {
+		"contestsitegodApi": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "apikey",
+							"apiKeyExpirationDays": "30"
+						}
+					}
+				},
+				"GraphQLAPIIdOutput": "ejiccykvn5fermyu3zan54uscq",
+				"GraphQLAPIEndpointOutput": "https://jc5w5x4clndtrbefhlg4fuqo74.appsync-api.us-east-1.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-45ybmj7mlbee3karqm474pkni4"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-test-92047-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apicontestsitegodApi"
+			},
+			"lastPushTimeStamp": "2020-02-06T15:58:38.747Z",
+			"lastPushDirHash": "ZenFSDM9QDCGoq9Ez/MzWPuIwNo="
+		}
+	}
+}

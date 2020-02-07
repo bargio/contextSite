@@ -1,0 +1,37 @@
+type Quiz @model 
+@key(name: "byCreator", fields: ["creator"], queryField: "quizByCreator")
+@key(name: "byGroup", fields: ["groupCreator"], queryField: "quizByGroupCreator"){
+  id: ID!
+  name: String!
+  creator: String
+  groupCreator: String
+  createDate: String
+  expireDate: String
+  smallDescription: String
+  description: String
+  image_url: String
+  active: Boolean
+  quizQuestionsID: String
+}
+
+type QuizQuestions @model {
+  id: ID!
+  quizDetails: String!
+}
+
+type QuizResult @model 
+@key(name: "byUser", fields: ["quizUser"], queryField: "quizResultByUser"){
+  id: ID!
+  quizId: String!
+  quizUser: String!
+  quizResult: Int!
+  quizID: String
+}
+
+type Users @model {
+  id: ID!
+  userId: String!
+  userEmail: String!
+  userLevel: Int!
+}
+
