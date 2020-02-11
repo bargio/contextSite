@@ -5,6 +5,7 @@ import { PhotoPicker } from 'aws-amplify-react';
 import StorageResource from '../../resource/Storage';
 import { TextField } from '@material-ui/core';
 import UtilsResource from '../../utils/Utils';
+import { createRef } from 'react';
 
 class Response {
     constructor(text, isCorrect) {
@@ -27,7 +28,8 @@ export class Question extends React.Component {
             score: 1,
             question: "",
             response: [],
-            refresh: false
+            refresh: false,
+            fieldHeight: '50'
         }
         this.timeInput = React.createRef();
         this.scoreInput = React.createRef();
@@ -175,6 +177,9 @@ export class Question extends React.Component {
         return false
     }
 
+    setFilledTextareaHeight = (e) =>{
+        e.target.style.height=(e.target.value.split("\n").length*36)+"px"    
+    }
 
     render() {
         const style = { marginTop: '10px' }
@@ -184,7 +189,7 @@ export class Question extends React.Component {
                     <InputGroup.Prepend>
                         <InputGroup.Text id="inputGroup-sizing">Domanda</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl as="textarea" rows="3" aria-label="Small" size="medium" aria-describedby="inputGroup-sizing-sm" onChange={(e) => { this.setState({ question: e.target.value }) }} />
+                    <FormControl style={{height:'100%'}}as="textarea" aria-describedby="inputGroup-sizing-lg" onKeyUp={this.setFilledTextareaHeight} onChange={(e) => {this.setState({question: e.target.value }) }} />
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
@@ -247,7 +252,7 @@ export class Question extends React.Component {
                             {this.state.isImageQuestion2 &&
                                 <PhotoPicker preview headerText="Foto" headerHint='Aggiungi una foto come risposta cliccando sotto' title="Seleziona una foto" onPick={data => this.updateImage(data, index)} ></PhotoPicker>}
                             {!this.state.isImageQuestion2 &&
-                                <FormControl as="textarea" rows="1" value={q.responseText} id={index} style={{ backgroundColor: q.isCorrect ? "#1a980082" : "white" }} onChange={(e) => this.updateText(e, index)} />}
+                                <FormControl onKeyUp={this.setFilledTextareaHeight} as="textarea" rows="1" value={q.responseText} id={index} style={{ backgroundColor: q.isCorrect ? "#1a980082" : "white" }} onChange={(e) => this.updateText(e, index)} />}
                             <InputGroup.Append>
                                 <InputGroup.Text><Badge pill variant="danger" onClick={() => this.removeResponse({ index })}>Elimina</Badge></InputGroup.Text>
                             </InputGroup.Append>

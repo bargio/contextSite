@@ -2,14 +2,18 @@ import React from 'react';
 import { Button, ProgressBar, Badge, Tabs, Tab, ListGroup } from 'react-bootstrap';
 import { Auth } from 'aws-amplify';
 import QuizResources from '../resource/Api';
-import { QuizList } from '../quiz/QuizList';
 import { ResultQuizList } from './ResultQuizList';
-import { Grid, Divider, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, IconButton, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
+import { Grid, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, IconButton, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarIcon from '@material-ui/icons/Star';
 import AuthenticationManager from '../auth/AuthenticationManager';
 import MyLoader from '../loading/Loader';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
+import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+
+
 
 export class ProfilePage extends React.Component {
 
@@ -27,6 +31,7 @@ export class ProfilePage extends React.Component {
             myQuizFlag: true,
             globalResultsFlag: false,
             privateResultsFlag: false,
+            bottomNavigationBarValue:"myQuiz"
         }
     }
 
@@ -80,7 +85,7 @@ export class ProfilePage extends React.Component {
             })
             //Get, using id quiz, details of quiz
             QuizResources.getQuizIds(listIdForFilterQuery).then(result => {
-                console.log("getQuizIds",result)
+                console.log("getQuizIds", result)
                 var quizDetailsItems = result.data.listQuizs.items
                 this.calculatePoint(quizResultItems, quizDetailsItems)
 
@@ -92,8 +97,8 @@ export class ProfilePage extends React.Component {
     calculatePoint = (quizResultItems, quizDetailsItems) => {
         var globalPoints = 0
         var privatePoints = 0;
-        console.log("quizResultItems",quizResultItems)
-        console.log("quizDetailsItems",quizDetailsItems)
+        console.log("quizResultItems", quizResultItems)
+        console.log("quizDetailsItems", quizDetailsItems)
         quizResultItems.map(qResult => {
             var qCompleted = quizDetailsItems.filter(qComple => {
                 return qComple.id == qResult.quizId
@@ -107,10 +112,6 @@ export class ProfilePage extends React.Component {
             }
         })
         this.setState({ quizResult: quizResultItems, globalPoints: globalPoints, privatePoints: privatePoints, quizCompleted: quizDetailsItems });
-    }
-
-    createErrorMessage = () => {
-        window.errorcomponent.showMessage("Errore Generico", "danger")
     }
 
     createStars = (numberOfStars) => {
@@ -127,19 +128,20 @@ export class ProfilePage extends React.Component {
         return stars;
     }
 
-    switchTabs = (tab) => {
-        switch (tab) {
+    bottomNavigationBarHandleChange = (event, value)=> {
+        switch (value) {
             case "myQuiz":
-                this.setState({ myQuizFlag: true, globalResultsFlag: false,privateResultsFlag: false })
+                this.setState({bottomNavigationBarValue:value, myQuizFlag: true, globalResultsFlag: false, privateResultsFlag: false })
                 break;
             case "globalResults":
-                this.setState({ myQuizFlag: false, globalResultsFlag: true,privateResultsFlag: false })
+                this.setState({bottomNavigationBarValue:value, myQuizFlag: false, globalResultsFlag: true, privateResultsFlag: false })
                 break;
             case "privateResults":
-                this.setState({ myQuizFlag: false, globalResultsFlag: false ,privateResultsFlag: true})
+                this.setState({ bottomNavigationBarValue:value,myQuizFlag: false, globalResultsFlag: false, privateResultsFlag: true })
                 break;
         }
     }
+
 
     render() {
         var numberOfStars = this.state.globalPoints / 100;
@@ -158,7 +160,8 @@ export class ProfilePage extends React.Component {
                         <Grid container alignItems="center" justify="center" zeroMinWidth>
                             <Grid item style={{ minWidth: '50%' }}>
                                 <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
-                                    <h1>Profilo</h1>
+                                    <h6>Benvenuto</h6>
+                                    <h1>{this.state.username}</h1>
                                     <Badge variant="danger" pill onClick={this.handleLogout}>Logout</Badge>
                                 </Grid>
                                 <Grid container alignItems="center" direction="row" justify="center" style={{ padding: '1%' }}>
@@ -168,18 +171,12 @@ export class ProfilePage extends React.Component {
                             </Grid>
                         </Grid>
                         <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
-                        <BottomNavigation
->
-  <BottomNavigationAction label="Recents" />
-  <BottomNavigationAction label="Favorites" />
-  <BottomNavigationAction label="Nearby"  />
-</BottomNavigation>
-                            <Tabs defaultActiveKey="myQuiz" id="uncontrolled-tab-example" onSelect={(d) => { this.switchTabs(d) }}>
-                                <Tab eventKey="myQuiz" title="I miei quiz" />
-                                <Tab eventKey="globalResults" title="Classifica globale"/>
-                                <Tab eventKey="privateResults" title="Classifica privata"/>
-                                <Tab eventKey="..." title="In arrivo..." disabled/>
-                            </Tabs>
+                            <BottomNavigation value={this.state.bottomNavigationBarValue} style={{ width: 500 }} onChange={this.bottomNavigationBarHandleChange}>
+                                <BottomNavigationAction label="I miei quiz" value="myQuiz" icon={<PlaylistAddIcon />} />
+                                <BottomNavigationAction label="Globale" value="globalResults" icon={<EmojiEventsIcon />} />
+                                <BottomNavigationAction label="Privata" value="privateResults" icon={<PlaylistAddCheckIcon />} />
+                                {/*<BottomNavigationAction label="In arrivo..." value="..." icon={<FolderIcon />} disable />*/}
+                            </BottomNavigation>
                         </Grid>
                         {this.state.username && this.state.myQuizFlag &&
                             <ResultQuizList username={this.state.username} />
@@ -195,7 +192,7 @@ export class ProfilePage extends React.Component {
                                             return qComple.id == qResult.quizId
                                         })
                                         console.log(qCompleted)
-                                        if (qCompleted.length > 0 && qCompleted[0].groupCreator=="[administrators]") {
+                                        if (qCompleted.length > 0 && qCompleted[0].groupCreator == "[administrators]") {
                                             return (<ListItem >
                                                 <ListItemAvatar>
                                                     <Avatar>
@@ -207,21 +204,21 @@ export class ProfilePage extends React.Component {
                                                     secondary={qResult.quizResult}
                                                 />
                                                 <ListItemSecondaryAction>
-                                                    <IconButton edge="end" aria-label="delete" href={"quiz/"+qCompleted[0].id}>
+                                                    <IconButton edge="end" aria-label="delete" href={"quiz/" + qCompleted[0].id}>
                                                         <ArrowForwardIosIcon></ArrowForwardIosIcon>
                                                     </IconButton>
                                                 </ListItemSecondaryAction>
                                             </ListItem>)
 
                                         }
-                                        //<ListGroup.Item>{qCompleted[0].creator} <Divider orientation="vertical"></Divider>{qResult.quizResult}</ListGroup.Item>
+                                        
                                     })}
                                 </List>
 
                             </Grid>
 
                         }
-                         {this.state.privateResultsFlag && this.state.quizResult &&
+                        {this.state.privateResultsFlag && this.state.quizResult &&
                             <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
                                 <h1>Punti privati</h1>
                                 <h2>{this.state.privatePoints}</h2>
@@ -232,7 +229,7 @@ export class ProfilePage extends React.Component {
                                             return qComple.id == qResult.quizId
                                         })
                                         console.log(qCompleted)
-                                        if (qCompleted.length > 0 && qCompleted[0].creator!="admin") {
+                                        if (qCompleted.length > 0 && qCompleted[0].creator != "admin") {
                                             return (<ListItem >
                                                 <ListItemAvatar>
                                                     <Avatar>
@@ -244,44 +241,20 @@ export class ProfilePage extends React.Component {
                                                     secondary={qResult.quizResult}
                                                 />
                                                 <ListItemSecondaryAction>
-                                                    <IconButton edge="end" aria-label="delete" href={"quiz/"+qCompleted[0].id}>
+                                                    <IconButton edge="end" aria-label="delete" href={"quiz/" + qCompleted[0].id}>
                                                         <ArrowForwardIosIcon></ArrowForwardIosIcon>
                                                     </IconButton>
                                                 </ListItemSecondaryAction>
                                             </ListItem>)
 
                                         }
-                                        //<ListGroup.Item>{qCompleted[0].creator} <Divider orientation="vertical"></Divider>{qResult.quizResult}</ListGroup.Item>
+                                        
                                     })}
                                 </List>
 
                             </Grid>
 
                         }
-
-                        {/*<Grid container justify="center" spacing={3} >
-                            <Grid item xs={12} sm={10} md={6} large={4} xl={2} zeroMinWidth>
-
-                            </Grid>
-                            <Grid item xs={12} sm={10} md={6} large={4} xl={2} zeroMinWidth>
-                                <Button onClick={this.createErrorMessage}>createErrorMessage</Button>
-                            </Grid>
-
-                            <Grid item xs={12} sm={10} md={6} large={4} xl={2} zeroMinWidth>
-                                <Button onClick={() => window.progressbar.updateProgress(10)}>GetAdminList</Button>
-                            </Grid>
-                        </Grid>
-                
-
-                        <Grid container justify="center" spacing={3} >
-
-                            <Grid item xs={12} sm={10} md={6} large={4} xl={2} zeroMinWidth>
-                                <ResultQuizList></ResultQuizList>
-                            </Grid>
-
-                        </Grid>
-                */}
-
 
                     </Grid>
                 }

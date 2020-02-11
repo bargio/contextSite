@@ -1,9 +1,10 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import { Grid, CardMedia, CardContent, CardActionArea, Typography, CardActions } from '@material-ui/core';
 import { QuizMediaCard } from './QuizMediaCard';
 import QuizResources from '../resource/Api';
 import MyLoader from '../loading/Loader';
 import AuthenticationManager from '../auth/AuthenticationManager';
+import { Card, Button, Carousel } from 'react-bootstrap';
 
 
 
@@ -76,31 +77,61 @@ export class QuizList extends React.Component {
     }
 
     render() {
-        return (<Grid
-            container
-            justify="space-around"
-            style={{ minHeight: '100px' }}
-        >
-            {this.state.showLoader &&
-                <Grid item xs={10} sm={10} md={5} large={4} xl={2} >
-                    <MyLoader></MyLoader>
-                </Grid>
-            }
-            {this.state.quizList && !this.state.showLoader &&
-                <Grid container justify="center" spacing={3} style={{ paddingTop: '5%', gridAutoRow: '1fr' }}>
-                    {/*<Grid item xs={10} sm={10} md={5} large={4} xl={2} >
+        return (
+
+            <Grid
+                container
+                justify="space-around"
+                style={{ minHeight: '100px' }}
+            >
+                {this.state.showLoader &&
+                    <Grid item xs={10} sm={10} md={5} large={4} xl={2} >
+                        <MyLoader></MyLoader>
+                    </Grid>
+                }
+                {this.state.quizList && !this.state.showLoader &&
+                    <>
+                        <Grid item  >
+                            
+                                    <Card style={{ maxWidth: '100%', maxHeight: '100%' }}>
+
+                                        <CardActionArea>
+                                            <CardMedia
+                                                component="img"
+                                                alt="Contemplative Reptile"
+                                                height="300px"
+                                                image="https://webstockreview.net/images/knowledge-clipart-quiz-time-9.png"
+                                                title="Contemplative Reptile"
+                                            />
+                                            <CardContent>
+                                                {/*<Typography gutterBottom variant="h5" component="h2">
+                                            Lizard
+                                        </Typography>
+                                        <Typography variant="body2" color="textSecondary" component="p">
+                                            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                                            across all continents except Antarctica
+                </Typography>*/}
+                                            </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                               
+                        </Grid>
+                        <Grid container justify="center" spacing={3} style={{ paddingTop: '5%', gridAutoRow: '1fr' }}>
+                            {/*<Grid item xs={10} sm={10} md={5} large={4} xl={2} >
                         <QuizMediaCard quiz={this.state.addQuiz} user={this.state.username}></QuizMediaCard>
                     </Grid>*/}
-                    {this.state.quizList.map(quiz => {
-                        console.log(quiz)
-                        return (
-                            <Grid key={quiz.id} item xs={10} sm={5} md={5} large={4} xl={2} zeroMinWidth >
-                                <QuizMediaCard quiz={quiz} user={this.state.username} result={this.checkIfFoundResult(quiz.id)}></QuizMediaCard>
-                            </Grid>
-                        );
-                    })}
-                </Grid>
-            }
-        </Grid >);
+                            {this.state.quizList.map(quiz => {
+                                console.log(quiz)
+                                return (
+                                    <Grid key={quiz.id} item xs={10} sm={5} md={5} large={4} xl={2} zeroMinWidth >
+                                        <QuizMediaCard quiz={quiz} user={this.state.username} result={this.checkIfFoundResult(quiz.id)}></QuizMediaCard>
+                                    </Grid>
+                                );
+                            })}
+                        </Grid>
+                    </>
+                }
+            </Grid >
+        );
     }
 }

@@ -133,8 +133,6 @@ export class CreatorForm extends React.Component {
         this.props.backButton()
     }
 
-
-
     render() {
         return (
             <Form onSubmit={this.onSubmit}>
@@ -202,7 +200,7 @@ export class CreatorForm extends React.Component {
                                 placeholderText="Data scadenza validità"
                             />
                         </Form.Group>
-                        <Accordion >
+                        <Accordion style={{margin:0}} >
                             {this.state.questions.map((question, index) => (
                                 <Card key={index} style={{ marginBottom: '20px' }}>
                                     <Accordion.Toggle as={Card.Header} eventKey={index}>
@@ -218,7 +216,8 @@ export class CreatorForm extends React.Component {
                                     <Accordion.Collapse eventKey={index}>
                                         <Card.Body ><Question ref={question} questionIndex={index}></Question></Card.Body>
                                     </Accordion.Collapse>
-                                </Card>)
+                                   
+                            </Card>)
                             )}
                         </Accordion>
                         <FormGroup>
