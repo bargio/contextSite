@@ -80,13 +80,14 @@ const AuthenticationManager = {
         });
     },
 
-    isLoggedIn: function isLoggedIn(callBackFunction) {
+    isLoggedIn: function isLoggedIn(callBackFunction,context,callBackFunctionFromComponent) {
+        console.log("AuthenticationManager - isLoggedIn")
         Auth.currentAuthenticatedUser().then(user => {
-            console.log(user.signInUserSession.getIdToken().payload['cognito:groups'])
-        callBackFunction(user)
+            //console.log(user.signInUserSession.getIdToken().payload['cognito:groups'])
+            callBackFunction(user,context,callBackFunctionFromComponent)
         }).catch(e => {
             console.log(e);
-            callBackFunction("Error")
+            callBackFunction("Error",context,callBackFunctionFromComponent)
         });
     }
 }

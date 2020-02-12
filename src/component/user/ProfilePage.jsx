@@ -6,12 +6,12 @@ import { ResultQuizList } from './ResultQuizList';
 import { Grid, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, IconButton, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarIcon from '@material-ui/icons/Star';
-import AuthenticationManager from '../auth/AuthenticationManager';
 import MyLoader from '../loading/Loader';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents';
 import PlaylistAddCheckIcon from '@material-ui/icons/PlaylistAddCheck';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+import ProfileUser from './ProfileUser';
 
 
 
@@ -44,35 +44,21 @@ export class ProfilePage extends React.Component {
     }
 
     componentDidMount() {
-        AuthenticationManager.isLoggedIn(this.isLoggedIn)
+        ProfileUser.getProfile(this.isLoggedIn)
+    
         QuizResources.getQuizIds()
     }
 
-    isLoggedIn = (result) => {
-        var username = null;
-        var email = null;
-        try {
-            //for cognito
-            if (result && result != "Error" && result.username) {
-                username = result.username;
-                email = result.attributes.email;
-                this.setState({ username: username, email: email, isLogged: true, onLoading: false })
-                this.getUserQuizResult(username, email)
-                //for google or facebook
-            } else if (result && result != "Error" && result.name) {
-                username = result.name;
-                email = result.email
-                this.setState({ username: username, email: email, isLogged: true, onLoading: false })
-                this.getUserQuizResult(username, email)
-            } else if (result == "Error") {
-                this.setState({ isLogged: false, onLoading: false })
-                window.errorcomponent.showMessage("Per poter creare o modificare i quiz devi loggarti. Clicca qui per eseguire la login", "warning", "login")
-            }
-        } catch (error) {
-            console.log("Error")
-            console.log(error)
+    isLoggedIn = (user) => {
+        if(user.error!='Error'){
+            this.setState({ username: user.username, email: user.email, isLogged: true, onLoading: false })
+            this.getUserQuizResult(user.username, user.email)
+        }else{
+            this.setState({ isLogged: false, onLoading: false })
+            window.errorcomponent.showMessage("Per poter creare o modificare i quiz devi loggarti. Clicca qui per eseguire la login", "warning", "login")
         }
     }
+
 
     getUserQuizResult = (username, email) => {
         var userDataForFilterQuery = username + "####" + email
@@ -171,8 +157,8 @@ export class ProfilePage extends React.Component {
                             </Grid>
                         </Grid>
                         <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
-                            <BottomNavigation value={this.state.bottomNavigationBarValue} style={{ width: 500 }} onChange={this.bottomNavigationBarHandleChange}>
-                                <BottomNavigationAction label="I miei quiz" value="myQuiz" icon={<PlaylistAddIcon />} />
+                            <BottomNavigation value={this.state.bottomNavigationBarValue} onChange={this.bottomNavigationBarHandleChange}>
+                                <BottomNavigationAction label="Quiz" value="myQuiz" icon={<PlaylistAddIcon />} />
                                 <BottomNavigationAction label="Globale" value="globalResults" icon={<EmojiEventsIcon />} />
                                 <BottomNavigationAction label="Privata" value="privateResults" icon={<PlaylistAddCheckIcon />} />
                                 {/*<BottomNavigationAction label="In arrivo..." value="..." icon={<FolderIcon />} disable />*/}

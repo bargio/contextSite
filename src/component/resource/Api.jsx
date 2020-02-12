@@ -165,7 +165,7 @@ const QuizResources = {
         console.log(userResults)
         return userResults
     },
-    getUserQuizResultWithQuizID: async function getUserQuizResultWithQuizID(user, id) {
+    getUserQuizResultWithQuizID: async function getUserQuizResultWithQuizID(id) {
         var userResults = await API.graphql(graphqlOperation(queries.listQuizResults,
             {
                 filter: {

@@ -6,7 +6,7 @@ import awsconfig from '../../aws-exports';
 import { Authenticator } from 'aws-amplify-react';
 import Cookies from 'universal-cookie';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import AuthenticationManager from "../auth/AuthenticationManager";
+
 import LoginPage from '../auth/LoginPage';
 
 Amplify.configure(awsconfig);
@@ -24,7 +24,6 @@ export class LoginManager extends React.Component {
   }
 
   componentDidMount(){
-    //var user = AuthenticationManager.isLoggedIn().then(data => console.log(data))
    
   }
 

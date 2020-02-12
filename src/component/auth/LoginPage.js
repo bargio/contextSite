@@ -14,6 +14,7 @@ import { LoginNav } from './LoginNav';
 import AuthenticationManager from './AuthenticationManager';
 import "./Login.css"
 import MyLoader from '../loading/Loader';
+import ProfileUser from '../user/ProfileUser';
 
 
 
@@ -42,6 +43,11 @@ class LoginPage extends React.Component {
     this.handleShow = this.handleShow.bind(this);
   }
 
+  componentDidMount() {
+    console.log("LoginPage - componentDidMount")
+    ProfileUser.getProfile(this.isLoggedIn)
+  }
+
   getUserDetails = () => {
     if (this.state.isLoggedIn) {
       return this.state
@@ -49,32 +55,16 @@ class LoginPage extends React.Component {
     return null
   }
 
-
-  isLoggedIn = (result) => {
-    var username = null;
-    var email = null;
-    try {
-      //for cognito
-      if (result && result != "Error" && result.username) {
-        username = result.username;
-        email = result.attributes.email;
-        this.setState({ userLogged: { username: username, email: email }, isLoggedIn: true })
-        //for google or facebook
-      } else if (result && result != "Error" && result.name) {
-        username = result.name;
-        email = result.email
-        this.setState({ userLogged: { username: username, email: email }, isLoggedIn: true })
-      }
-    } catch (error) {
-      console.log("Error")
-      console.log(error)
+  isLoggedIn = (profile) => {
+    console.log("LoginPage - ",profile)
+    console.log(profile)
+    if (profile.error != "Error") {
+          console.log(profile.username + " " + profile.email)
+          this.setState({ userLogged: { username: profile.username, email: profile.email }, isLoggedIn: true })
+    } else {
+       console.log("Error")
     }
-  }
-
-
-
-  componentDidMount() {
-    AuthenticationManager.isLoggedIn(this.isLoggedIn)
+    console.log("LoginPage - ",this)
   }
 
   handleShow() {
@@ -83,14 +73,6 @@ class LoginPage extends React.Component {
 
   handleClose() {
     this.setState({ show: false });
-  }
-
-  isLogged = (authState, data) => {
-    console.log(data);
-    if (authState == "signedIn") {
-      this.props.handleLogin(data);
-      this.handleClose()
-    }
   }
 
   changeState = (state) => {

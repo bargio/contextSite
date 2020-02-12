@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import { PhotoPicker } from 'aws-amplify-react';
 import { Button, Jumbotron } from 'react-bootstrap';
 import { CreatorForm } from './creator/CreatorForm';
-import AuthenticationManager from '../auth/AuthenticationManager';
+import ProfileUser from '../user/ProfileUser';
 
 export class QuizCreator extends React.Component {
 
@@ -35,16 +35,13 @@ export class QuizCreator extends React.Component {
         this.setState({ update: false, create: false });
     }
 
-    checkIfLogged = (user) => {
-        if (user != "Error") {
+
+    componentDidMount() {
+        if (ProfileUser.profile.isValid()) {
             this.setState({ isLogged: true })
         } else {
             this.setState({ isLogged: false })
         }
-    }
-
-    componentDidMount() {
-        AuthenticationManager.isLoggedIn(this.checkIfLogged)
     }
 
     message = () => {

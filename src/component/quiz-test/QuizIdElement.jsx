@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import Core from './Core';
 import { defaultLocale } from './Locale';
 import "./styles.css";
-import CountDownQuestion from '../quiz/CountDownQuestion';
-import AuthenticationManager from '../auth/AuthenticationManager';
+import ProfileUser from '../user/ProfileUser';
 
-class QuizTest extends Component {
+class QuizIdElement extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,11 +18,7 @@ class QuizTest extends Component {
   }
 
   componentDidMount() {
-    AuthenticationManager.isLoggedIn(this.checkIfLogged)
-  }
-
-  checkIfLogged = (user) => {
-    if (user != "Error") {
+    if (ProfileUser.profile.isValid()) {
       this.setState({ isLoggedIn: true })
     } else {
       this.setState({ isLoggedIn: false })
@@ -101,7 +96,7 @@ class QuizTest extends Component {
   }
 }
 
-QuizTest.propTypes = {
+QuizIdElement.propTypes = {
   quiz: PropTypes.object,
   shuffle: PropTypes.bool,
   showDefaultResult: PropTypes.bool,
@@ -111,4 +106,4 @@ QuizTest.propTypes = {
   continueTillCorrect: PropTypes.bool
 };
 
-export default QuizTest;
+export default QuizIdElement;

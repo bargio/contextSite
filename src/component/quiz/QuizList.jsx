@@ -3,8 +3,8 @@ import { Grid, CardMedia, CardContent, CardActionArea, Typography, CardActions }
 import { QuizMediaCard } from './QuizMediaCard';
 import QuizResources from '../resource/Api';
 import MyLoader from '../loading/Loader';
-import AuthenticationManager from '../auth/AuthenticationManager';
 import { Card, Button, Carousel } from 'react-bootstrap';
+import ProfileUser from '../user/ProfileUser';
 
 
 
@@ -30,15 +30,31 @@ export class QuizList extends React.Component {
     }
 
     componentDidMount() {
-        AuthenticationManager.isLoggedIn(this.getQuizRes)
-        //QuizResources.getAllQuizs()
-        /*QuizResources.getUserQuizAndAdministrator()
-            .then(result => { console.log(result); this.setState({ quizList: result.data.listQuizs.items }); })
-*/
-        //QuizResources.getUsertQuizResult(userState).then(data=>console.log(data))
+        ProfileUser.getProfile(this.getQuizRes)
     }
 
-    getQuizRes = (data) => {
+
+
+    getQuizRes = (profile) => {
+        if (profile.error != "Error") {
+            if (profile.isValid() != null) {
+                var userData = profile.username + "####" + profile.email
+                this.setState({ username: profile.username })
+                QuizResources.getUserQuizResult(userData).then(data => {
+                    this.setState({ quizResult: data.data.quizResultByUser.items, showLoader: false });
+                })
+                QuizResources.getQuizByGroupCreator()
+                    .then(result => {  this.setState({ quizList: result.data.quizByGroupCreator.items }); })
+            }
+        } else {
+            this.setState({ showLoader: false })
+            QuizResources.getQuizByGroupCreator()
+                .then(result => { this.setState({ quizList: result.data.quizByGroupCreator.items }); })
+        }
+    }
+
+
+    getQuizResOld = (data) => {
         console.log(data)
         if (data != "Error") {
             window.profilecomponent.isLoggedIn(data)

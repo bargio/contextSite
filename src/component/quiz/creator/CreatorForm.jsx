@@ -9,9 +9,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import it from 'date-fns/locale/it';
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import DatePicker from "react-datepicker";
-import AuthenticationManager from '../../auth/AuthenticationManager';
 import { TextField } from '@material-ui/core';
 import UtilsResource from '../../utils/Utils';
+import ProfileUser from '../../user/ProfileUser';
 registerLocale('it', it)
 
 export class CreatorForm extends React.Component {
@@ -108,19 +108,16 @@ export class CreatorForm extends React.Component {
     continueAction = () => {
         console.log("Salvo quiz")
         console.log(this.state)
-        AuthenticationManager.isLoggedIn(this.saveQuestion)
+        ProfileUser.getProfile(this.saveQuestion)
 
     }
-
     saveQuestion = (user) => {
-        var userGroups = user.signInUserSession.getIdToken().payload['cognito:groups'];
-        console.log("groups ",user.signInUserSession.getIdToken().payload['cognito:groups'])
-        if (user != "Error") {
+        if (user.error != "Error") {
             console.log(user)
             if (user.name == undefined) {
-                PrepareJsonForSave(this.state, user.username,this.reloadPage,userGroups);
+                PrepareJsonForSave(this.state, user.username,this.reloadPage,user.group);
             } else {
-                PrepareJsonForSave(this.state, user.name,this.reloadPage,userGroups);
+                PrepareJsonForSave(this.state, user.name,this.reloadPage,user.group);
             }
             this.setState({ showAlert: false, showLoader: true })
             console.log(this)
@@ -128,6 +125,7 @@ export class CreatorForm extends React.Component {
             window.errorcomponent.showMessage("Errore Utenza", "danger")
         }
     }
+
 
     reloadPage = ()=>{
         this.props.backButton()
