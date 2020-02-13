@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ProgressBar, Badge, Tabs, Tab, ListGroup } from 'react-bootstrap';
 import { Auth } from 'aws-amplify';
-import QuizResources from '../resource/Api';
+import { QuizResources } from '../resource/Api';
 import { ResultQuizList } from './ResultQuizList';
 import { Grid, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, IconButton, BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
@@ -22,6 +22,7 @@ export class ProfilePage extends React.Component {
         this.state = {
             username: null,
             email: null,
+            userId: null,
             isLogged: false,
             onLoading: true,
             globalPoints: 0,
@@ -31,7 +32,7 @@ export class ProfilePage extends React.Component {
             myQuizFlag: true,
             globalResultsFlag: false,
             privateResultsFlag: false,
-            bottomNavigationBarValue:"myQuiz"
+            bottomNavigationBarValue: "myQuiz"
         }
     }
 
@@ -48,32 +49,33 @@ export class ProfilePage extends React.Component {
     }
 
     isLoggedIn = (user) => {
-        if(user.error!='Error'){
-            this.setState({ username: user.username, email: user.email, isLogged: true, onLoading: false })
-            this.getUserQuizResult(user.username, user.email)
-        }else{
+        if (user.error != 'Error') {
+            this.setState({ username: user.username, email: user.email, userId: user.id, isLogged: true, onLoading: false })
+            this.getUserQuizResult(user.id)
+        } else {
             this.setState({ isLogged: false, onLoading: false })
             window.errorcomponent.showMessage("Per poter creare o modificare i quiz devi loggarti. Clicca qui per eseguire la login", "warning", "login")
         }
     }
 
 
-    getUserQuizResult = (username, email) => {
-        var userDataForFilterQuery = username + "####" + email
+    getUserQuizResult = (userId) => {
         var listIdForFilterQuery = []
         //Get user Quiz Results
-        QuizResources.getUserQuizResult(userDataForFilterQuery).then(result => {
+        QuizResources.getUserQuizResult(userId).then(result => {
             var quizResultItems = result.data.quizResultByUser.items;
             quizResultItems.map(quizElement => {
                 listIdForFilterQuery.push({ id: { eq: quizElement.quizId } })
             })
             //Get, using id quiz, details of quiz
-            QuizResources.getQuizIds(listIdForFilterQuery).then(result => {
-                console.log("getQuizIds", result)
-                var quizDetailsItems = result.data.listQuizs.items
-                this.calculatePoint(quizResultItems, quizDetailsItems)
+            if (listIdForFilterQuery.length > 0) {
+                QuizResources.getQuizIds(listIdForFilterQuery).then(result => {
+                    console.log("getQuizIds", result)
+                    var quizDetailsItems = result.data.listQuizs.items
+                    this.calculatePoint(quizResultItems, quizDetailsItems)
 
-            })
+                })
+            }
 
         })
     }
@@ -105,23 +107,23 @@ export class ProfilePage extends React.Component {
             if (i <= numberOfStars) {
                 stars.push(<StarIcon style={{ color: 'orange' }} />)
             } else {
-                stars.push(<StarBorderIcon />)
+                stars.push(<StarBorderIcon key={i}/>)
             }
             i++;
         }
         return stars;
     }
 
-    bottomNavigationBarHandleChange = (event, value)=> {
+    bottomNavigationBarHandleChange = (event, value) => {
         switch (value) {
             case "myQuiz":
-                this.setState({bottomNavigationBarValue:value, myQuizFlag: true, globalResultsFlag: false, privateResultsFlag: false })
+                this.setState({ bottomNavigationBarValue: value, myQuizFlag: true, globalResultsFlag: false, privateResultsFlag: false })
                 break;
             case "globalResults":
-                this.setState({bottomNavigationBarValue:value, myQuizFlag: false, globalResultsFlag: true, privateResultsFlag: false })
+                this.setState({ bottomNavigationBarValue: value, myQuizFlag: false, globalResultsFlag: true, privateResultsFlag: false })
                 break;
             case "privateResults":
-                this.setState({ bottomNavigationBarValue:value,myQuizFlag: false, globalResultsFlag: false, privateResultsFlag: true })
+                this.setState({ bottomNavigationBarValue: value, myQuizFlag: false, globalResultsFlag: false, privateResultsFlag: true })
                 break;
         }
     }
@@ -141,7 +143,7 @@ export class ProfilePage extends React.Component {
             }
                 {!this.state.onLoading && this.state.isLogged &&
                     < Grid container >
-                        <Grid container alignItems="center" justify="center" zeroMinWidth>
+                        <Grid container alignItems="center" justify="center">
                             <Grid item style={{ minWidth: '50%' }}>
                                 <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
                                     <h6>Benvenuto</h6>
@@ -151,7 +153,7 @@ export class ProfilePage extends React.Component {
                                 <Grid container alignItems="center" direction="row" justify="center" style={{ padding: '1%' }}>
                                     {stars}
                                 </Grid>
-                                <ProgressBar show={true} animated style={{ minWidth: '100%' }} now={numberOfPoints} label={numberOfPoints == 100 ? 'MAX' : numberOfPoints + "/100"}></ProgressBar>
+                                <ProgressBar animated style={{ minWidth: '100%' }} now={numberOfPoints} label={numberOfPoints == 100 ? 'MAX' : numberOfPoints + "/100"}></ProgressBar>
                             </Grid>
                         </Grid>
                         <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
@@ -163,7 +165,7 @@ export class ProfilePage extends React.Component {
                             </BottomNavigation>
                         </Grid>
                         {this.state.username && this.state.myQuizFlag &&
-                            <ResultQuizList username={this.state.username} />
+                            <ResultQuizList username={this.state.userId} />
                         }
                         {this.state.globalResultsFlag && this.state.quizResult &&
                             <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
@@ -177,7 +179,7 @@ export class ProfilePage extends React.Component {
                                         })
                                         console.log(qCompleted)
                                         if (qCompleted.length > 0 && qCompleted[0].groupCreator == "[administrators]") {
-                                            return (<ListItem >
+                                            return (<ListItem id={qCompleted.id}>
                                                 <ListItemAvatar>
                                                     <Avatar>
                                                         Q
@@ -195,7 +197,7 @@ export class ProfilePage extends React.Component {
                                             </ListItem>)
 
                                         }
-                                        
+
                                     })}
                                 </List>
 
@@ -221,7 +223,7 @@ export class ProfilePage extends React.Component {
                                                 </Avatar>
                                                 </ListItemAvatar>
                                                 <ListItemText
-                                                    primary={qCompleted[0].creator}
+                                                    primary={qCompleted[0].name}
                                                     secondary={qResult.quizResult}
                                                 />
                                                 <ListItemSecondaryAction>
@@ -232,7 +234,7 @@ export class ProfilePage extends React.Component {
                                             </ListItem>)
 
                                         }
-                                        
+
                                     })}
                                 </List>
 

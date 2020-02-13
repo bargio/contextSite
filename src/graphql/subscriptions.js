@@ -53,6 +53,7 @@ export const onCreateQuizQuestions = `subscription OnCreateQuizQuestions {
   onCreateQuizQuestions {
     id
     quizDetails
+    quizCreator
   }
 }
 `;
@@ -60,6 +61,7 @@ export const onUpdateQuizQuestions = `subscription OnUpdateQuizQuestions {
   onUpdateQuizQuestions {
     id
     quizDetails
+    quizCreator
   }
 }
 `;
@@ -67,6 +69,7 @@ export const onDeleteQuizQuestions = `subscription OnDeleteQuizQuestions {
   onDeleteQuizQuestions {
     id
     quizDetails
+    quizCreator
   }
 }
 `;
@@ -76,7 +79,7 @@ export const onCreateQuizResult = `subscription OnCreateQuizResult {
     quizId
     quizUser
     quizResult
-    quizID
+    quizUserId
   }
 }
 `;
@@ -86,7 +89,7 @@ export const onUpdateQuizResult = `subscription OnUpdateQuizResult {
     quizId
     quizUser
     quizResult
-    quizID
+    quizUserId
   }
 }
 `;
@@ -96,34 +99,34 @@ export const onDeleteQuizResult = `subscription OnDeleteQuizResult {
     quizId
     quizUser
     quizResult
-    quizID
+    quizUserId
   }
 }
 `;
 export const onCreateUsers = `subscription OnCreateUsers {
   onCreateUsers {
     id
-    userId
     userEmail
-    userLevel
+    userGroup
+    active
   }
 }
 `;
 export const onUpdateUsers = `subscription OnUpdateUsers {
   onUpdateUsers {
     id
-    userId
     userEmail
-    userLevel
+    userGroup
+    active
   }
 }
 `;
 export const onDeleteUsers = `subscription OnDeleteUsers {
   onDeleteUsers {
     id
-    userId
     userEmail
-    userLevel
+    userGroup
+    active
   }
 }
 `;

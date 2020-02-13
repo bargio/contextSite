@@ -15,6 +15,7 @@ import AuthenticationManager from './AuthenticationManager';
 import "./Login.css"
 import MyLoader from '../loading/Loader';
 import ProfileUser from '../user/ProfileUser';
+import { UserResources } from '../resource/Api';
 
 
 

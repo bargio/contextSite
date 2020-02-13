@@ -5,7 +5,9 @@ import CountDownQuestion from '../quiz/CountDownQuestion';
 import StorageResource from '../resource/Storage';
 import { ButtonAnswer } from './ButtonAnswer';
 import "./styles.css";
-import QuizResources from '../resource/Api';
+import { QuizResources } from '../resource/Api';
+import ProfileUser from '../user/ProfileUser';
+import { Link, Typography } from '@material-ui/core';
 
 class Core extends Component {
   constructor(props) {
@@ -16,14 +18,14 @@ class Core extends Component {
       showNextQuestionButton: false,
       endQuiz: false,
       currentQuestionIndex: 0,
-      urlImagePhotoType1:"",
+      urlImagePhotoType1: "",
       buttons: {},
       buttonAnswers: [],
       buttonClasses: {},
       correct: [],
       incorrect: [],
       userInput: [],
-      correctAnswers:[],
+      correctAnswers: [],
       filteredValue: 'all',
       userAttempt: 1,
       showDefaultResult: this.props.showDefaultResult != undefined ? this.props.showDefaultResult : true,
@@ -36,20 +38,20 @@ class Core extends Component {
   }
 
   checkAnswer = () => {
-    const { correctAnswers, currentQuestionIndex,userInput } = this.state;
+    const { correctAnswers, currentQuestionIndex, userInput } = this.state;
     let { correct, incorrect } = this.state;
 
     console.log(correctAnswers)
     console.log(userInput)
-    var isCorrect = true;
-    correctAnswers.map(value=>{
-      if(userInput.indexOf(value)<0){
-          isCorrect=false
+    var isCorrect = false;
+    correctAnswers.map(value => {
+      if (userInput.indexOf(value)>= 0) {
+        isCorrect = true
       }
     })
-    if(isCorrect){
+    if (isCorrect) {
       correct.push(currentQuestionIndex)
-    }else{
+    } else {
       incorrect.push(currentQuestionIndex)
     }
   }
@@ -232,7 +234,7 @@ class Core extends Component {
     }
   }
 
-  nextQuestion(currentQuestionIndex){
+  nextQuestion(currentQuestionIndex) {
     console.log("next question")
     this.checkAnswer()
     const { questions } = this.props;
@@ -254,7 +256,7 @@ class Core extends Component {
       this.setState({
         ...initState,
         currentQuestionIndex: currentQuestionIndex + 1,
-        urlImagePhotoType1:"",
+        urlImagePhotoType1: "",
 
       })
     }
@@ -398,20 +400,20 @@ class Core extends Component {
     answerSelectionType = answerSelectionType || 'single';
 
     return answers.map((answer, index) => {
-        var isSelected = this.state.userInput.indexOf(index)<0?false:true
-        var buttonAnswer = (<ButtonAnswer isSelected={isSelected} index={index} correctAnswer={correctAnswer} answerSelectionType={answerSelectionType} answer={answer} questionType={questionType} parent={this}></ButtonAnswer>)
-        return(buttonAnswer)
+      var isSelected = this.state.userInput.indexOf(index) < 0 ? false : true
+      var buttonAnswer = (<ButtonAnswer key={index} isSelected={isSelected} index={index} correctAnswer={correctAnswer} answerSelectionType={answerSelectionType} answer={answer} questionType={questionType} parent={this}></ButtonAnswer>)
+      return (buttonAnswer)
     })
   }
 
-  clickOnButton = (i,correctAnswer)=>{
-    let {userInput} = this.state
-    if(this.state.userInput.indexOf(i)>=0){
+  clickOnButton = (i, correctAnswer) => {
+    let { userInput } = this.state
+    if (this.state.userInput.indexOf(i) >= 0) {
       this.state.userInput.splice(this.state.userInput.indexOf(i), 1)
-    }else if(userInput[this.state.currentQuestionIndex]==undefined || userInput.length < correctAnswer.length){
+    } else if (userInput[this.state.currentQuestionIndex] == undefined || userInput.length < correctAnswer.length) {
       userInput.push(i)
     }
-    this.setState({correctAnswers:correctAnswer})
+    this.setState({ correctAnswers: correctAnswer })
   }
 
   renderAnswersV2 = (question, buttons) => {
@@ -425,7 +427,7 @@ class Core extends Component {
         return (
           <button key={index} disabled={buttons[index].disabled || false} className={`${buttons[index].className} answerBtn btn`} onClick={() => this.checkAnswer(index + 1, correctAnswer, answerSelectionType)}>
             {questionType == 'text' && <span>{answer}</span>}
-            {questionType == 'phototype2' && <img style={{marginLeft:'25%',maxWidth:'50%',maxHeight:'50%',verticalAlign:'center'}}  src={answer} />}
+            {questionType == 'phototype2' && <img style={{ marginLeft: '25%', maxWidth: '50%', maxHeight: '50%', verticalAlign: 'center' }} src={answer} />}
             {questionType == 'phototype1' && <span>{answer}</span>}
           </button>
         )
@@ -433,7 +435,7 @@ class Core extends Component {
         return (
           <button key={index} onClick={() => this.checkAnswer(index + 1, correctAnswer, answerSelectionType)} className="answerBtn btn">
             {questionType == 'text' && answer}
-            {questionType == 'phototype2' && <img style={{marginLeft:'25%',maxWidth:'50%',maxHeight:'50%'}}  src={answer} />}
+            {questionType == 'phototype2' && <img style={{ marginLeft: '25%', maxWidth: '50%', maxHeight: '50%' }} src={answer} />}
             {questionType == 'phototype1' && <span>{answer}</span>}
           </button>
         )
@@ -463,15 +465,17 @@ class Core extends Component {
     )
   }
 
-  saveResult = (correctPoints)=>{
+  saveResult = (correctPoints) => {
     console.log("Save result")
-    console.log(correctPoints)
     var quizId = window.location.pathname.split("/")[2]
-    console.log(quizId)
-    var userState = window.profilecomponent.getUserDetails()
-    console.log(userState.userLogged)
-    var userData = userState.userLogged.username+"####"+userState.userLogged.email
-    QuizResources.insertQuizResult(quizId,userData,correctPoints)
+    if (this.props.quizCreator != ProfileUser.profile.id) {
+      console.log("Risultato per utente non creatore")
+      QuizResources.insertQuizResult(quizId, ProfileUser.profile.username, correctPoints,ProfileUser.profile.id)
+    }else{
+      console.log("Risultato per utente creatore...non lo salvo")
+    }
+
+    return (<Typography>Torna alla <Link style={{color:"blue"}}onClick={()=>window.location.reload()}>pagina del quiz</Link> per vedere la classifica</Typography>)
   }
 
   render() {
@@ -530,7 +534,7 @@ class Core extends Component {
 
     // Default single to avoid code breaking due to automatic version upgrade
     answerSelectionType = answerSelectionType || 'single';
-    
+
     return (
       <div className="questionWrapper">
         {!endQuiz &&
@@ -552,26 +556,26 @@ class Core extends Component {
             {
               this.renderTags(answerSelectionType, question.correctAnswer.length)
             }
-            {question.questionType == 'phototype1' && <img style={{marginLeft:'25%',maxWidth:'50%',maxHeight:'50%'}} src={this.state.urlImagePhotoType1!=""?this.state.urlImagePhotoType1:this.downloadUrlImage(question)}/>}
+            {question.questionType == 'phototype1' && <img style={{ marginLeft: '25%', maxWidth: '50%', maxHeight: '50%' }} src={this.state.urlImagePhotoType1 != "" ? this.state.urlImagePhotoType1 : this.downloadUrlImage(question)} />}
             {
               this.renderAnswers(question, buttons)
             }
-           
-            <div><button onClick={() => this.nextQuestion(currentQuestionIndex)} style={{backgroundColor:'white'}} className="startQuizBtn btn">{appLocale.nextQuestionBtn}</button></div>
-            
+
+            <div><button onClick={() => this.nextQuestion(currentQuestionIndex)} style={{ backgroundColor: 'white' }} className="startQuizBtn btn">{appLocale.nextQuestionBtn}</button></div>
+
           </div>
         }
         {endQuiz && showDefaultResult && customResultPage == null &&
           <div className="card-body">
-            <h1>Quiz Completato</h1>
-            <h2>
+            <h1>Grazie per aver completato il Quiz</h1>
+            <h4>
               {appLocale.resultPageHeaderText.replace("<correctIndexLength>", correct.length).replace("<questionLength>", questions.length)}
-            </h2>
-            <h2>
+            </h4>
+            <h4>
               {appLocale.resultPagePoint.replace("<correctPoints>", correctPoints).replace("<totalPoints>", totalPoints)}
-            </h2>
+            </h4>
             <br />
-           {this.saveResult(correctPoints)/* {this.renderQuizResultFilter()}
+            {this.saveResult(correctPoints)/* {this.renderQuizResultFilter()}
             {this.renderQuizResultQuestions()}*/}
           </div>
         }
@@ -588,9 +592,9 @@ class Core extends Component {
       </div>
     );
   }
-  downloadUrlImage =(question)=>{
+  downloadUrlImage = (question) => {
     console.log(question)
-    StorageResource.getImage(question.photoQuestion).then(data=>this.setState({urlImagePhotoType1:data}))
+    StorageResource.getImage(question.photoQuestion).then(data => this.setState({ urlImagePhotoType1: data }))
   }
 }
 

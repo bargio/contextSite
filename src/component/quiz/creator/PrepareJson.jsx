@@ -1,4 +1,4 @@
-import QuizResources from "../../resource/Api";
+import {QuizResources} from "../../resource/Api";
 import StorageResource from "../../resource/Storage";
 import UtilsResource from '../../utils/Utils';
 

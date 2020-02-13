@@ -3,9 +3,10 @@ import * as mutations from '../../graphql/mutations';
 
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
+import ProfileUser from '../user/ProfileUser';
 Amplify.configure(awsconfig);
 
-const QuizResources = {
+export const QuizResources = {
 
     getAllQuizs: async function getAllQuiz() {
         const allTodos = await API.graphql(graphqlOperation(queries.listQuizs));
@@ -41,7 +42,7 @@ const QuizResources = {
         console.log(listIds)
         var adminQuiz = await API.graphql(graphqlOperation(queries.listQuizs,
             {
-                limit:9999999,
+                limit: 9999999,
                 filter: {
                     or: listIds,
                 }
@@ -51,21 +52,32 @@ const QuizResources = {
     },
 
     getUsersQuiz: async function getUsersQuiz(user) {
-        console.log("Search quiz for user ",user)
+        console.log("Search quiz for user ", user)
         var adminQuiz = await API.graphql(graphqlOperation(queries.quizByCreator,
             {
                 creator: user
-                
+
             }));
         console.log(adminQuiz)
         return adminQuiz
     },
     getQuizByGroupCreator: async function getQuizByGroupCreator(user) {
-        console.log("Search quiz for user ",user)
-        var adminQuiz = await API.graphql(graphqlOperation(queries.quizByGroupCreator,
+        console.log("Search quiz for user ", user)
+        /*var adminQuiz = await API.graphql(graphqlOperation(queries.quizByGroupCreator,
             {
-                groupCreator: "[administrators]"
+                filter: {
+                    groupCreator_contains: "administrators"
+                }
+
+            }));*/
+        var adminQuiz = await API.graphql(graphqlOperation(queries.listQuizs,
+            {
+                limit: 9999999,
+                filter: {
+                    groupCreator:{contains: "administrator"}
+                }
             }));
+        console.log(adminQuiz)
         console.log(adminQuiz)
         return adminQuiz
     },
@@ -76,16 +88,17 @@ const QuizResources = {
         return oneTodo
     },
 
-    insertQuiz: async function insertQuiz(quiz, image_url, creator, expireDate, createDate, smallDescription,userGroups) {
+    insertQuiz: async function insertQuiz(quiz, image_url, creator, expireDate, createDate, smallDescription, userGroups) {
         const quizQuestions = {
-            quizDetails: JSON.stringify({ quiz })
+            quizDetails: JSON.stringify({ quiz }),
+            quizCreator: creator
         };
         try {
             const quizQuestion = await API.graphql(graphqlOperation(mutations.createQuizQuestions, { input: quizQuestions }));
             const quiz1 = {
                 name: quiz.quiz.quizTitle,
                 creator: creator,
-                groupCreator:userGroups,
+                groupCreator: userGroups,
                 createDate: createDate,
                 expireDate: expireDate,
                 smallDescription: smallDescription,
@@ -125,7 +138,7 @@ const QuizResources = {
             var quiz = await this.getQuiz(id)
             var quizQuestion = await this.getQuizQuestion(quiz.data.getQuiz.quizQuestionsID)
             console.log(quizQuestion.data.getQuizQuestions.quizDetails)
-            return quizQuestion.data.getQuizQuestions.quizDetails
+            return quizQuestion.data.getQuizQuestions
         } catch (error) {
             console.log(error)
             return "Error"
@@ -142,12 +155,13 @@ const QuizResources = {
             }));
         console.log(adminQuiz)
     },
-    insertQuizResult: async function insertQuizResult(quizId, quizUser, resultPoint) {
+    insertQuizResult: async function insertQuizResult(quizId, quizUser, resultPoint, quizUserId) {
         try {
             const quizResult = {
                 quizId: quizId,
-                quizUser: quizUser,
+                quizUser: quizUserId,
                 quizResult: resultPoint,
+                quizUserId: quizUser
             };
             const ok = await API.graphql(graphqlOperation(mutations.createQuizResult, { input: quizResult }));
             console.log(ok)
@@ -158,9 +172,7 @@ const QuizResources = {
     getUserQuizResult: async function getUserQuizResult(user) {
         var userResults = await API.graphql(graphqlOperation(queries.quizResultByUser,
             {
-               
                 quizUser: user
-                   
             }));
         console.log(userResults)
         return userResults
@@ -176,7 +188,31 @@ const QuizResources = {
             }));
         return userResults
     },
-
-
 }
-export default QuizResources;
+
+export const UserResources = {
+    insertUser: async function insertUser(email, group) {
+        try {
+            const user = {
+                userEmail: email,
+                userGroup: group,
+                active: true
+            };
+            const userResult = await API.graphql(graphqlOperation(mutations.createUsers, { input: user }));
+            ProfileUser.profile.id = userResult.data.createUsers.id
+            console.log(ProfileUser.profile)
+            console.log(userResult)
+            return userResult
+        } catch (error) {
+            console.log(error);
+            return null
+        }
+    },
+    getUserId: async function getUserId(email) {
+        var user = await API.graphql(graphqlOperation(queries.getUserByEmail,
+            {
+                userEmail: email
+            }));
+        return user
+    },
+}

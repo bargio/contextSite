@@ -1,5 +1,5 @@
 import React from 'react'
-import QuizResources from '../resource/Api';
+import {QuizResources} from '../resource/Api';
 import { Grid } from '@material-ui/core';
 import MyLoader from '../loading/Loader';
 import { QuizMediaCard } from '../quiz/QuizMediaCard';

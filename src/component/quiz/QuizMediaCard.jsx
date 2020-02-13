@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { Redirect } from 'react-router-dom';
 import { Link, CardHeader, Avatar, IconButton } from '@material-ui/core';
 import { S3Image, PhotoPicker, Authenticator } from 'aws-amplify-react';
-import QuizResources from '../resource/Api';
+import {QuizResources} from '../resource/Api';
 import { AlertModal } from '../alert/AlertModal';
 
 import ShareIcon from '@material-ui/icons/Share';
@@ -78,7 +78,7 @@ export class QuizMediaCard extends React.Component {
                             avatarCustom
                         }
                         title={<div style={{textOverflow:"ellipsis",whiteSpace:"nowrap",width:"90%",overflow:"hidden"}}>{quiz.name}</div>}
-                        subheader={quiz.creator}
+                        //subheader={quiz.creator}
                     />
                     <CardMedia
                         style={{

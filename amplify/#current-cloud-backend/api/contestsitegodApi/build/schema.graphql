@@ -15,6 +15,7 @@ type Quiz {
 type QuizQuestions {
   id: ID!
   quizDetails: String!
+  quizCreator: String!
 }
 
 type QuizResult {
@@ -22,14 +23,14 @@ type QuizResult {
   quizId: String!
   quizUser: String!
   quizResult: Int!
-  quizID: String
+  quizUserId: String
 }
 
 type Users {
   id: ID!
-  userId: String!
   userEmail: String!
-  userLevel: Int!
+  userGroup: String!
+  active: Boolean
 }
 
 enum ModelSortDirection {
@@ -144,6 +145,8 @@ type Query {
   quizByCreator(creator: String, sortDirection: ModelSortDirection, filter: ModelQuizFilterInput, limit: Int, nextToken: String): ModelQuizConnection
   quizByGroupCreator(groupCreator: String, sortDirection: ModelSortDirection, filter: ModelQuizFilterInput, limit: Int, nextToken: String): ModelQuizConnection
   quizResultByUser(quizUser: String, sortDirection: ModelSortDirection, filter: ModelQuizResultFilterInput, limit: Int, nextToken: String): ModelQuizResultConnection
+  listUsersIDbyGroup(userGroup: String, sortDirection: ModelSortDirection, filter: ModelUsersFilterInput, limit: Int, nextToken: String): ModelUsersConnection
+  getUserByEmail(userEmail: String, sortDirection: ModelSortDirection, filter: ModelUsersFilterInput, limit: Int, nextToken: String): ModelUsersConnection
 }
 
 input CreateQuizInput {
@@ -245,6 +248,7 @@ type ModelQuizQuestionsConnection {
 input ModelQuizQuestionsFilterInput {
   id: ModelIDInput
   quizDetails: ModelStringInput
+  quizCreator: ModelStringInput
   and: [ModelQuizQuestionsFilterInput]
   or: [ModelQuizQuestionsFilterInput]
   not: ModelQuizQuestionsFilterInput
@@ -253,11 +257,13 @@ input ModelQuizQuestionsFilterInput {
 input CreateQuizQuestionsInput {
   id: ID
   quizDetails: String!
+  quizCreator: String!
 }
 
 input UpdateQuizQuestionsInput {
   id: ID!
   quizDetails: String
+  quizCreator: String
 }
 
 input DeleteQuizQuestionsInput {
@@ -266,6 +272,7 @@ input DeleteQuizQuestionsInput {
 
 input ModelQuizQuestionsConditionInput {
   quizDetails: ModelStringInput
+  quizCreator: ModelStringInput
   and: [ModelQuizQuestionsConditionInput]
   or: [ModelQuizQuestionsConditionInput]
   not: ModelQuizQuestionsConditionInput
@@ -281,7 +288,7 @@ input ModelQuizResultFilterInput {
   quizId: ModelStringInput
   quizUser: ModelStringInput
   quizResult: ModelIntInput
-  quizID: ModelStringInput
+  quizUserId: ModelStringInput
   and: [ModelQuizResultFilterInput]
   or: [ModelQuizResultFilterInput]
   not: ModelQuizResultFilterInput
@@ -292,7 +299,7 @@ input CreateQuizResultInput {
   quizId: String!
   quizUser: String!
   quizResult: Int!
-  quizID: String
+  quizUserId: String
 }
 
 input UpdateQuizResultInput {
@@ -300,7 +307,7 @@ input UpdateQuizResultInput {
   quizId: String
   quizUser: String
   quizResult: Int
-  quizID: String
+  quizUserId: String
 }
 
 input DeleteQuizResultInput {
@@ -311,7 +318,7 @@ input ModelQuizResultConditionInput {
   quizId: ModelStringInput
   quizUser: ModelStringInput
   quizResult: ModelIntInput
-  quizID: ModelStringInput
+  quizUserId: ModelStringInput
   and: [ModelQuizResultConditionInput]
   or: [ModelQuizResultConditionInput]
   not: ModelQuizResultConditionInput
@@ -324,9 +331,9 @@ type ModelUsersConnection {
 
 input ModelUsersFilterInput {
   id: ModelIDInput
-  userId: ModelStringInput
   userEmail: ModelStringInput
-  userLevel: ModelIntInput
+  userGroup: ModelStringInput
+  active: ModelBooleanInput
   and: [ModelUsersFilterInput]
   or: [ModelUsersFilterInput]
   not: ModelUsersFilterInput
@@ -334,16 +341,16 @@ input ModelUsersFilterInput {
 
 input CreateUsersInput {
   id: ID
-  userId: String!
   userEmail: String!
-  userLevel: Int!
+  userGroup: String!
+  active: Boolean
 }
 
 input UpdateUsersInput {
   id: ID!
-  userId: String
   userEmail: String
-  userLevel: Int
+  userGroup: String
+  active: Boolean
 }
 
 input DeleteUsersInput {
@@ -351,9 +358,9 @@ input DeleteUsersInput {
 }
 
 input ModelUsersConditionInput {
-  userId: ModelStringInput
   userEmail: ModelStringInput
-  userLevel: ModelIntInput
+  userGroup: ModelStringInput
+  active: ModelBooleanInput
   and: [ModelUsersConditionInput]
   or: [ModelUsersConditionInput]
   not: ModelUsersConditionInput

@@ -44,6 +44,7 @@ export const getQuizQuestions = `query GetQuizQuestions($id: ID!) {
   getQuizQuestions(id: $id) {
     id
     quizDetails
+    quizCreator
   }
 }
 `;
@@ -56,6 +57,7 @@ export const listQuizQuestionss = `query ListQuizQuestionss(
     items {
       id
       quizDetails
+      quizCreator
     }
     nextToken
   }
@@ -67,7 +69,7 @@ export const getQuizResult = `query GetQuizResult($id: ID!) {
     quizId
     quizUser
     quizResult
-    quizID
+    quizUserId
   }
 }
 `;
@@ -82,7 +84,7 @@ export const listQuizResults = `query ListQuizResults(
       quizId
       quizUser
       quizResult
-      quizID
+      quizUserId
     }
     nextToken
   }
@@ -91,9 +93,9 @@ export const listQuizResults = `query ListQuizResults(
 export const getUsers = `query GetUsers($id: ID!) {
   getUsers(id: $id) {
     id
-    userId
     userEmail
-    userLevel
+    userGroup
+    active
   }
 }
 `;
@@ -105,9 +107,9 @@ export const listUserss = `query ListUserss(
   listUserss(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      userId
       userEmail
-      userLevel
+      userGroup
+      active
     }
     nextToken
   }
@@ -194,7 +196,55 @@ export const quizResultByUser = `query QuizResultByUser(
       quizId
       quizUser
       quizResult
-      quizID
+      quizUserId
+    }
+    nextToken
+  }
+}
+`;
+export const listUsersIDbyGroup = `query ListUsersIDbyGroup(
+  $userGroup: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelUsersFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listUsersIDbyGroup(
+    userGroup: $userGroup
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userEmail
+      userGroup
+      active
+    }
+    nextToken
+  }
+}
+`;
+export const getUserByEmail = `query GetUserByEmail(
+  $userEmail: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelUsersFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  getUserByEmail(
+    userEmail: $userEmail
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userEmail
+      userGroup
+      active
     }
     nextToken
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, CardMedia, CardContent, CardActionArea, Typography, CardActions } from '@material-ui/core';
 import { QuizMediaCard } from './QuizMediaCard';
-import QuizResources from '../resource/Api';
+import {QuizResources, UserResources} from '../resource/Api';
 import MyLoader from '../loading/Loader';
 import { Card, Button, Carousel } from 'react-bootstrap';
 import ProfileUser from '../user/ProfileUser';
@@ -37,43 +37,19 @@ export class QuizList extends React.Component {
 
     getQuizRes = (profile) => {
         if (profile.error != "Error") {
-            if (profile.isValid() != null) {
-                var userData = profile.username + "####" + profile.email
                 this.setState({ username: profile.username })
-                QuizResources.getUserQuizResult(userData).then(data => {
+                QuizResources.getUserQuizResult(profile.id).then(data => {
                     this.setState({ quizResult: data.data.quizResultByUser.items, showLoader: false });
                 })
                 QuizResources.getQuizByGroupCreator()
-                    .then(result => {  this.setState({ quizList: result.data.quizByGroupCreator.items }); })
-            }
+                    .then(result => {  this.setState({ quizList: result.data.listQuizs.items }); })
         } else {
             this.setState({ showLoader: false })
             QuizResources.getQuizByGroupCreator()
-                .then(result => { this.setState({ quizList: result.data.quizByGroupCreator.items }); })
+                .then(result => { this.setState({ quizList: result.data.listQuizs.items }); })
         }
     }
 
-
-    getQuizResOld = (data) => {
-        console.log(data)
-        if (data != "Error") {
-            window.profilecomponent.isLoggedIn(data)
-            var userState = window.profilecomponent.getUserDetails()
-            if (userState != null) {
-                var userData = userState.userLogged.username + "####" + userState.userLogged.email
-                this.setState({ username: userState.userLogged.username })
-                QuizResources.getUserQuizResult(userData).then(data => {
-                    this.setState({ quizResult: data.data.quizResultByUser.items, showLoader: false });
-                })
-                QuizResources.getQuizByGroupCreator()
-                    .then(result => { console.log(result); this.setState({ quizList: result.data.quizByGroupCreator.items }); })
-            }
-        } else {
-            this.setState({ showLoader: false })
-            QuizResources.getQuizByGroupCreator()
-                .then(result => { console.log(result); this.setState({ quizList: result.data.quizByGroupCreator.items }); })
-        }
-    }
 
     checkIfFoundResult = (id) => {
         try {

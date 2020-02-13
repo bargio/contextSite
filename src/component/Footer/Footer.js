@@ -36,7 +36,7 @@ export class Footer extends React.Component {
     return (
       <div>
         {this.state.show &&
-          <ProgressBar show={false} animated style={{ minWidth: '100%', position: "fixed", bottom: '0', zIndex: '100' }} now={this.state.progress}></ProgressBar>
+          <ProgressBar animated style={{ minWidth: '100%', position: "fixed", bottom: '0', zIndex: '100' }} now={this.state.progress}></ProgressBar>
         }
       </div>
     );

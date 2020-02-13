@@ -65,6 +65,7 @@ export const createQuizQuestions = `mutation CreateQuizQuestions(
   createQuizQuestions(input: $input, condition: $condition) {
     id
     quizDetails
+    quizCreator
   }
 }
 `;
@@ -75,6 +76,7 @@ export const updateQuizQuestions = `mutation UpdateQuizQuestions(
   updateQuizQuestions(input: $input, condition: $condition) {
     id
     quizDetails
+    quizCreator
   }
 }
 `;
@@ -85,6 +87,7 @@ export const deleteQuizQuestions = `mutation DeleteQuizQuestions(
   deleteQuizQuestions(input: $input, condition: $condition) {
     id
     quizDetails
+    quizCreator
   }
 }
 `;
@@ -97,7 +100,7 @@ export const createQuizResult = `mutation CreateQuizResult(
     quizId
     quizUser
     quizResult
-    quizID
+    quizUserId
   }
 }
 `;
@@ -110,7 +113,7 @@ export const updateQuizResult = `mutation UpdateQuizResult(
     quizId
     quizUser
     quizResult
-    quizID
+    quizUserId
   }
 }
 `;
@@ -123,7 +126,7 @@ export const deleteQuizResult = `mutation DeleteQuizResult(
     quizId
     quizUser
     quizResult
-    quizID
+    quizUserId
   }
 }
 `;
@@ -133,9 +136,9 @@ export const createUsers = `mutation CreateUsers(
 ) {
   createUsers(input: $input, condition: $condition) {
     id
-    userId
     userEmail
-    userLevel
+    userGroup
+    active
   }
 }
 `;
@@ -145,9 +148,9 @@ export const updateUsers = `mutation UpdateUsers(
 ) {
   updateUsers(input: $input, condition: $condition) {
     id
-    userId
     userEmail
-    userLevel
+    userGroup
+    active
   }
 }
 `;
@@ -157,9 +160,9 @@ export const deleteUsers = `mutation DeleteUsers(
 ) {
   deleteUsers(input: $input, condition: $condition) {
     id
-    userId
     userEmail
-    userLevel
+    userGroup
+    active
   }
 }
 `;

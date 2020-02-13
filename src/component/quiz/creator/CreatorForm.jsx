@@ -114,11 +114,7 @@ export class CreatorForm extends React.Component {
     saveQuestion = (user) => {
         if (user.error != "Error") {
             console.log(user)
-            if (user.name == undefined) {
-                PrepareJsonForSave(this.state, user.username,this.reloadPage,user.group);
-            } else {
-                PrepareJsonForSave(this.state, user.name,this.reloadPage,user.group);
-            }
+            PrepareJsonForSave(this.state, user.id,this.reloadPage,user.group);
             this.setState({ showAlert: false, showLoader: true })
             console.log(this)
         } else {

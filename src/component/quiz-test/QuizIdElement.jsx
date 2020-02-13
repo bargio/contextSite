@@ -46,7 +46,7 @@ class QuizIdElement extends Component {
   }
 
   render() {
-    const { currentContest, shuffle, showDefaultResult, onComplete, customResultPage, showInstantFeedback, continueTillCorrect } = this.props;
+    const { quizCreator,currentContest, shuffle, showDefaultResult, onComplete, customResultPage, showInstantFeedback, continueTillCorrect } = this.props;
     var quiz = currentContest.quiz;
     console.log(this)
     if (!quiz) {
@@ -89,7 +89,7 @@ class QuizIdElement extends Component {
         }
 
         {
-          this.state.start && <Core questions={questions} showDefaultResult={true} onComplete={onComplete} /*customResultPage={customResultPage}*/ showInstantFeedback={showInstantFeedback} continueTillCorrect={continueTillCorrect} appLocale={appLocale} />
+          this.state.start && <Core quizCreator={quizCreator}questions={questions} showDefaultResult={true} onComplete={onComplete} /*customResultPage={customResultPage}*/ showInstantFeedback={showInstantFeedback} continueTillCorrect={continueTillCorrect} appLocale={appLocale} />
         }
       </div>
     );

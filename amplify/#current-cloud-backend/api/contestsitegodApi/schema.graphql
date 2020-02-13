@@ -17,6 +17,7 @@ type Quiz @model
 type QuizQuestions @model {
   id: ID!
   quizDetails: String!
+  quizCreator: String!
 }
 
 type QuizResult @model 
@@ -25,13 +26,15 @@ type QuizResult @model
   quizId: String!
   quizUser: String!
   quizResult: Int!
-  quizID: String
+  quizUserId: String
 }
 
-type Users @model {
+type Users @model 
+@key(name: "byGroup", fields: ["userGroup"], queryField: "listUsersIDbyGroup")
+@key(name: "byMail", fields: ["userEmail"], queryField: "getUserByEmail"){
   id: ID!
-  userId: String!
   userEmail: String!
-  userLevel: Int!
+  userGroup: String!
+  active: Boolean
 }
 
