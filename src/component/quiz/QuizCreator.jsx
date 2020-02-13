@@ -37,7 +37,11 @@ export class QuizCreator extends React.Component {
 
 
     componentDidMount() {
-        if (ProfileUser.profile.isValid()) {
+        ProfileUser.getProfile(this.isLoggedIn)
+    }
+
+    isLoggedIn=(user)=>{
+        if (user.isValid()) {
             this.setState({ isLogged: true })
         } else {
             this.setState({ isLogged: false })

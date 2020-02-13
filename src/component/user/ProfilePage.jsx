@@ -45,8 +45,6 @@ export class ProfilePage extends React.Component {
 
     componentDidMount() {
         ProfileUser.getProfile(this.isLoggedIn)
-    
-        QuizResources.getQuizIds()
     }
 
     isLoggedIn = (user) => {

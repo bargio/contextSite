@@ -9,7 +9,7 @@ class Profile {
         this.error = error;
     }
     isValid(){
-        return this.username!=undefined && this.email!=undefined && this.group!=undefined   
+        return this.username!=undefined && this.email!=undefined   
     }
     getError(){
         return this.error
@@ -47,7 +47,6 @@ const ProfileUser = {
             } else if (result && result != "Error" && result.name) {
                 username = result.name;
                 email = result.email;
-
             } else if (result == "Error") {
                 context.profile.error = "Error"
             }
