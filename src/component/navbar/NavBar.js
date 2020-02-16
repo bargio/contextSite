@@ -4,6 +4,7 @@ import './NavBar.css';
 import { LoginManager } from '../manager/loginManager';
 import { Nav, Navbar, Button, Alert, Toast } from 'react-bootstrap';
 import { Dialog, DialogContent } from '@material-ui/core';
+import { MyDrawer } from './MyDrawer';
 
 
 class NavBar extends React.Component {
@@ -89,6 +90,9 @@ class NavBar extends React.Component {
                             </Nav.Item>
                             <Nav.Item>
                                 <Nav.Link><LoginManager /></Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item>
+                                <MyDrawer ></MyDrawer>
                             </Nav.Item>
                         </Nav>
                     </Navbar.Collapse>
