@@ -1,0 +1,20 @@
+{
+    "appName": "contestsitegod",
+    "roleName": "pinpointLambdaRolebebe6b12",
+    "cloudWatchPolicyName": "cloudWatchPolicybebe6b12",
+    "pinpointPolicyName": "pinpointPolicybebe6b12",
+    "authPolicyName": "pinpoint_amplify_bebe6b12",
+    "unauthPolicyName": "pinpoint_amplify_bebe6b12",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

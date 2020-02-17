@@ -2,12 +2,12 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
-    "aws_cognito_identity_pool_id": "us-east-1:610b220a-a80a-4765-9f60-2e2da2c075fc",
+    "aws_cognito_identity_pool_id": "us-east-1:16581fa7-e807-4a09-9da3-2fcdb80a4f52",
     "aws_cognito_region": "us-east-1",
-    "aws_user_pools_id": "us-east-1_jvmvqZbNP",
-    "aws_user_pools_web_client_id": "4jqfrhk8hop4ti6pp144haenb6",
+    "aws_user_pools_id": "us-east-1_nZgjdp6sU",
+    "aws_user_pools_web_client_id": "61tj6oknj0ukc1os015gfc1cfs",
     "oauth": {
-        "domain": "contestsitegodcbd831c0-cbd831c0-test.auth.us-east-1.amazoncognito.com",
+        "domain": "contestsitegodcbd831c0-cbd831c0-preprod.auth.us-east-1.amazoncognito.com",
         "scope": [
             "phone",
             "email",
@@ -20,15 +20,17 @@ const awsmobile = {
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_POOLS",
-    "aws_content_delivery_bucket": "contestsitegod-20200109174043-hostingbucket-test",
+    "aws_content_delivery_bucket": "contestsitegod-20200109174043-hostingbucket-preprod",
     "aws_content_delivery_bucket_region": "us-east-1",
-    "aws_content_delivery_url": "http://contestsitegod-20200109174043-hostingbucket-test.s3-website-us-east-1.amazonaws.com",
-    "aws_user_files_s3_bucket": "bucketsite92047-test",
+    "aws_content_delivery_url": "http://contestsitegod-20200109174043-hostingbucket-preprod.s3-website-us-east-1.amazonaws.com",
+    "aws_user_files_s3_bucket": "bucketsite154616-preprod",
     "aws_user_files_s3_bucket_region": "us-east-1",
-    "aws_appsync_graphqlEndpoint": "https://jc5w5x4clndtrbefhlg4fuqo74.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://hdb6eutv2zb4rl4bbn4mntt3h4.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-45ybmj7mlbee3karqm474pkni4"
+    "aws_appsync_apiKey": "da2-4vajayn7wzh2bpxwkd6or7jfwi",
+    "aws_mobile_analytics_app_id": "0e1a649b069443eabc8c5a3cfdcbdcde",
+    "aws_mobile_analytics_app_region": "us-east-1"
 };
 
 
