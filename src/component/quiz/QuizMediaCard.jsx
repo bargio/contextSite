@@ -63,7 +63,7 @@ export class QuizMediaCard extends React.Component {
 
     render() {
         const quiz = this.props.quiz;
-        let quizUrl = 'quiz/' + quiz.id;
+        let quizUrl = '/quiz/' + quiz.id;
         var shareUrl = window.location.origin + "/quiz/" + quiz.id
        
         var avatarCustom = this.props.result ? (<Avatar aria-label="recipe" style={{ backgroundColor: '#28a745' }}>✔</Avatar>) : (<Avatar aria-label="recipe">?</Avatar>)
