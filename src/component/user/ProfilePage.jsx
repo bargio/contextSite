@@ -148,7 +148,6 @@ export class ProfilePage extends React.Component {
                                 <Grid container alignItems="center" direction="column" justify="center" style={{ padding: '1%' }}>
                                     <h6>Benvenuto</h6>
                                     <h1>{this.state.username}</h1>
-                                    <Badge variant="danger" pill onClick={this.handleLogout}>Logout</Badge>
                                 </Grid>
                                 <Grid container alignItems="center" direction="row" justify="center" style={{ padding: '1%' }}>
                                     {stars}

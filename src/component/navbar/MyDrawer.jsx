@@ -8,56 +8,138 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
+import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import PublicIcon from '@material-ui/icons/Public';
+import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
+import ContactMailIcon from '@material-ui/icons/ContactMail';
+import ProfileUser from '../user/ProfileUser';
+import { LoginManager } from '../manager/loginManager';
+import LoginPage from '../auth/LoginPage';
+import { Image, Badge } from 'react-bootstrap';
+import { Auth } from 'aws-amplify';
+
+export class MyDrawer extends React.Component {
 
 
-export class MyDrawer extends React.Component{
+  constructor(props) {
+    super(props)
+    this.state = {
+      show: false,
+      username: undefined,
+      showLogin: false,
+    }
+  }
 
+  toggleDrawer = () => {
+    this.setState({ show: !this.state.show })
+  }
 
-    constructor(props){
-        super(props)
-        this.state={
-            show:false
+  onClickHanlder = (value) => {
+    window.location.href = value
+  }
+
+  componentDidMount() {
+    console.log(this)
+    ProfileUser.getProfile(this.profileHandler)
+  }
+
+  profileHandler = (user) => {
+    if (user.error != undefined) {
+      console.log("setUser")
+      this.setState({ username: user.username })
+    }
+  }
+
+  loginButtonHandler = () => {
+    console.log("loginButtonHandler")
+    this.toggleDrawer()
+    window.profilecomponent.handleShow()
+  }
+
+  handleLogout = () => {
+    console.log("Logout")
+    Auth.signOut()
+        .then(data => console.log(data))
+        .catch(err => console.log(err));
+    window.location.href = ('/')
+}
+
+  render() {
+    console.log(this.state)
+    console.log(this.state.username)
+    const principalButton = (<List>
+      <ListItem onClick={() => this.onClickHanlder("/")} button key={"Home"}>
+        <ListItemIcon><HomeIcon /></ListItemIcon>
+        <ListItemText primary={"Home"} />
+      </ListItem>
+      <ListItem onClick={() => this.onClickHanlder("/quiz")} button key={"Quiz"}>
+        <ListItemIcon><LiveHelpIcon /></ListItemIcon>
+        <ListItemText primary={"Quiz"} />
+      </ListItem>
+      <ListItem button key={"Atlante"}>
+        <ListItemIcon><PublicIcon /></ListItemIcon>
+        <ListItemText primary={"Atlante"} />
+      </ListItem>
+      <ListItem button key={"Foto"}>
+        <ListItemIcon><PhotoCameraIcon /></ListItemIcon>
+        <ListItemText primary={"Foto"} />
+      </ListItem>
+      <ListItem button key={"Contattaci"}>
+        <ListItemIcon><ContactMailIcon /></ListItemIcon>
+        <ListItemText primary={"Contattaci"} />
+      </ListItem>
+    </List>)
+    const sideList = (
+      <div
+        style={{ width: '250' }}
+        role="presentation"
+        onKeyDown={this.toggleDrawer}
+      >
+        {ProfileUser.profile.isValid() &&
+          <List style={{padding:'10%'}}  >
+             <ListItem onClick={()=>window.location.href='/profile' }><Image style={{maxWidth:'100px'}} src="https://img.icons8.com/material/4ac144/256/user-male.png" roundedCircle fluid/></ListItem>
+             <ListItemText onClick={()=>window.location.href='/profile'}
+                    style={{width:'100%',textAlign:'center'}}
+                    primary={ProfileUser.profile.username}
+                    secondary={ProfileUser.profile.email}
+                  />
+                  <ListItem >
+                  <Badge style={{width:'100%'}} variant="danger" pill onClick={this.handleLogout}>Logout</Badge>
+                  </ListItem>
+          </List>
         }
-    }
-
-    toggleDrawer=()=>{
-        this.setState({show:!this.state.show})
-    }
-
-    render() {
-        const sideList = (
-            <div
-            style={{width:'250'}}
-              role="presentation"
-              onClick={this.toggleDrawer}
-              onKeyDown={this.toggleDrawer}
-            >
-              <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                  <ListItem button key={text}>
-                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                ))}
-              </List>
-              <Divider />
-              <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                  <ListItem button key={text}>
-                    <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                ))}
-              </List>
-            </div>
-          );
-          return (
-            <div>
-              <Button onClick={this.toggleDrawer}>Open Left</Button>
-              <Drawer anchor="right" open={this.state.show} onClose={this.toggleDrawer}>
-                {sideList}
-              </Drawer>
-            </div>
-          );
-    }
+        {!ProfileUser.profile.isValid() &&
+          <List style={{padding:'10%'}}>
+            <ListItem ><Image  style={{maxWidth:'100px'}} src="https://img.icons8.com/material/4ac144/256/user-male.png" roundedCircle fluid/></ListItem>
+            <ListItem >
+              <Button style={{width:'100%'}} onClick={() => this.loginButtonHandler()}>Login</Button>
+            </ListItem>
+          </List>
+        }
+         <Divider />
+        <List>
+          {principalButton}
+        </List>
+        <Divider />
+        <List>
+          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    );
+    return (
+      <div>
+        <MenuIcon onClick={this.toggleDrawer}/>
+        <Drawer anchor="right"  open={this.state.show} onClose={this.toggleDrawer}>
+          {sideList}
+        </Drawer>
+      </div>
+    );
+  }
 }
