@@ -2,12 +2,12 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
-    "aws_cognito_identity_pool_id": "us-east-1:16581fa7-e807-4a09-9da3-2fcdb80a4f52",
+    "aws_cognito_identity_pool_id": "us-east-1:82706d4e-4896-4d08-85da-d49b0cd43b73",
     "aws_cognito_region": "us-east-1",
-    "aws_user_pools_id": "us-east-1_nZgjdp6sU",
-    "aws_user_pools_web_client_id": "61tj6oknj0ukc1os015gfc1cfs",
+    "aws_user_pools_id": "us-east-1_82YMLZ5Ok",
+    "aws_user_pools_web_client_id": "3nqj1vtjot8fkevrelcrk3nij6",
     "oauth": {
-        "domain": "contestsitegodcbd831c0-cbd831c0-preprod.auth.us-east-1.amazoncognito.com",
+        "domain": "contestsitegodcbd831c0-cbd831c0-devgood.auth.us-east-1.amazoncognito.com",
         "scope": [
             "phone",
             "email",
@@ -20,16 +20,16 @@ const awsmobile = {
         "responseType": "code"
     },
     "federationTarget": "COGNITO_USER_POOLS",
-    "aws_content_delivery_bucket": "contestsitegod-20200109174043-hostingbucket-preprod",
+    "aws_content_delivery_bucket": "contestsitegod-20200109174043-hostingbucket-devgood",
     "aws_content_delivery_bucket_region": "us-east-1",
-    "aws_content_delivery_url": "http://contestsitegod-20200109174043-hostingbucket-preprod.s3-website-us-east-1.amazonaws.com",
-    "aws_user_files_s3_bucket": "bucketsite154616-preprod",
+    "aws_content_delivery_url": "http://contestsitegod-20200109174043-hostingbucket-devgood.s3-website-us-east-1.amazonaws.com",
+    "aws_user_files_s3_bucket": "bucketsite102828-devgood",
     "aws_user_files_s3_bucket_region": "us-east-1",
-    "aws_appsync_graphqlEndpoint": "https://hdb6eutv2zb4rl4bbn4mntt3h4.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://agtvca7ltfhkbkp64miyvix4nm.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-4vajayn7wzh2bpxwkd6or7jfwi",
-    "aws_mobile_analytics_app_id": "0e1a649b069443eabc8c5a3cfdcbdcde",
+    "aws_appsync_apiKey": "da2-hx4bf5u3wbfgti2eiicsg2drdy",
+    "aws_mobile_analytics_app_id": "e1beb67a86bf4b119b021928ee3461c3",
     "aws_mobile_analytics_app_region": "us-east-1"
 };
 

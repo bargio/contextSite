@@ -49,5 +49,25 @@
                 }
             }
         }
+    },
+    "devgood": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-contestsitegod-devgood-102828-authRole",
+            "UnauthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-devgood-102828-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::026820084767:role/amplify-contestsitegod-devgood-102828-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-contestsitegod-devgood-102828-deployment",
+            "UnauthRoleName": "amplify-contestsitegod-devgood-102828-unauthRole",
+            "StackName": "amplify-contestsitegod-devgood-102828",
+            "StackId": "arn:aws:cloudformation:us-east-1:026820084767:stack/amplify-contestsitegod-devgood-102828/065dd7f0-5231-11ea-92ae-12a6272b4c0e",
+            "AmplifyAppId": "dnrmosmotyp5x"
+        },
+        "categories": {
+            "auth": {
+                "contestsitegod309bdf3d": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"779204449266915\",\"client_secret\":\"099660226feaa76bc7b688550d5402dc\"},{\"ProviderName\":\"Google\",\"client_id\":\"934932606671-7fc3j9lccsqd5g7q55g2ro4hl6g5o1iu.apps.googleusercontent.com\",\"client_secret\":\"w9yqrGdklyt_bwVOm_5qrwFm\"}]"
+                }
+            }
+        }
     }
 }
