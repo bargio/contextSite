@@ -71,7 +71,7 @@
 		"authcontestsitegod309bdf3d": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-devgood-102828-deployment/amplify-cfn-templates/auth/contestsitegod309bdf3d-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-production-103550-deployment/amplify-cfn-templates/auth/contestsitegod309bdf3d-cloudformation-template.yml",
 				"Parameters": {
 					"identityPoolName": "contestsitegod309bdf3d_identitypool_309bdf3d",
 					"allowUnauthenticatedIdentities": true,
@@ -117,24 +117,24 @@
 					"hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
 					"oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://contextsite.com/login/\"],\"LogoutURLs\":[\"https://contextsite.com/logout/\"]}",
 					"hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"779204449266915\",\"client_secret\":\"099660226feaa76bc7b688550d5402dc\"},{\"ProviderName\":\"Google\",\"client_id\":\"934932606671-7fc3j9lccsqd5g7q55g2ro4hl6g5o1iu.apps.googleusercontent.com\",\"client_secret\":\"w9yqrGdklyt_bwVOm_5qrwFm\"}]",
-					"env": "devgood"
+					"env": "production"
 				}
 			}
 		},
 		"hostingS3AndCloudFront": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-devgood-102828-deployment/amplify-cfn-templates/hosting/template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-production-103550-deployment/amplify-cfn-templates/hosting/template.json",
 				"Parameters": {
 					"bucketName": "contestsitegod-20200109174043-hostingbucket",
-					"env": "devgood"
+					"env": "production"
 				}
 			}
 		},
 		"storageauthSite": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-devgood-102828-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-production-103550-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
 				"Parameters": {
 					"bucketName": "bucketsite",
 					"authPolicyName": "s3_amplify_aed3e958",
@@ -161,29 +161,29 @@
 					"s3PermissionsGuestUploads": "s3:PutObject",
 					"GuestAllowList": "ALLOW",
 					"triggerFunction": "NONE",
-					"env": "devgood"
+					"env": "production"
 				}
 			}
 		},
 		"apicontestsitegodApi": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-devgood-102828-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-production-103550-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"Parameters": {
 					"CreateAPIKey": 1,
 					"AppSyncApiName": "contestsitegodApi",
 					"DynamoDBBillingMode": "PAY_PER_REQUEST",
 					"DynamoDBEnableServerSideEncryption": "false",
-					"S3DeploymentBucket": "amplify-contestsitegod-devgood-102828-deployment",
+					"S3DeploymentBucket": "amplify-contestsitegod-production-103550-deployment",
 					"S3DeploymentRootKey": "amplify-appsync-files/86f4f6a6aa0de7d3cac1b391795538a381ad62bf",
-					"env": "devgood"
+					"env": "production"
 				}
 			}
 		},
 		"analyticscontestsitegod": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-devgood-102828-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-contestsitegod-production-103550-deployment/amplify-cfn-templates/analytics/pinpoint-cloudformation-template.json",
 				"Parameters": {
 					"appName": "contestsitegod",
 					"roleName": "pinpointLambdaRolebebe6b12",
@@ -203,7 +203,7 @@
 							"Arn"
 						]
 					},
-					"env": "devgood"
+					"env": "production"
 				}
 			}
 		},

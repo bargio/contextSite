@@ -19,6 +19,12 @@ import { LoginManager } from '../manager/loginManager';
 import LoginPage from '../auth/LoginPage';
 import { Image, Badge } from 'react-bootstrap';
 import { Auth } from 'aws-amplify';
+import login from '../../asset/login.svg';
+import profileImage from '../../asset/icon1.png';
+import profileQuiz from '../../asset/icon2.png';
+import profileAtlante from '../../asset/icon3.png';
+import getRandomImage from '../utils/Images';
+import PersonIcon from '@material-ui/icons/Person';
 
 export class MyDrawer extends React.Component {
 
@@ -29,6 +35,7 @@ export class MyDrawer extends React.Component {
       show: false,
       username: undefined,
       showLogin: false,
+      src: getRandomImage(),
     }
   }
 
@@ -61,10 +68,10 @@ export class MyDrawer extends React.Component {
   handleLogout = () => {
     console.log("Logout")
     Auth.signOut()
-        .then(data => console.log(data))
-        .catch(err => console.log(err));
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
     window.location.href = ('/')
-}
+  }
 
   render() {
     console.log(this.state)
@@ -91,6 +98,21 @@ export class MyDrawer extends React.Component {
         <ListItemText primary={"Contattaci"} />
       </ListItem>
     </List>)
+    const profileButtons = (
+      <List>
+        <ListItem onClick={() => this.onClickHanlder("/profile")} button key={"Home"}>
+          <ListItemIcon><PersonIcon /></ListItemIcon>
+          <ListItemText primary={"I tuoi quiz"} />
+        </ListItem>
+        <ListItem onClick={() => this.onClickHanlder("/profile")} button key={"Home"}>
+          <ListItemIcon><PersonIcon /></ListItemIcon>
+          <ListItemText primary={"Le tue foto"} />
+        </ListItem>
+        <ListItem onClick={() => this.onClickHanlder("/profile")} button key={"Home"}>
+          <ListItemIcon><PersonIcon /></ListItemIcon>
+          <ListItemText primary={"Il tuo atlante"} />
+        </ListItem>
+      </List>)
     const sideList = (
       <div
         style={{ width: '250' }}
@@ -98,45 +120,42 @@ export class MyDrawer extends React.Component {
         onKeyDown={this.toggleDrawer}
       >
         {ProfileUser.profile.isValid() &&
-          <List style={{padding:'10%'}}  >
-             <ListItem onClick={()=>window.location.href='/profile' }><Image style={{maxWidth:'100px'}} src="https://img.icons8.com/material/4ac144/256/user-male.png" roundedCircle fluid/></ListItem>
-             <ListItemText onClick={()=>window.location.href='/profile'}
-                    style={{width:'100%',textAlign:'center'}}
-                    primary={ProfileUser.profile.username}
-                    secondary={ProfileUser.profile.email}
-                  />
-                  <ListItem >
-                  <Badge style={{width:'100%'}} variant="danger" pill onClick={this.handleLogout}>Logout</Badge>
-                  </ListItem>
-          </List>
-        }
-        {!ProfileUser.profile.isValid() &&
-          <List style={{padding:'10%'}}>
-            <ListItem ><Image  style={{maxWidth:'100px'}} src="https://img.icons8.com/material/4ac144/256/user-male.png" roundedCircle fluid/></ListItem>
+          <List style={{ padding: '10%' }}  >
+            <ListItem onClick={() => window.location.href = '/profile'}><Image style={{ maxWidth: '100px' }} src={this.state.src} roundedCircle fluid /></ListItem>
+            <ListItemText onClick={() => window.location.href = '/profile'}
+              style={{ width: '100%', textAlign: 'center' }}
+              primary={ProfileUser.profile.username}
+              secondary={ProfileUser.profile.email}
+            />
             <ListItem >
-              <Button style={{width:'100%'}} onClick={() => this.loginButtonHandler()}>Login</Button>
+              <Badge style={{ width: '100%' }} variant="danger" pill onClick={this.handleLogout}>Logout</Badge>
             </ListItem>
           </List>
         }
-         <Divider />
+        {!ProfileUser.profile.isValid() &&
+          <List style={{ padding: '10%' }}>
+            <ListItem ><Image style={{ maxWidth: '100px' }} src={login} roundedCircle fluid /></ListItem>
+            <ListItem >
+              <Button style={{ width: '100%' }} onClick={() => this.loginButtonHandler()}>Login</Button>
+            </ListItem>
+          </List>
+        }
+        <Divider />
         <List>
           {principalButton}
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+        {ProfileUser.profile.isValid() && 
+          <List>
+            {profileButtons}
+          </List>
+       }
       </div>
     );
     return (
       <div>
-        <MenuIcon onClick={this.toggleDrawer}/>
-        <Drawer anchor="right"  open={this.state.show} onClose={this.toggleDrawer}>
+        <MenuIcon onClick={this.toggleDrawer} />
+        <Drawer anchor="right" open={this.state.show} onClose={this.toggleDrawer}>
           {sideList}
         </Drawer>
       </div>
