@@ -77,7 +77,7 @@ class NavBar extends React.Component {
                         />{' '}
                         SiteName
                 </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    
                         <Nav className="ml-auto" >
                             {/*<Nav.Item>
                                 <Nav.Link href="/">Home</Nav.Link>
