@@ -12,27 +12,40 @@ import DatePicker from "react-datepicker";
 import { TextField } from '@material-ui/core';
 import UtilsResource from '../../utils/Utils';
 import ProfileUser from '../../user/ProfileUser';
+import StorageResource from '../../resource/Storage';
 registerLocale('it', it)
 
 export class CreatorForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            title: "",
-            titleError: "",
-            smallDescription: "",
-            smallDescriptionError: "",
-            description: "",
-            descriptionError: "",
-            expireDate: new Date(),
-            image: null,
-            questions: [],
-            showAlert: false,
-            showLoader: false
+        if (props != undefined && props.quizData != undefined) {
+            this.state = props.quizData
+        } else {
+            this.state = {
+                title: "",
+                titleError: "",
+                smallDescription: "",
+                smallDescriptionError: "",
+                description: "",
+                descriptionError: "",
+                expireDate: new Date(),
+                image: null,
+                imageUrl: null,
+                questions: [],
+                showAlert: false,
+                showLoader: false
+            }
         }
     }
 
+    componentDidMount(){
+        if(this.state.image!=null){
+            StorageResource.getImage("1582024443902.png").then(data => {
+                this.setState({imageUrl:data})
+            })
+        }
+    }
     addQuestion = () => {
         this.setState(state => {
             const list = state.questions.push(React.createRef());
@@ -56,6 +69,11 @@ export class CreatorForm extends React.Component {
         if (this.checkField()) {
             this.setState({ showAlert: true })
         }
+    }
+
+    uncompletedSave = () => {
+        UtilsResource.saveQuiz(this)
+        console.log(this)
     }
 
     checkField = () => {
@@ -114,7 +132,7 @@ export class CreatorForm extends React.Component {
     saveQuestion = (user) => {
         if (user.error != "Error") {
             console.log(user)
-            PrepareJsonForSave(this.state, user.id,this.reloadPage,user.group);
+            PrepareJsonForSave(this.state, user.id, this.reloadPage, user.group);
             this.setState({ showAlert: false, showLoader: true })
             console.log(this)
         } else {
@@ -123,7 +141,7 @@ export class CreatorForm extends React.Component {
     }
 
 
-    reloadPage = ()=>{
+    reloadPage = () => {
         this.props.backButton()
     }
 
@@ -136,13 +154,14 @@ export class CreatorForm extends React.Component {
                 {!this.state.showLoader &&
                     <div>
                         <div style={{ maxWidth: "max-content", margin: "auto" }}>
-                        <PhotoPicker preview headerText="Foto" headerHint='Aggiungi una foto cliccando sotto' title="Seleziona una foto" onPick={data => this.setState({ image: data })} ></PhotoPicker>
+                            <PhotoPicker preview  key={this.props.uncompleted?this.state.imageUrl:""} previewSrc={this.props.uncompleted?this.state.imageUrl:""} headerText="Foto" headerHint='Aggiungi una foto cliccando sotto' title="Seleziona una foto" onPick={data => this.setState({ image: data })} ></PhotoPicker>
                         </div>
                         <Form.Group>
                             <TextField
                                 fullWidth
                                 required
                                 multiline
+                                defaultValue={this.state.title}
                                 onChange={(e) => { this.setState({ title: e.target.value }) }}
                                 error={this.state.titleError != ""}
                                 type="text"
@@ -157,6 +176,7 @@ export class CreatorForm extends React.Component {
                                 fullWidth
                                 required
                                 multiline
+                                defaultValue={this.state.smallDescription}
                                 onChange={(e) => { this.setState({ smallDescription: e.target.value }) }}
                                 error={this.state.smallDescriptionError != ""}
                                 type="text"
@@ -171,7 +191,7 @@ export class CreatorForm extends React.Component {
                                 fullWidth
                                 required
                                 multiline={true}
-
+                                defaultValue={this.state.description}
                                 onChange={(e) => { this.setState({ description: e.target.value }) }}
                                 error={this.state.descriptionError != ""}
                                 type="text"
@@ -194,7 +214,7 @@ export class CreatorForm extends React.Component {
                                 placeholderText="Data scadenza validità"
                             />
                         </Form.Group>
-                        <Accordion style={{margin:0}} >
+                        <Accordion style={{ margin: 0 }} >
                             {this.state.questions.map((question, index) => (
                                 <Card key={index} style={{ marginBottom: '20px' }}>
                                     <Accordion.Toggle as={Card.Header} eventKey={index}>
@@ -208,15 +228,20 @@ export class CreatorForm extends React.Component {
                                         </Navbar>
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey={index}>
-                                        <Card.Body ><Question ref={question} questionIndex={index}></Question></Card.Body>
+                                        <Card.Body ><Question ref={question} questionData={this.props.uncompleted?this.props.questionData[index]:undefined} questionIndex={index}></Question></Card.Body>
                                     </Accordion.Collapse>
-                                   
-                            </Card>)
+
+                                </Card>)
                             )}
                         </Accordion>
                         <FormGroup>
                             <Button variant="info" onClick={this.addQuestion}>
                                 Aggiungi Domanda
+                        </Button>
+                        </FormGroup>
+                        <FormGroup>
+                            <Button variant="primary" onClick={this.uncompletedSave} >
+                                Salva per Dopo
                         </Button>
                         </FormGroup>
                         <FormGroup>

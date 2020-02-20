@@ -74,8 +74,6 @@ export class MyDrawer extends React.Component {
   }
 
   render() {
-    console.log(this.state)
-    console.log(this.state.username)
     const principalButton = (<List>
       <ListItem onClick={() => this.onClickHanlder("/")} button key={"Home"}>
         <ListItemIcon><HomeIcon /></ListItemIcon>

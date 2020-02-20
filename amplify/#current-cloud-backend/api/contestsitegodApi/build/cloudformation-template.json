@@ -114,14 +114,14 @@
                         "ApiId"
                     ]
                 },
-                "Description": "t",
+                "Description": "apikey",
                 "Expires": {
                     "Fn::If": [
                         "APIKeyExpirationEpochIsPositive",
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1584610215
+                        1584798356
                     ]
                 }
             },

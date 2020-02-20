@@ -1,46 +1,46 @@
 {
-    "auth": {
-        "contestsitegod309bdf3d": {
-            "service": "Cognito",
-            "providerPlugin": "awscloudformation",
-            "dependsOn": []
-        }
-    },
-    "hosting": {
-        "S3AndCloudFront": {
-            "service": "S3AndCloudFront",
-            "providerPlugin": "awscloudformation"
-        }
-    },
-    "storage": {
-        "authSite": {
-            "service": "S3",
-            "providerPlugin": "awscloudformation"
-        }
-    },
-    "function": {},
-    "api": {
-        "contestsitegodApi": {
-            "service": "AppSync",
-            "providerPlugin": "awscloudformation",
-            "output": {
-                "authConfig": {
-                    "additionalAuthenticationProviders": [],
-                    "defaultAuthentication": {
-                        "authenticationType": "API_KEY",
-                        "apiKeyConfig": {
-                            "description": "t",
-                            "apiKeyExpirationDays": "30"
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "analytics": {
-        "contestsitegod": {
-            "service": "Pinpoint",
-            "providerPlugin": "awscloudformation"
-        }
-    }
+	"auth": {
+		"contestsitegod309bdf3d": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"hosting": {
+		"S3AndCloudFront": {
+			"service": "S3AndCloudFront",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"storage": {
+		"authSite": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"function": {},
+	"api": {
+		"contestsitegodApi": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "apikey",
+							"apiKeyExpirationDays": "30"
+						}
+					}
+				}
+			}
+		}
+	},
+	"analytics": {
+		"contestsitegod": {
+			"service": "Pinpoint",
+			"providerPlugin": "awscloudformation"
+		}
+	}
 }

@@ -18,18 +18,22 @@ export class Question extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            isImageQuestion: false,
-            isImageQuestion2: false,
-            isVideoQuestion: false,
-            isTextQuestion: true,
-            imageType1: null,
-            time: 15,
-            score: 1,
-            question: "",
-            response: [],
-            refresh: false,
-            fieldHeight: '50'
+        if (props != undefined && props.questionData != undefined) {
+               this.state = props.questionData
+        } else {
+            this.state = {
+                isImageQuestion: false,
+                isImageQuestion2: false,
+                isVideoQuestion: false,
+                isTextQuestion: true,
+                imageType1: null,
+                time: 15,
+                score: 1,
+                question: "",
+                response: [],
+                refresh: false,
+                fieldHeight: '50'
+            }
         }
         this.timeInput = React.createRef();
         this.scoreInput = React.createRef();
@@ -146,7 +150,7 @@ export class Question extends React.Component {
 
     updateImageQuestionType1 = (data) => {
         StorageResource.putImage(new Blob([data.file], { type: 'image/png' }), new Date().valueOf()).then(
-            data => { this.setState({ imageType1: data }); console.log(data);UtilsResource.progressBarUpdate(100) }
+            data => { this.setState({ imageType1: data }); console.log(data); UtilsResource.progressBarUpdate(100) }
         )
     }
 
@@ -177,8 +181,8 @@ export class Question extends React.Component {
         return false
     }
 
-    setFilledTextareaHeight = (e) =>{
-        e.target.style.height=(e.target.value.split("\n").length*36)+"px"    
+    setFilledTextareaHeight = (e) => {
+        e.target.style.height = (e.target.value.split("\n").length * 36) + "px"
     }
 
     render() {
@@ -189,13 +193,13 @@ export class Question extends React.Component {
                     <InputGroup.Prepend>
                         <InputGroup.Text id="inputGroup-sizing">Domanda</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl style={{height:'100%'}}as="textarea" aria-describedby="inputGroup-sizing-lg" onKeyUp={this.setFilledTextareaHeight} onChange={(e) => {this.setState({question: e.target.value }) }} />
+                    <FormControl style={{ height: '100%' }} as="textarea" value={this.state.question} aria-describedby="inputGroup-sizing-lg" onKeyUp={this.setFilledTextareaHeight} onChange={(e) => { this.setState({ question: e.target.value }) }} />
                 </InputGroup>
                 <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                         <InputGroup.Text>Tempo</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl as="select" ref={this.timeInput} onChange={this.updateTime}>
+                    <FormControl value={this.state.time} as="select" ref={this.timeInput} onChange={this.updateTime}>
                         <option value='15'>15 secondi</option>
                         <option value='30'>30 secondi</option>
                         <option value='60'>1 minuto</option>
@@ -208,7 +212,7 @@ export class Question extends React.Component {
                     <InputGroup.Prepend>
                         <InputGroup.Text>Punti</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl as="select" ref={this.scoreInput} onChange={this.updateScore}>
+                    <FormControl value={this.state.score} as="select" ref={this.scoreInput} onChange={this.updateScore}>
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -228,7 +232,7 @@ export class Question extends React.Component {
                 {
                     this.state.isImageQuestion &&
                     <div style={{ maxWidth: "min-content", margin: "auto" }}>
-                        <PhotoPicker preview headerText="Foto" headerHint='Aggiungi una foto cliccando sotto' title="Seleziona una foto" onPick={data => this.updateImageQuestionType1(data)} ></PhotoPicker>
+                        <PhotoPicker  preview headerText="Foto" headerHint='Aggiungi una foto cliccando sotto' title="Seleziona una foto" onPick={data => this.updateImageQuestionType1(data)} ></PhotoPicker>
                     </div>
                 }
                 {
@@ -248,7 +252,6 @@ export class Question extends React.Component {
                                     <InputGroup.Checkbox checked={q.isCorrect} onChange={() => this.isCorrect(index)} />
                                 </OverlayTrigger>
                             </InputGroup.Prepend>
-
                             {this.state.isImageQuestion2 &&
                                 <PhotoPicker preview headerText="Foto" headerHint='Aggiungi una foto come risposta cliccando sotto' title="Seleziona una foto" onPick={data => this.updateImage(data, index)} ></PhotoPicker>}
                             {!this.state.isImageQuestion2 &&

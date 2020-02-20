@@ -4,6 +4,7 @@ import { PhotoPicker } from 'aws-amplify-react';
 import { Button, Jumbotron } from 'react-bootstrap';
 import { CreatorForm } from './creator/CreatorForm';
 import ProfileUser from '../user/ProfileUser';
+import UtilsResource from '../utils/Utils';
 
 export class QuizCreator extends React.Component {
 
@@ -74,7 +75,7 @@ export class QuizCreator extends React.Component {
                         </Button>
                         <br />
                         <Button variant="secondary" onClick={this.onClickUpdate} block>
-                            Modifica
+                            Incompleti
                         </Button>
                     </Grid>
                 }
@@ -93,6 +94,8 @@ export class QuizCreator extends React.Component {
                         justify="center"
                         alignItems="center">
                         {goBack}
+                        <br />
+                        <CreatorForm style={{ margin:'10px'}} quizData = {UtilsResource.getQuiz()} uncompleted={true} questionData = {UtilsResource.getQuestion()} backButton={this.onClickRestore}></CreatorForm>
                     </Grid>
                 }
             </Jumbotron>
