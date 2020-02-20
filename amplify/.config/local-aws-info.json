@@ -18,5 +18,10 @@
         "configLevel": "project",
         "useProfile": true,
         "profileName": "default"
+    },
+    "production": {
+        "configLevel": "project",
+        "useProfile": true,
+        "profileName": "default"
     }
 }

@@ -51,6 +51,7 @@ class NavBar extends React.Component {
     }
 
     render() {
+        const loginManager = <LoginManager />
         return (
             <Navbar collapseOnSelect className="navbar" expand="lg" fixed="top" style={{ position: this.state.scrolling ? 'fixed' : 'relative', top: 0, width: '100%', zIndex: 1 }} className="flex-column">
                 {this.state.alert.showMessageAlert &&
@@ -76,10 +77,9 @@ class NavBar extends React.Component {
                         />{' '}
                         SiteName
                 </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                    <Navbar.Collapse id="responsive-navbar-nav">
+                    
                         <Nav className="ml-auto" >
-                            <Nav.Item>
+                            {/*<Nav.Item>
                                 <Nav.Link href="/">Home</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
@@ -87,15 +87,14 @@ class NavBar extends React.Component {
                             </Nav.Item>
                             <Nav.Item>
                                 <Nav.Link href="/profile">Contattaci</Nav.Link>
-                            </Nav.Item>
-                            <Nav.Item>
+                            </Nav.Item>*/}
+                            <Nav.Item hidden={true}>
                                 <Nav.Link><LoginManager /></Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
                                 <MyDrawer ></MyDrawer>
                             </Nav.Item>
                         </Nav>
-                    </Navbar.Collapse>
                 </Navbar>
             </Navbar>
         );
