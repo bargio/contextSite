@@ -38,11 +38,12 @@ type Users @model
   active: Boolean
 }
 
-type QuizUncompleted @model 
-@key(name: "byUser", fields: ["userID"], queryField: "quizUncompletedByUser"){
+type QuizUncompleted @model
+@key(name: "userId", fields: ["userId"], queryField: "getUncompletedByUserId") {
   id: ID!
-  userID: String!
+  userId: String!
   quizData: String!
-  quizQuestionData: Int!
+  quizQuestionData: String!
+
 }
 

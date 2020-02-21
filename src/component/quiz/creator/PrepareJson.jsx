@@ -4,7 +4,7 @@ import UtilsResource from '../../utils/Utils';
 
 
 
-function createQuestionJson(question) {
+async function createQuestionJson(question) {
     console.log(question);
     let currentQuestionData = question.current.state;
     let type = currentQuestionData.isTextQuestion ? "text" : currentQuestionData.isImageQuestion ? "phototype1" : currentQuestionData.isImageQuestion2 ? "phototype2" : "video";
@@ -21,7 +21,12 @@ function createQuestionJson(question) {
     })
     var imageUrl = "";
     if (type === "phototype1") {
-        imageUrl = currentQuestionData.imageType1
+        if(currentQuestionData.imageType1.file!=null){
+        await StorageResource.putImage(new Blob([currentQuestionData.imageType1.file], { type: 'image/png' }), new Date().valueOf()).then(
+            data => { imageUrl = data })
+        }else{
+            imageUrl=currentQuestionData.imageType1;
+        }
     }
 
     let jsonQuestion = {
@@ -43,15 +48,14 @@ function createQuestionJson(question) {
 
 export async function PrepareJsonForSave(quiz, username, callBackFunction, userGroups) {
     try {
-
         console.log("Preparo il json")
         console.log(quiz)
         UtilsResource.progressBarUpdate(10)
         let questions = []
-        quiz.questions.map((question) => (
-            questions.push(createQuestionJson(question)))
-        );
-        UtilsResource.progressBarUpdate(20)
+        await quiz.questions.map(async question => {
+            var jsonQuestion = await createQuestionJson(question)
+            questions.push(jsonQuestion)
+        });
         let jsonQuiz = {
             "timer": 300,
             "quiz": {
@@ -81,9 +85,9 @@ export async function PrepareJsonForSave(quiz, username, callBackFunction, userG
                 UtilsResource.progressBarUpdate(80)
                 await QuizResources.insertQuiz(jsonQuiz, imageUrl, username, quiz.expireDate, new Date(), quiz.smallDescription, userGroups)
                 UtilsResource.progressBarUpdate(90)
-            }else{
+            } else {
                 await QuizResources.insertQuiz(jsonQuiz, quiz.image, username, quiz.expireDate, new Date(), quiz.smallDescription, userGroups)
-            UtilsResource.progressBarUpdate(90)
+                UtilsResource.progressBarUpdate(90)
             }
             //var imageUrl = StorageResource.putImage(new Blob([quiz.image.file], { type: 'image/png' }), new Date().valueOf())
             //imageUrl.then(result => {UtilsResource.progressBarUpdate(80);QuizResources.insertQuiz(jsonQuiz, result, username, quiz.expireDate, new Date(), quiz.smallDescription).then(data =>  {UtilsResource.progressBarUpdate(90);console.log(data)})})

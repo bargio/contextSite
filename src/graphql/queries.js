@@ -115,6 +115,31 @@ export const listUserss = `query ListUserss(
   }
 }
 `;
+export const getQuizUncompleted = `query GetQuizUncompleted($id: ID!) {
+  getQuizUncompleted(id: $id) {
+    id
+    userId
+    quizData
+    quizQuestionData
+  }
+}
+`;
+export const listQuizUncompleteds = `query ListQuizUncompleteds(
+  $filter: ModelQuizUncompletedFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listQuizUncompleteds(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      userId
+      quizData
+      quizQuestionData
+    }
+    nextToken
+  }
+}
+`;
 export const quizByCreator = `query QuizByCreator(
   $creator: String
   $sortDirection: ModelSortDirection
@@ -245,6 +270,30 @@ export const getUserByEmail = `query GetUserByEmail(
       userEmail
       userGroup
       active
+    }
+    nextToken
+  }
+}
+`;
+export const getUncompletedByUserId = `query GetUncompletedByUserId(
+  $userId: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelQuizUncompletedFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  getUncompletedByUserId(
+    userId: $userId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      userId
+      quizData
+      quizQuestionData
     }
     nextToken
   }

@@ -28,7 +28,15 @@ export class ResultQuizList extends React.Component {
         QuizResources.getUsersQuiz(this.props.username)
             .then(result => {this.setState({ quizList: result.data.quizByCreator.items, showLoader: false }); })
     }
-
+    onDeleteHandler = (index)=>{
+        this.setState(state => {
+            const list = state.quizList;
+            list.splice(index, 1);
+            return {
+                list
+            };
+        });
+    }
 
     render() {
         return (<Grid
@@ -50,7 +58,7 @@ export class ResultQuizList extends React.Component {
                         console.log(quiz)
                         return (
                             <Grid key={quiz.id} item xs={10} sm={5} md={5} large={4} xl={2} zeroMinWidth >
-                                <QuizMediaCard quiz={quiz} user={this.props.username}></QuizMediaCard>
+                                <QuizMediaCard onDelete={this.onDeleteHandler}quiz={quiz} user={this.props.username}></QuizMediaCard>
                             </Grid>
                         );
                     })}

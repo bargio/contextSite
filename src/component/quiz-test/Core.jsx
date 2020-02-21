@@ -534,7 +534,7 @@ class Core extends Component {
 
     // Default single to avoid code breaking due to automatic version upgrade
     answerSelectionType = answerSelectionType || 'single';
-
+    console.log(this)
     return (
       <div className="questionWrapper">
         {!endQuiz &&

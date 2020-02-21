@@ -1,10 +1,6 @@
 type Quiz @model {
   id: ID!
   name: String!
-  creator: String
-  createDate: String
-  expireDate: String
-  smallDescription: String
   description: String
   image_url: String
   active: Boolean
@@ -23,7 +19,4 @@ type QuizResult @model {
   quizResult: Int!
   quizID: String
 }
-
-
-
 

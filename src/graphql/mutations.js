@@ -166,3 +166,39 @@ export const deleteUsers = `mutation DeleteUsers(
   }
 }
 `;
+export const createQuizUncompleted = `mutation CreateQuizUncompleted(
+  $input: CreateQuizUncompletedInput!
+  $condition: ModelQuizUncompletedConditionInput
+) {
+  createQuizUncompleted(input: $input, condition: $condition) {
+    id
+    userId
+    quizData
+    quizQuestionData
+  }
+}
+`;
+export const updateQuizUncompleted = `mutation UpdateQuizUncompleted(
+  $input: UpdateQuizUncompletedInput!
+  $condition: ModelQuizUncompletedConditionInput
+) {
+  updateQuizUncompleted(input: $input, condition: $condition) {
+    id
+    userId
+    quizData
+    quizQuestionData
+  }
+}
+`;
+export const deleteQuizUncompleted = `mutation DeleteQuizUncompleted(
+  $input: DeleteQuizUncompletedInput!
+  $condition: ModelQuizUncompletedConditionInput
+) {
+  deleteQuizUncompleted(input: $input, condition: $condition) {
+    id
+    userId
+    quizData
+    quizQuestionData
+  }
+}
+`;

@@ -1,11 +1,12 @@
 import React from 'react';
 import Form from 'react-bootstrap/FormControl';
-import { InputGroup, FormControl, FormCheck, Badge, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { PhotoPicker } from 'aws-amplify-react';
+import { InputGroup, FormControl, FormCheck, Badge, Button, OverlayTrigger, Tooltip, Image } from 'react-bootstrap';
+import { PhotoPicker, Picker } from 'aws-amplify-react';
 import StorageResource from '../../resource/Storage';
 import { TextField } from '@material-ui/core';
 import UtilsResource from '../../utils/Utils';
 import { createRef } from 'react';
+import defaultQuizImage from '../../../asset/defaultQuiz.png'
 
 class Response {
     constructor(text, isCorrect) {
@@ -27,6 +28,7 @@ export class Question extends React.Component {
                 isVideoQuestion: false,
                 isTextQuestion: true,
                 imageType1: null,
+                imageQuestionUrl: defaultQuizImage,
                 time: 15,
                 score: 1,
                 question: "",
@@ -38,6 +40,13 @@ export class Question extends React.Component {
         this.timeInput = React.createRef();
         this.scoreInput = React.createRef();
 
+    }
+    componentDidMount(){
+        if(this.state.imageType1!=null){
+            StorageResource.getImage(this.state.imageType1).then(result =>
+                this.setState({imageQuestionUrl:result})
+            )
+        }
     }
 
     isImageQuestion = () => {
@@ -149,9 +158,11 @@ export class Question extends React.Component {
     }
 
     updateImageQuestionType1 = (data) => {
+        this.setState({imageQuestionUrl: URL.createObjectURL(data.file),imageType1:data})/*
+        /*
         StorageResource.putImage(new Blob([data.file], { type: 'image/png' }), new Date().valueOf()).then(
-            data => { this.setState({ imageType1: data }); console.log(data); UtilsResource.progressBarUpdate(100) }
-        )
+            data => { this.setState({ imageType1: data }); UtilsResource.progressBarUpdate(100) }
+        )*/
     }
 
     allToJson = () => {
@@ -231,8 +242,14 @@ export class Question extends React.Component {
                 <FormCheck inline disabled checked={this.state.isVideoQuestion} type="radio" label="Video" onChange={this.isVideoQuestion} />
                 {
                     this.state.isImageQuestion &&
-                    <div style={{ maxWidth: "min-content", margin: "auto" }}>
+                    /*<div style={{ maxWidth: "min-content", margin: "auto" }}>
                         <PhotoPicker  preview headerText="Foto" headerHint='Aggiungi una foto cliccando sotto' title="Seleziona una foto" onPick={data => this.updateImageQuestionType1(data)} ></PhotoPicker>
+                    </div>*/
+                    <div style={{ maxWidth: "max-content", margin: "auto" }}>
+                            {this.state.imageQuestionUrl &&
+                                <Image style={{maxWidth:'100%',marginBottom:'20px'}} src={this.state.imageQuestionUrl} rounded />
+                            }
+                            <Picker title="Seleziona un immagine" onPick={data => this.updateImageQuestionType1(data)}></Picker>
                     </div>
                 }
                 {

@@ -46,7 +46,8 @@ export class QuizMediaCard extends React.Component {
 
     continueActionDeleting = () => {
         console.log("Cancello quiz")
-        QuizResources.deleteQuiz(this.state.quiz, this.reloadPage)
+        //QuizResources.deleteQuiz(this.state.quiz, this.reloadPage)
+        QuizResources.deleteQuiz(this.state.quiz, this.props.onDelete)
         this.setState({ showAlert: false })
     }
 

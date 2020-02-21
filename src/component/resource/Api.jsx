@@ -188,6 +188,34 @@ export const QuizResources = {
             }));
         return userResults
     },
+    insertQuizUncompleted: async function insertQuizUncompleted(userId, quizData, quizQuestionData) {
+        console.log(quizData)
+        console.log(quizQuestionData)
+        try {
+            const quizUncompleted = {
+                userId: userId,
+                quizData: JSON.stringify(quizData),
+                quizQuestionData: JSON.stringify(quizQuestionData),
+            };
+            console.log(quizUncompleted)
+            const ok = await API.graphql(graphqlOperation(mutations.createQuizUncompleted, { input: quizUncompleted }));
+            console.log(ok)
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    getUserQuizUncompleted: async function getUserQuizUncompleted(user) {
+        var adminQuiz = await API.graphql(graphqlOperation(queries.getUncompletedByUserId,
+            {
+                userId: user
+            }));
+        return adminQuiz
+    },
+    deleteUserQuizUncompleted: async function deleteUserQuizUncompleted(id) {
+        var quizUncompleted = await API.graphql(graphqlOperation(mutations.deleteQuizUncompleted,
+                { input: { id: id}}
+            ));
+    },
 }
 
 export const UserResources = {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, FormGroup, Form, Accordion, Card, Navbar, Badge } from 'react-bootstrap';
+import { Button, FormGroup, Form, Accordion, Card, Navbar, Badge, Image } from 'react-bootstrap';
 import { Question } from './Question';
 import { PrepareJsonForSave } from './PrepareJson';
-import { PhotoPicker } from 'aws-amplify-react';
+import { PhotoPicker, S3Image, Picker } from 'aws-amplify-react';
 import { AlertModal } from '../../alert/AlertModal';
 import MyLoader from '../../loading/Loader';
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,9 +10,10 @@ import it from 'date-fns/locale/it';
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import DatePicker from "react-datepicker";
 import { TextField } from '@material-ui/core';
-import UtilsResource from '../../utils/Utils';
+import UtilsResource, { saveQuizUncompleted } from '../../utils/Utils';
 import ProfileUser from '../../user/ProfileUser';
 import StorageResource from '../../resource/Storage';
+import defaultQuizImage from '../../../asset/defaultQuiz.png'
 registerLocale('it', it)
 
 export class CreatorForm extends React.Component {
@@ -20,6 +21,7 @@ export class CreatorForm extends React.Component {
     constructor(props) {
         super(props);
         if (props != undefined && props.quizData != undefined) {
+            //props.quizData.questions = props.questionData
             this.state = props.quizData
         } else {
             this.state = {
@@ -31,7 +33,7 @@ export class CreatorForm extends React.Component {
                 descriptionError: "",
                 expireDate: new Date(),
                 image: null,
-                imageUrl: null,
+                imageUrl: defaultQuizImage,
                 questions: [],
                 showAlert: false,
                 showLoader: false
@@ -39,12 +41,18 @@ export class CreatorForm extends React.Component {
         }
     }
 
-    componentDidMount(){
-        if(this.state.image!=null){
-            StorageResource.getImage("1582024443902.png").then(data => {
-                this.setState({imageUrl:data})
+    componentDidMount() {
+        if (this.state.image != null) {
+            StorageResource.getImage(this.state.image).then(data => {
+                this.setState({ imageUrl: data })
             })
         }
+        if(this.props.questionData!=undefined){
+            this.props.questionData.map(i=>{
+                this.addQuestion()
+            })
+        }
+        console.log(this.state)
     }
     addQuestion = () => {
         this.setState(state => {
@@ -72,8 +80,10 @@ export class CreatorForm extends React.Component {
     }
 
     uncompletedSave = () => {
-        UtilsResource.saveQuiz(this)
         console.log(this)
+        saveQuizUncompleted(this, this.reloadPage)
+        this.setState({ showAlert: false, showLoader: true })
+
     }
 
     checkField = () => {
@@ -127,8 +137,8 @@ export class CreatorForm extends React.Component {
         console.log("Salvo quiz")
         console.log(this.state)
         ProfileUser.getProfile(this.saveQuestion)
-
     }
+
     saveQuestion = (user) => {
         if (user.error != "Error") {
             console.log(user)
@@ -145,6 +155,19 @@ export class CreatorForm extends React.Component {
         this.props.backButton()
     }
 
+    updateImage = (data, i) => {
+        this.setState({imageUrl: URL.createObjectURL(data.file),image:data})/*
+        StorageResource.putImage(new Blob([data.file], { type: 'image/png' }), new Date().valueOf()).then(
+            data => {
+                UtilsResource.progressBarUpdate(70)
+                StorageResource.getImage(data).then(
+                    result => {
+                        UtilsResource.progressBarUpdate(100)
+                        this.setState({ imageUrl: result, image: data,showLoader:false })
+                    })
+            })*/
+    }
+
     render() {
         return (
             <Form onSubmit={this.onSubmit}>
@@ -154,9 +177,13 @@ export class CreatorForm extends React.Component {
                 {!this.state.showLoader &&
                     <div>
                         <div style={{ maxWidth: "max-content", margin: "auto" }}>
-                            <PhotoPicker preview  key={this.props.uncompleted?this.state.imageUrl:""} previewSrc={this.props.uncompleted?this.state.imageUrl:""} headerText="Foto" headerHint='Aggiungi una foto cliccando sotto' title="Seleziona una foto" onPick={data => this.setState({ image: data })} ></PhotoPicker>
+                            {/*<PhotoPicker key={this.state.imageUrl} previewSrc={this.state.imageUrl} preview headerText="Foto" headerHint='Aggiungi una foto cliccando sotto' title="Seleziona una foto" onPick={data => this.updateImage(data)} onLoad={data=> console.log(data)} ></PhotoPicker>*/}
+                            {this.state.imageUrl &&
+                                <Image style={{maxWidth:'100%',marginBottom:'20px'}} src={this.state.imageUrl} rounded />
+                            }
+                            <Picker title="Seleziona un immagine" onPick={data => this.updateImage(data)}></Picker>
                         </div>
-                        <Form.Group>
+                        <Form.Group style={{marginTop:'20px'}}>
                             <TextField
                                 fullWidth
                                 required
@@ -201,7 +228,7 @@ export class CreatorForm extends React.Component {
                                 variant="outlined"
                             />
                         </Form.Group>
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                        {/*<Form.Group controlId="exampleForm.ControlTextarea1">
                             <Form.Label style={{ marginRight: '20px' }}>Data Scadenza  </Form.Label>
                             <DatePicker
                                 selected={this.state.expireDate}
@@ -213,7 +240,7 @@ export class CreatorForm extends React.Component {
                                 dateFormat="Pp"
                                 placeholderText="Data scadenza validità"
                             />
-                        </Form.Group>
+                        </Form.Group>*/}
                         <Accordion style={{ margin: 0 }} >
                             {this.state.questions.map((question, index) => (
                                 <Card key={index} style={{ marginBottom: '20px' }}>
@@ -228,9 +255,8 @@ export class CreatorForm extends React.Component {
                                         </Navbar>
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey={index}>
-                                        <Card.Body ><Question ref={question} questionData={this.props.uncompleted?this.props.questionData[index]:undefined} questionIndex={index}></Question></Card.Body>
+                                        <Card.Body ><Question ref={question} questionData={this.props.uncompleted ? this.props.questionData[index] : undefined} questionIndex={index}></Question></Card.Body>
                                     </Accordion.Collapse>
-
                                 </Card>)
                             )}
                         </Accordion>

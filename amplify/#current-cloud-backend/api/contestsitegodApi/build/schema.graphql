@@ -33,6 +33,13 @@ type Users {
   active: Boolean
 }
 
+type QuizUncompleted {
+  id: ID!
+  userId: String!
+  quizData: String!
+  quizQuestionData: String!
+}
+
 enum ModelSortDirection {
   ASC
   DESC
@@ -142,11 +149,14 @@ type Query {
   listQuizResults(filter: ModelQuizResultFilterInput, limit: Int, nextToken: String): ModelQuizResultConnection
   getUsers(id: ID!): Users
   listUserss(filter: ModelUsersFilterInput, limit: Int, nextToken: String): ModelUsersConnection
+  getQuizUncompleted(id: ID!): QuizUncompleted
+  listQuizUncompleteds(filter: ModelQuizUncompletedFilterInput, limit: Int, nextToken: String): ModelQuizUncompletedConnection
   quizByCreator(creator: String, sortDirection: ModelSortDirection, filter: ModelQuizFilterInput, limit: Int, nextToken: String): ModelQuizConnection
   quizByGroupCreator(groupCreator: String, sortDirection: ModelSortDirection, filter: ModelQuizFilterInput, limit: Int, nextToken: String): ModelQuizConnection
   quizResultByUser(quizUser: String, sortDirection: ModelSortDirection, filter: ModelQuizResultFilterInput, limit: Int, nextToken: String): ModelQuizResultConnection
   listUsersIDbyGroup(userGroup: String, sortDirection: ModelSortDirection, filter: ModelUsersFilterInput, limit: Int, nextToken: String): ModelUsersConnection
   getUserByEmail(userEmail: String, sortDirection: ModelSortDirection, filter: ModelUsersFilterInput, limit: Int, nextToken: String): ModelUsersConnection
+  getUncompletedByUserId(userId: String, sortDirection: ModelSortDirection, filter: ModelQuizUncompletedFilterInput, limit: Int, nextToken: String): ModelQuizUncompletedConnection
 }
 
 input CreateQuizInput {
@@ -194,6 +204,9 @@ type Mutation {
   createUsers(input: CreateUsersInput!, condition: ModelUsersConditionInput): Users
   updateUsers(input: UpdateUsersInput!, condition: ModelUsersConditionInput): Users
   deleteUsers(input: DeleteUsersInput!, condition: ModelUsersConditionInput): Users
+  createQuizUncompleted(input: CreateQuizUncompletedInput!, condition: ModelQuizUncompletedConditionInput): QuizUncompleted
+  updateQuizUncompleted(input: UpdateQuizUncompletedInput!, condition: ModelQuizUncompletedConditionInput): QuizUncompleted
+  deleteQuizUncompleted(input: DeleteQuizUncompletedInput!, condition: ModelQuizUncompletedConditionInput): QuizUncompleted
 }
 
 input ModelQuizConditionInput {
@@ -238,6 +251,9 @@ type Subscription {
   onCreateUsers: Users @aws_subscribe(mutations: ["createUsers"])
   onUpdateUsers: Users @aws_subscribe(mutations: ["updateUsers"])
   onDeleteUsers: Users @aws_subscribe(mutations: ["deleteUsers"])
+  onCreateQuizUncompleted: QuizUncompleted @aws_subscribe(mutations: ["createQuizUncompleted"])
+  onUpdateQuizUncompleted: QuizUncompleted @aws_subscribe(mutations: ["updateQuizUncompleted"])
+  onDeleteQuizUncompleted: QuizUncompleted @aws_subscribe(mutations: ["deleteQuizUncompleted"])
 }
 
 type ModelQuizQuestionsConnection {
@@ -364,4 +380,46 @@ input ModelUsersConditionInput {
   and: [ModelUsersConditionInput]
   or: [ModelUsersConditionInput]
   not: ModelUsersConditionInput
+}
+
+type ModelQuizUncompletedConnection {
+  items: [QuizUncompleted]
+  nextToken: String
+}
+
+input ModelQuizUncompletedFilterInput {
+  id: ModelIDInput
+  userId: ModelStringInput
+  quizData: ModelStringInput
+  quizQuestionData: ModelStringInput
+  and: [ModelQuizUncompletedFilterInput]
+  or: [ModelQuizUncompletedFilterInput]
+  not: ModelQuizUncompletedFilterInput
+}
+
+input CreateQuizUncompletedInput {
+  id: ID
+  userId: String!
+  quizData: String!
+  quizQuestionData: String!
+}
+
+input UpdateQuizUncompletedInput {
+  id: ID!
+  userId: String
+  quizData: String
+  quizQuestionData: String
+}
+
+input DeleteQuizUncompletedInput {
+  id: ID
+}
+
+input ModelQuizUncompletedConditionInput {
+  userId: ModelStringInput
+  quizData: ModelStringInput
+  quizQuestionData: ModelStringInput
+  and: [ModelQuizUncompletedConditionInput]
+  or: [ModelQuizUncompletedConditionInput]
+  not: ModelQuizUncompletedConditionInput
 }

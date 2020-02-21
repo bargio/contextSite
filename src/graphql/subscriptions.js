@@ -130,3 +130,30 @@ export const onDeleteUsers = `subscription OnDeleteUsers {
   }
 }
 `;
+export const onCreateQuizUncompleted = `subscription OnCreateQuizUncompleted {
+  onCreateQuizUncompleted {
+    id
+    userId
+    quizData
+    quizQuestionData
+  }
+}
+`;
+export const onUpdateQuizUncompleted = `subscription OnUpdateQuizUncompleted {
+  onUpdateQuizUncompleted {
+    id
+    userId
+    quizData
+    quizQuestionData
+  }
+}
+`;
+export const onDeleteQuizUncompleted = `subscription OnDeleteQuizUncompleted {
+  onDeleteQuizUncompleted {
+    id
+    userId
+    quizData
+    quizQuestionData
+  }
+}
+`;
