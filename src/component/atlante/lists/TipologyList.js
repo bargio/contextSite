@@ -92,15 +92,14 @@ export class TipologyList extends React.Component {
                 justify='center'
             >
 
-                <div className="searchDiv" style={{ position: this.state.scrolling ? 'fixed' : 'relative', top:'3%',left: '30%', zIndex: 1, width: '100%' }}>
-                    <SearchInput style={{ width: '30%', borderRadius: '20px' }} className="search-input " onChange={this.handleChange} placeholder="Search..." />
+                <div className="searchDiv" style={{ position: this.state.scrolling ? 'fixed' : 'relative', top:'3%',left: '15%', zIndex: 1, width: '100%' }}>
+                    <SearchInput style={{ minWidth: '70%', borderRadius: '20px' }} className="search-input " onChange={this.handleChange} placeholder="Search..." />
                 </div>
 
-                <Grid container justify="center" spacing={2} style={{ paddingTop: '2%' }}>
-
+                <Grid container justify="center" spacing={2} style={{ paddingTop: '5%' }}>
                     {this.state.filtered.map(function (app) {
                         return (
-                            <Grid item xs={6} sm={4} md={3} large={2} xl={2} zeroMinWidth >
+                            <Grid item xs={0} sm={5} md={5} large={4} xl={2} zeroMinWidth >
                                 <ImgMediaCard app={app} needDetails={false} ></ImgMediaCard>
                             </Grid>
                         )

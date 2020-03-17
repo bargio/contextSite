@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemSecondaryAction, IconButton } from '@material-ui/core';
 import { PhotoPicker } from 'aws-amplify-react';
-import { Button, Jumbotron } from 'react-bootstrap';
+import { Button, Jumbotron, Modal } from 'react-bootstrap';
 import { CreatorForm } from './creator/CreatorForm';
 import ProfileUser from '../user/ProfileUser';
 import UtilsResource from '../utils/Utils';
@@ -9,12 +9,14 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import StorageResource from '../resource/Storage';
 import { QuizResources } from '../resource/Api';
+import MyLoader from '../loading/Loader';
 
 export class QuizCreator extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            load:true,
             create: false,
             update: false,
             isLogged: false,
@@ -52,10 +54,10 @@ export class QuizCreator extends React.Component {
     isLoggedIn = (user) => {
         if (user.isValid()) {
             UtilsResource.getQuizUncompleted().then(result => {
-                this.setState({ quizUncompleted: result.data.getUncompletedByUserId.items, isLogged: true })
+                this.setState({ quizUncompleted: result.data.getUncompletedByUserId.items, isLogged: true,load:false})
             })
         } else {
-            this.setState({ isLogged: false })
+            this.setState({ isLogged: false,load:false })
         }
     }
 
@@ -93,6 +95,9 @@ export class QuizCreator extends React.Component {
         );
         return (
             <Jumbotron style={{ backgroundColor: 'aliceblue', alignItems: 'center', margin: '10px' }}>
+                {this.state.load &&
+                    <Modal show={true}><Modal.Body><MyLoader></MyLoader></Modal.Body></Modal>
+                }
                 {!this.state.create &&
                     !this.state.update &&
                     <Grid container

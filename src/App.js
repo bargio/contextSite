@@ -16,6 +16,7 @@ import awsconfig from './aws-exports';
 import { QuizCreator } from './component/quiz/QuizCreator';
 import { ProfilePage } from './component/user/ProfilePage';
 import * as firebase from "firebase/app";
+import { AnimalDetails } from './component/atlante/AnimalDetails';
 /*import 'firebase/messaging';
 
 var firebaseConfig = {
@@ -54,6 +55,8 @@ function App() {
         <Route exact path={"/quiz/creator"} component={QuizCreator} />
         <Route exact path={"/quiz/:quizId"} component={QuizContest} />
         <Route exact path={"/profile"} component={ProfilePage} />
+        <Route exact path={"/atlante"} component={AtlanteHome} />
+        <Route exact path={"/atlante/:animalId"} component={AnimalDetails} />
         <Route path="*" render={() => <Redirect to="/" />} />
       </Switch>
       <Footer/>

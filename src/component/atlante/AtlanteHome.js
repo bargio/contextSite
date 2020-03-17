@@ -66,38 +66,15 @@ export class AtlanteHome extends React.Component {
                 justify="space-around"
                 alignItems="center"
             >
-                {/*<img className="bg-sun-image imgwithborderatlante" src={backgroung_image}></img>*/ }
-
                 <TipologyList items={this.props.birds.concat(this.props.animals)} onChange={this.onChange}></TipologyList>
-                {/*<div className="mbsc-padding">
-                    <h3>Scrollable list</h3>
-                    <mobiscroll.ScrollView
-                        onItemTap={this.onItemTap}
-                    >
-                        {this.props.birds.map(function (app) {
-                            return <AppItem app={app} needDetails={false} style={{ padding: '20px' }} ></AppItem>;
-                        })}
-                    </mobiscroll.ScrollView>
-                    </div>*/}
-                <Grid container justify="center" spacing={3} style={{ paddingTop: '5%' }}>
-                    {this.props.animals.map(function (app) {
-                        return (
-                            <Grid item xs={12} sm={10} md={6} large={4} xl={2} zeroMinWidth>
-                                <ImgMediaCard app={app} needDetails={true} ></ImgMediaCard>
-                            </Grid>
-                        );
-
-                    })}
-                </Grid>
-
             </Grid>
         );
     }
     static defaultProps = {
         birds: [{
             id: 1,
-            img: 'https://img.mobiscroll.com/demos/gridlayout/toucan.jpg',
-            name: 'Toucan'
+            img: 'https://lh3.googleusercontent.com/proxy/LPHLy6WDQvIXeE-pDvebGh03M6ezRGhFY68P1_OZeOe3u7_N3vrLY7egVtYnmsLiTU-SVJ1rLnmCclHl_nFNEkhQkt514CQ',
+            name: 'Altsteirer - Vecchia Stiria Nana'
         }, {
             id: 2,
             img: 'https://img.mobiscroll.com/demos/gridlayout/kingfisher.jpg',

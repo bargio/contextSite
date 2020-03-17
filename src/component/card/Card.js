@@ -17,6 +17,7 @@ export class ImgMediaCard extends React.Component {
   };
 
   onClickElement(e){
+    window.location.href = window.location.origin + "/atlante/" + e.id
     console.log(e);
   }
 
@@ -55,13 +56,14 @@ export class ImgMediaCard extends React.Component {
         </Card>
       );
     }
+    
     return (
-      <Card onClick={this.onClickElement} style={{ width: '80%',padding: '5px' } } >
+      <Card onClick={()=>this.onClickElement(app)} style={{ width: '80%',padding: '5px',minHeight:'150px',maxHeight:'300px' } } >
         <CardActionArea>
           <CardMedia
             component="img"
             alt="Contemplative Reptile"
-            style={{maxWidth: '100%'}}
+            style={{maxWidth: '100%', minHeight:'150px',maxHeight:'180px'}}
             image={app.img}
             title="Contemplative Reptile"
           />
