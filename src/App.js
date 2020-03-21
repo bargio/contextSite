@@ -17,6 +17,7 @@ import { QuizCreator } from './component/quiz/QuizCreator';
 import { ProfilePage } from './component/user/ProfilePage';
 import * as firebase from "firebase/app";
 import { AnimalDetails } from './component/atlante/AnimalDetails';
+import { AtlanteHomePage } from './component/atlante/AtlanteHomePage';
 /*import 'firebase/messaging';
 
 var firebaseConfig = {
@@ -56,6 +57,7 @@ function App() {
         <Route exact path={"/quiz/:quizId"} component={QuizContest} />
         <Route exact path={"/profile"} component={ProfilePage} />
         <Route exact path={"/atlante"} component={AtlanteHome} />
+        <Route exact path={"/atlanteHome"} component={AtlanteHomePage} />
         <Route exact path={"/atlante/:animalId"} component={AnimalDetails} />
         <Route path="*" render={() => <Redirect to="/" />} />
       </Switch>
