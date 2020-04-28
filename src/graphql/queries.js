@@ -140,6 +140,54 @@ export const listQuizUncompleteds = `query ListQuizUncompleteds(
   }
 }
 `;
+export const getAnimalsList = `query GetAnimalsList($id: ID!) {
+  getAnimalsList(id: $id) {
+    id
+    category
+    animalName
+    image
+    descriptionID
+  }
+}
+`;
+export const listAnimalsLists = `query ListAnimalsLists(
+  $filter: ModelAnimalsListFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listAnimalsLists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      category
+      animalName
+      image
+      descriptionID
+    }
+    nextToken
+  }
+}
+`;
+export const getAnimalDetails = `query GetAnimalDetails($id: ID!) {
+  getAnimalDetails(id: $id) {
+    id
+    jsonDetails
+  }
+}
+`;
+export const listAnimalDetailss = `query ListAnimalDetailss(
+  $filter: ModelAnimalDetailsFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listAnimalDetailss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      jsonDetails
+    }
+    nextToken
+  }
+}
+`;
 export const quizByCreator = `query QuizByCreator(
   $creator: String
   $sortDirection: ModelSortDirection
@@ -294,6 +342,31 @@ export const getUncompletedByUserId = `query GetUncompletedByUserId(
       userId
       quizData
       quizQuestionData
+    }
+    nextToken
+  }
+}
+`;
+export const getByCategory = `query GetByCategory(
+  $category: String
+  $sortDirection: ModelSortDirection
+  $filter: ModelAnimalsListFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  getByCategory(
+    category: $category
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      category
+      animalName
+      image
+      descriptionID
     }
     nextToken
   }

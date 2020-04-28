@@ -2,55 +2,62 @@ import React from 'react'
 import { Paper, Grid, Breadcrumbs, Link, Button } from '@material-ui/core'
 import { Image } from 'react-bootstrap'
 import zootecniaPng from '../../asset/atlante/Zootecnia.png';
+import agricolturaJpg from '../../asset/atlante/Agricoltura.jpg';
 import boviniPng from '../../asset/atlante/bovini.jpg';
 import suiniPng from '../../asset/atlante/suini.jpg';
 import oviniPng from '../../asset/atlante/ovini.jpg';
+import { AtlanteResources } from '../resource/Api';
+import { TipologyList } from './lists/TipologyList';
 
 export class AtlanteHomePage extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            breadcrumbs: [],
-            FIST_BREADCRUMBS: 0,
-            SECOND_BREADCRUMBS: 1,
-            isClickedOnFirst: false,
-            isClickedOnSecond: false
+            breadcrumbs: ['Home'],
+            ZOOTECNIA_FILTER: 'Zootecnia',
+            AGRICOLTURA_FILTER: 'Agricoltura',
+            BOVINI_FILTER: 'Bovini',
+            OVINI_FILTER: 'Ovini',
+            SUINI_FILTER: 'Suini',
+            listToShow: null
         }
     }
 
-    handleClickedOnFirst = (value) => {
-        this.handleUpdateBreadcrumbs(value, this.state.FIST_BREADCRUMBS)
-    }
-
-    handleClickedOnSecond = (value) => {
-        this.handleUpdateBreadcrumbs(value, this.state.SECOND_BREADCRUMBS)
-    }
-
-    handleUpdateBreadcrumbs = (value, n) => {
+    handleUpdateBreadcrumbs = (value) => {
         var tempBreadcrumbs = this.state.breadcrumbs
         tempBreadcrumbs.push(value)
-        switch (n) {
-            case this.state.FIST_BREADCRUMBS:
-                this.setState({ breadcrumbs: tempBreadcrumbs, isClickedOnFirst: true })
-                break;
-            case this.state.SECOND_BREADCRUMBS:
-                this.setState({ breadcrumbs: tempBreadcrumbs, isClickedOnSecond: true })
+        switch (value) {
+            case this.state.BOVINI_FILTER:
+            case this.state.OVINI_FILTER:
+            case this.state.SUINI_FILTER:
+                this.getListByCategory(value)
                 break;
         }
+        this.setState({ breadcrumbs: tempBreadcrumbs })
+    }
+
+    getListByCategory = (category) => {
+        AtlanteResources.getByCategory(category).then(value => {
+            this.setState({ listToShow: value.data.getByCategory.items })
+        })
+    }
+
+    handleAddElement = () => {
+        window.location.href = '/atlante/creator'
     }
 
     handleClickBreadcrumbs = (n) => {
         console.log(n)
         switch (n) {
-            case this.state.FIST_BREADCRUMBS:
-                this.setState({ breadcrumbs: [], isClickedOnFirst: false, isClickedOnSecond:false })
+            case 0:
+                this.setState({ breadcrumbs: ['Home'] })
                 break;
-            case this.state.SECOND_BREADCRUMBS:
+            case 1:
                 var tempBreadcrumbs = this.state.breadcrumbs;
                 tempBreadcrumbs.pop()
                 console.log(tempBreadcrumbs)
-                this.setState({ breadcrumbs: tempBreadcrumbs, isClickedOnSecond: false })
+                this.setState({ breadcrumbs: tempBreadcrumbs })
                 break;
         }
     }
@@ -59,26 +66,31 @@ export class AtlanteHomePage extends React.Component {
         const paperStyle = { display: 'flex', justifyContent: 'center', alignItems: 'center', maxHeight: '300px' };
         const firstBreadcrumbs = <>
             <Grid item xs={12} sm={12} md={6} large={6} xl={6} zeroMinWidth style={{ width: '100%', margin: 0 }} >
-                <Paper style={paperStyle} onClick={() => this.handleClickedOnFirst("Zootecnia")}><Image style={paperStyle} rounded src={zootecniaPng} /></Paper>
+                <Paper style={paperStyle} onClick={() => this.handleUpdateBreadcrumbs(this.state.ZOOTECNIA_FILTER)}><Image style={paperStyle} rounded src={zootecniaPng} /></Paper>
             </Grid>
             <Grid item xs={12} sm={12} md={6} large={6} xl={6} zeroMinWidth style={{ width: '100%', margin: 0 }} >
-                <Paper style={paperStyle} onClick={() => this.handleClickedOnFirst("Altro")}><Image style={paperStyle} rounded src='https://upload.wikimedia.org/wikipedia/commons/2/25/S%C3%ADmbolo_Zootecnia_%28Animal_Science%29.jpg' /></Paper>
+                <Paper style={paperStyle} onClick={() => this.handleUpdateBreadcrumbs(this.state.AGRICOLTURA_FILTER)}><Image style={paperStyle} rounded src={agricolturaJpg} /></Paper>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} large={12} xl={12} zeroMinWidth style={{ width: '100%', margin: 0 }} >
+                <Paper style={paperStyle} onClick={() => this.handleAddElement()}>
+                    <h1 width='100%'>Aggiungi</h1>
+                </Paper>
             </Grid>
         </>
 
-        const secondBreadcrumbs = <>
+        const zootecniaBreadcrumbs = <>
             <Grid item xs={12} sm={12} md={6} large={6} xl={6} zeroMinWidth style={{ width: '100%', margin: 0 }} >
-                <Paper style={paperStyle} onClick={() => this.handleClickedOnSecond("Bovini")}>
+                <Paper style={paperStyle} onClick={() => this.handleUpdateBreadcrumbs(this.state.BOVINI_FILTER)}>
                     <Image style={paperStyle} rounded src={boviniPng} />
                 </Paper>
             </Grid>
             <Grid item xs={12} sm={12} md={6} large={6} xl={6} zeroMinWidth style={{ width: '100%', margin: 0 }} >
-                <Paper style={paperStyle} onClick={() => this.handleClickedOnSecond("Suini")}>
+                <Paper style={paperStyle} onClick={() => this.handleUpdateBreadcrumbs(this.state.SUINI_FILTER)}>
                     <Image style={paperStyle} rounded src={suiniPng} />
                 </Paper>
             </Grid>
             <Grid item xs={12} sm={12} md={6} large={6} xl={6} zeroMinWidth style={{ width: '100%', margin: 0 }} >
-                <Paper style={paperStyle} onClick={() => this.handleClickedOnSecond("Ovini")}>
+                <Paper style={paperStyle} onClick={() => this.handleUpdateBreadcrumbs(this.state.OVINI_FILTER)}>
                     <Image style={paperStyle} rounded src={oviniPng} />
                 </Paper>
             </Grid>
@@ -89,18 +101,26 @@ export class AtlanteHomePage extends React.Component {
                 <Grid item xs={12} sm={12} md={12} large={12} xl={12} zeroMinWidth style={{ width: '100%' }} >
                     <Breadcrumbs separator="›" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         {this.state.breadcrumbs.map((value, i) => {
-                            return <Button key={i} onClick={() => this.handleClickBreadcrumbs(i)}>{value}</Button>
+                            console.log(this.state.breadcrumbs.length)
+                            var disabledValue = this.state.breadcrumbs.length - 1 == i
+                            return <Button key={i} disabled={disabledValue} onClick={() => this.handleClickBreadcrumbs(i)}>{value}</Button>
                         })}
                     </Breadcrumbs>
                 </Grid>
 
-                {!this.state.isClickedOnFirst &&
+                {this.state.breadcrumbs.length == 1 &&
                     firstBreadcrumbs
                 }
-                {this.state.isClickedOnFirst && !this.state.isClickedOnSecond &&
-                    secondBreadcrumbs
+                {this.state.breadcrumbs.length == 2 && this.state.breadcrumbs.includes(this.state.ZOOTECNIA_FILTER) &&
+                    zootecniaBreadcrumbs
                 }
-
+                {this.state.breadcrumbs.length == 2 && this.state.breadcrumbs.includes(this.state.AGRICOLTURA_FILTER) &&
+                    <div>Niente</div>
+                }
+                {this.state.breadcrumbs.length == 3 && this.state.listToShow != null &&
+                    <TipologyList items={this.state.listToShow} onChange={this.onChange}></TipologyList>
+                }
+                
             </Grid>)
     }
 }

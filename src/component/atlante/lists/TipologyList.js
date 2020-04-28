@@ -58,7 +58,7 @@ export class TipologyList extends React.Component {
                 // check to see if the current list item includes the search term
                 // If it does, it will be added to newList. Using lowercase eliminates
                 // issues with capitalization in search terms and search content
-                return item.name.toLowerCase().includes(filter);
+                return item.animalName.toLowerCase().includes(filter);
             });
             console.log(newList);
         } else {
@@ -97,10 +97,10 @@ export class TipologyList extends React.Component {
                 </div>
 
                 <Grid container justify="center" spacing={2} style={{ paddingTop: '5%' }}>
-                    {this.state.filtered.map(function (app) {
+                    {this.state.filtered.map(function (el) {
                         return (
                             <Grid item xs={0} sm={5} md={5} large={4} xl={2} zeroMinWidth >
-                                <ImgMediaCard app={app} needDetails={false} ></ImgMediaCard>
+                                <ImgMediaCard app={el} needDetails={false} ></ImgMediaCard>
                             </Grid>
                         )
                     })}

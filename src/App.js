@@ -18,6 +18,7 @@ import { ProfilePage } from './component/user/ProfilePage';
 import * as firebase from "firebase/app";
 import { AnimalDetails } from './component/atlante/AnimalDetails';
 import { AtlanteHomePage } from './component/atlante/AtlanteHomePage';
+import { AtlanteCreator } from './component/atlante/creator/AtlanteCreator';
 /*import 'firebase/messaging';
 
 var firebaseConfig = {
@@ -33,8 +34,8 @@ var firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-Amplify.configure(awsconfig);*/
+*/
+Amplify.configure(awsconfig);
 
 function App() {
   
@@ -58,6 +59,7 @@ function App() {
         <Route exact path={"/profile"} component={ProfilePage} />
         <Route exact path={"/atlante"} component={AtlanteHome} />
         <Route exact path={"/atlanteHome"} component={AtlanteHomePage} />
+        <Route exact path={"/atlante/creator"} component={AtlanteCreator} />
         <Route exact path={"/atlante/:animalId"} component={AnimalDetails} />
         <Route path="*" render={() => <Redirect to="/" />} />
       </Switch>

@@ -157,3 +157,54 @@ export const onDeleteQuizUncompleted = `subscription OnDeleteQuizUncompleted {
   }
 }
 `;
+export const onCreateAnimalsList = `subscription OnCreateAnimalsList {
+  onCreateAnimalsList {
+    id
+    category
+    animalName
+    image
+    descriptionID
+  }
+}
+`;
+export const onUpdateAnimalsList = `subscription OnUpdateAnimalsList {
+  onUpdateAnimalsList {
+    id
+    category
+    animalName
+    image
+    descriptionID
+  }
+}
+`;
+export const onDeleteAnimalsList = `subscription OnDeleteAnimalsList {
+  onDeleteAnimalsList {
+    id
+    category
+    animalName
+    image
+    descriptionID
+  }
+}
+`;
+export const onCreateAnimalDetails = `subscription OnCreateAnimalDetails {
+  onCreateAnimalDetails {
+    id
+    jsonDetails
+  }
+}
+`;
+export const onUpdateAnimalDetails = `subscription OnUpdateAnimalDetails {
+  onUpdateAnimalDetails {
+    id
+    jsonDetails
+  }
+}
+`;
+export const onDeleteAnimalDetails = `subscription OnDeleteAnimalDetails {
+  onDeleteAnimalDetails {
+    id
+    jsonDetails
+  }
+}
+`;

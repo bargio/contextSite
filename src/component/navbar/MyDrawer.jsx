@@ -83,7 +83,7 @@ export class MyDrawer extends React.Component {
         <ListItemIcon><LiveHelpIcon /></ListItemIcon>
         <ListItemText primary={"Quiz"} />
       </ListItem>
-      <ListItem onClick={() => this.onClickHanlder("/atlante")} button key={"Atlante"}>
+      <ListItem onClick={() => this.onClickHanlder("/atlantehome")} button key={"Atlante"}>
         <ListItemIcon><PublicIcon /></ListItemIcon>
         <ListItemText primary={"Atlante"} />
       </ListItem>

@@ -44,6 +44,20 @@ type QuizUncompleted @model
   userId: String!
   quizData: String!
   quizQuestionData: String!
-
 }
+
+type AnimalsList @model
+@key(name: "category", fields: ["category"], queryField: "getByCategory") {
+  id: ID!
+  category: String!
+  animalName: String!
+  image: String!
+  descriptionID:String!
+}
+
+type AnimalDetails @model {
+  id: ID!
+  jsonDetails: String!
+}
+
 

@@ -202,3 +202,72 @@ export const deleteQuizUncompleted = `mutation DeleteQuizUncompleted(
   }
 }
 `;
+export const createAnimalsList = `mutation CreateAnimalsList(
+  $input: CreateAnimalsListInput!
+  $condition: ModelAnimalsListConditionInput
+) {
+  createAnimalsList(input: $input, condition: $condition) {
+    id
+    category
+    animalName
+    image
+    descriptionID
+  }
+}
+`;
+export const updateAnimalsList = `mutation UpdateAnimalsList(
+  $input: UpdateAnimalsListInput!
+  $condition: ModelAnimalsListConditionInput
+) {
+  updateAnimalsList(input: $input, condition: $condition) {
+    id
+    category
+    animalName
+    image
+    descriptionID
+  }
+}
+`;
+export const deleteAnimalsList = `mutation DeleteAnimalsList(
+  $input: DeleteAnimalsListInput!
+  $condition: ModelAnimalsListConditionInput
+) {
+  deleteAnimalsList(input: $input, condition: $condition) {
+    id
+    category
+    animalName
+    image
+    descriptionID
+  }
+}
+`;
+export const createAnimalDetails = `mutation CreateAnimalDetails(
+  $input: CreateAnimalDetailsInput!
+  $condition: ModelAnimalDetailsConditionInput
+) {
+  createAnimalDetails(input: $input, condition: $condition) {
+    id
+    jsonDetails
+  }
+}
+`;
+export const updateAnimalDetails = `mutation UpdateAnimalDetails(
+  $input: UpdateAnimalDetailsInput!
+  $condition: ModelAnimalDetailsConditionInput
+) {
+  updateAnimalDetails(input: $input, condition: $condition) {
+    id
+    jsonDetails
+  }
+}
+`;
+export const deleteAnimalDetails = `mutation DeleteAnimalDetails(
+  $input: DeleteAnimalDetailsInput!
+  $condition: ModelAnimalDetailsConditionInput
+) {
+  deleteAnimalDetails(input: $input, condition: $condition) {
+    id
+    jsonDetails
+  }
+}
+`;

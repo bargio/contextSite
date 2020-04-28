@@ -44,15 +44,8 @@
             "Arn"
         ]
     },
-    "useDefault": "defaultSocial",
+    "useDefault": "default",
     "userPoolGroupList": [],
     "dependsOn": [],
-    "hostedUI": true,
-    "hostedUIDomainName": "contestsitegodcbd831c0-cbd831c0",
-    "authProvidersUserPool": [
-        "Facebook",
-        "Google"
-    ],
-    "hostedUIProviderMeta": "[{\"ProviderName\":\"Facebook\",\"authorize_scopes\":\"email,public_profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"id\"}},{\"ProviderName\":\"Google\",\"authorize_scopes\":\"openid email profile\",\"AttributeMapping\":{\"email\":\"email\",\"username\":\"sub\"}}]",
-    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://contextsite.com/login/\"],\"LogoutURLs\":[\"https://contextsite.com/logout/\"]}"
+    "hostedUI": true
 }

@@ -64,9 +64,7 @@
         },
         "categories": {
             "auth": {
-                "contestsitegod309bdf3d": {
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"779204449266915\",\"client_secret\":\"099660226feaa76bc7b688550d5402dc\"},{\"ProviderName\":\"Google\",\"client_id\":\"934932606671-7fc3j9lccsqd5g7q55g2ro4hl6g5o1iu.apps.googleusercontent.com\",\"client_secret\":\"w9yqrGdklyt_bwVOm_5qrwFm\"}]"
-                }
+                "contestsitegod309bdf3d": {}
             }
         }
     },

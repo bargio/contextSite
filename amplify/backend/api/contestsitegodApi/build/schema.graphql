@@ -40,6 +40,19 @@ type QuizUncompleted {
   quizQuestionData: String!
 }
 
+type AnimalsList {
+  id: ID!
+  category: String!
+  animalName: String!
+  image: String!
+  descriptionID: String!
+}
+
+type AnimalDetails {
+  id: ID!
+  jsonDetails: String!
+}
+
 enum ModelSortDirection {
   ASC
   DESC
@@ -151,12 +164,17 @@ type Query {
   listUserss(filter: ModelUsersFilterInput, limit: Int, nextToken: String): ModelUsersConnection
   getQuizUncompleted(id: ID!): QuizUncompleted
   listQuizUncompleteds(filter: ModelQuizUncompletedFilterInput, limit: Int, nextToken: String): ModelQuizUncompletedConnection
+  getAnimalsList(id: ID!): AnimalsList
+  listAnimalsLists(filter: ModelAnimalsListFilterInput, limit: Int, nextToken: String): ModelAnimalsListConnection
+  getAnimalDetails(id: ID!): AnimalDetails
+  listAnimalDetailss(filter: ModelAnimalDetailsFilterInput, limit: Int, nextToken: String): ModelAnimalDetailsConnection
   quizByCreator(creator: String, sortDirection: ModelSortDirection, filter: ModelQuizFilterInput, limit: Int, nextToken: String): ModelQuizConnection
   quizByGroupCreator(groupCreator: String, sortDirection: ModelSortDirection, filter: ModelQuizFilterInput, limit: Int, nextToken: String): ModelQuizConnection
   quizResultByUser(quizUser: String, sortDirection: ModelSortDirection, filter: ModelQuizResultFilterInput, limit: Int, nextToken: String): ModelQuizResultConnection
   listUsersIDbyGroup(userGroup: String, sortDirection: ModelSortDirection, filter: ModelUsersFilterInput, limit: Int, nextToken: String): ModelUsersConnection
   getUserByEmail(userEmail: String, sortDirection: ModelSortDirection, filter: ModelUsersFilterInput, limit: Int, nextToken: String): ModelUsersConnection
   getUncompletedByUserId(userId: String, sortDirection: ModelSortDirection, filter: ModelQuizUncompletedFilterInput, limit: Int, nextToken: String): ModelQuizUncompletedConnection
+  getByCategory(category: String, sortDirection: ModelSortDirection, filter: ModelAnimalsListFilterInput, limit: Int, nextToken: String): ModelAnimalsListConnection
 }
 
 input CreateQuizInput {
@@ -207,6 +225,12 @@ type Mutation {
   createQuizUncompleted(input: CreateQuizUncompletedInput!, condition: ModelQuizUncompletedConditionInput): QuizUncompleted
   updateQuizUncompleted(input: UpdateQuizUncompletedInput!, condition: ModelQuizUncompletedConditionInput): QuizUncompleted
   deleteQuizUncompleted(input: DeleteQuizUncompletedInput!, condition: ModelQuizUncompletedConditionInput): QuizUncompleted
+  createAnimalsList(input: CreateAnimalsListInput!, condition: ModelAnimalsListConditionInput): AnimalsList
+  updateAnimalsList(input: UpdateAnimalsListInput!, condition: ModelAnimalsListConditionInput): AnimalsList
+  deleteAnimalsList(input: DeleteAnimalsListInput!, condition: ModelAnimalsListConditionInput): AnimalsList
+  createAnimalDetails(input: CreateAnimalDetailsInput!, condition: ModelAnimalDetailsConditionInput): AnimalDetails
+  updateAnimalDetails(input: UpdateAnimalDetailsInput!, condition: ModelAnimalDetailsConditionInput): AnimalDetails
+  deleteAnimalDetails(input: DeleteAnimalDetailsInput!, condition: ModelAnimalDetailsConditionInput): AnimalDetails
 }
 
 input ModelQuizConditionInput {
@@ -254,6 +278,12 @@ type Subscription {
   onCreateQuizUncompleted: QuizUncompleted @aws_subscribe(mutations: ["createQuizUncompleted"])
   onUpdateQuizUncompleted: QuizUncompleted @aws_subscribe(mutations: ["updateQuizUncompleted"])
   onDeleteQuizUncompleted: QuizUncompleted @aws_subscribe(mutations: ["deleteQuizUncompleted"])
+  onCreateAnimalsList: AnimalsList @aws_subscribe(mutations: ["createAnimalsList"])
+  onUpdateAnimalsList: AnimalsList @aws_subscribe(mutations: ["updateAnimalsList"])
+  onDeleteAnimalsList: AnimalsList @aws_subscribe(mutations: ["deleteAnimalsList"])
+  onCreateAnimalDetails: AnimalDetails @aws_subscribe(mutations: ["createAnimalDetails"])
+  onUpdateAnimalDetails: AnimalDetails @aws_subscribe(mutations: ["updateAnimalDetails"])
+  onDeleteAnimalDetails: AnimalDetails @aws_subscribe(mutations: ["deleteAnimalDetails"])
 }
 
 type ModelQuizQuestionsConnection {
@@ -422,4 +452,84 @@ input ModelQuizUncompletedConditionInput {
   and: [ModelQuizUncompletedConditionInput]
   or: [ModelQuizUncompletedConditionInput]
   not: ModelQuizUncompletedConditionInput
+}
+
+type ModelAnimalsListConnection {
+  items: [AnimalsList]
+  nextToken: String
+}
+
+input ModelAnimalsListFilterInput {
+  id: ModelIDInput
+  category: ModelStringInput
+  animalName: ModelStringInput
+  image: ModelStringInput
+  descriptionID: ModelStringInput
+  and: [ModelAnimalsListFilterInput]
+  or: [ModelAnimalsListFilterInput]
+  not: ModelAnimalsListFilterInput
+}
+
+input CreateAnimalsListInput {
+  id: ID
+  category: String!
+  animalName: String!
+  image: String!
+  descriptionID: String!
+}
+
+input UpdateAnimalsListInput {
+  id: ID!
+  category: String
+  animalName: String
+  image: String
+  descriptionID: String
+}
+
+input DeleteAnimalsListInput {
+  id: ID
+}
+
+input ModelAnimalsListConditionInput {
+  category: ModelStringInput
+  animalName: ModelStringInput
+  image: ModelStringInput
+  descriptionID: ModelStringInput
+  and: [ModelAnimalsListConditionInput]
+  or: [ModelAnimalsListConditionInput]
+  not: ModelAnimalsListConditionInput
+}
+
+type ModelAnimalDetailsConnection {
+  items: [AnimalDetails]
+  nextToken: String
+}
+
+input ModelAnimalDetailsFilterInput {
+  id: ModelIDInput
+  jsonDetails: ModelStringInput
+  and: [ModelAnimalDetailsFilterInput]
+  or: [ModelAnimalDetailsFilterInput]
+  not: ModelAnimalDetailsFilterInput
+}
+
+input CreateAnimalDetailsInput {
+  id: ID
+  jsonDetails: String!
+}
+
+input UpdateAnimalDetailsInput {
+  id: ID!
+  jsonDetails: String
+}
+
+input DeleteAnimalDetailsInput {
+  id: ID
+}
+
+input ModelAnimalDetailsConditionInput {
+  jsonDetails: ModelStringInput
+  and: [ModelAnimalDetailsConditionInput]
+  or: [ModelAnimalDetailsConditionInput]
+  not: ModelAnimalDetailsConditionInput
 }

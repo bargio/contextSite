@@ -244,3 +244,47 @@ export const UserResources = {
         return user
     },
 }
+
+export const AtlanteResources = {
+    insertNewAnimal: async function insertNewAnimal(categoryTmp, animalNameTmp,imageNameTmp,descriptionIdTmp) {
+        try {
+            const animalsList = {
+                category: categoryTmp,
+                animalName: animalNameTmp,
+                image: imageNameTmp,
+                descriptionID:descriptionIdTmp
+            };
+            const result = await API.graphql(graphqlOperation(mutations.createAnimalsList, { input: animalsList }));
+            console.log(result)
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    insertAnimalDetails: async function insertAnimalDetails(jsonDetailsTmp) {
+        try {
+            const animalsDetails = {
+                jsonDetails: jsonDetailsTmp
+            };
+            const result = await API.graphql(graphqlOperation(mutations.createAnimalDetails, { input: animalsDetails }));
+            return result.data.createAnimalDetails
+        } catch (error) {
+            console.log(error);
+            return null
+        }
+    },
+    getByCategory: async function getByCategory(categoryWished) {
+        var listAnimals = await API.graphql(graphqlOperation(queries.getByCategory,
+            {
+                category: categoryWished
+            }));
+        return listAnimals
+    },
+    getAnimalDetails: async function getAnimalDetails(id) {
+        var listAnimals = await API.graphql(graphqlOperation(queries.getAnimalDetails,
+            {
+                id: id
+            }));
+        return listAnimals
+    },
+    
+}
