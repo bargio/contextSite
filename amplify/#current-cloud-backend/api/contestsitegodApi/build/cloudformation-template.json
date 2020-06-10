@@ -114,14 +114,14 @@
                         "ApiId"
                     ]
                 },
-                "Description": "key",
+                "Description": "keyGiugno",
                 "Expires": {
                     "Fn::If": [
                         "APIKeyExpirationEpochIsPositive",
                         {
                             "Ref": "APIKeyExpirationEpoch"
                         },
-                        1594280694
+                        1594369777
                     ]
                 }
             },

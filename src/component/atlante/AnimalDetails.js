@@ -14,13 +14,13 @@ export class AnimalDetails extends React.Component {
             listDetails: [],
             listSections: [],
             listImageUrl: [],
-            animalDetails:null
+            animalDetails: null
         }
     }
 
     componentWillMount() {
         var animalID = window.location.pathname.split("/")[2]
-        AtlanteResources.getAnimalDetails(animalID).then(value=>{
+        AtlanteResources.getAnimalDetails(animalID).then(value => {
             var animalDetails = JSON.parse(value.data.getAnimalDetails.jsonDetails)
             console.log(animalDetails)
             this.createListDetailsFromJson(animalDetails);
@@ -43,7 +43,7 @@ export class AnimalDetails extends React.Component {
             var newSection = this.createSectionContent(sections[k], null, false)
             listSectionsTmp.push(newSection)
         })
-        this.setState({ listSections: listSectionsTmp,animalDetails:animalDetails })
+        this.setState({ listSections: listSectionsTmp, animalDetails: animalDetails })
     }
 
     createSectionContent(section, keyFromTop, isInner) {
@@ -119,28 +119,31 @@ export class AnimalDetails extends React.Component {
     }
 
     render() {
-        return (<Grid container justify="center" spacing={2} style={{ paddingTop: '5%' }}>
-            <Grid item xs={12} sm={12} md={12} large={12} xl={12} zeroMinWidth style={{ width: '100%', margin: 0 }} >
-                <h1 align='center'>{this.state.animalDetails.name}</h1>
-            </Grid>
-            <Grid item xs={0} sm={5} md={5} large={4} xl={2} zeroMinWidth >
-                <ImageLoaderViewer style={{ minWidth: '100%' }} imageKeyAws={this.state.animalDetails.img}></ImageLoaderViewer>
-            </Grid>
-            <Grid item xs={0} sm={5} md={5} large={4} xl={2} zeroMinWidth style={{ width: '100%' }} >
-                <ListGroup style={{ background: 'aliceblue' }}>
-                    {this.state.listDetails}
-                </ListGroup>
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} large={12} xl={12} zeroMinWidth style={{ width: '100%', margin: 0 }} >
-                <h4 align='justify' style={{ marginLeft: '10%', marginRight: '10%' }}>{this.state.animalDetails.tipologyDetails} </h4>
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} large={12} xl={12} zeroMinWidth style={{ width: '100%', margin: 0 }} >
-                <Accordion /*defaultActiveKey="0"*/ style={{ marginLeft: '3%', marginRight: '3%' }}>
-                    {this.state.listSections}
-                </Accordion>
-            </Grid>
-        </Grid>
-        )
+        var componentToShow = null
+        if (this.state.animalDetails != null) {
+            componentToShow = (<Grid container justify="center" spacing={2} style={{ paddingTop: '5%' }}>
+                <Grid item xs={12} sm={12} md={12} large={12} xl={12} zeroMinWidth style={{ width: '100%', margin: 0 }} >
+                    <h1 align='center'>{this.state.animalDetails.name}</h1>
+                </Grid>
+                <Grid item xs={0} sm={5} md={5} large={4} xl={2} zeroMinWidth >
+                    <ImageLoaderViewer style={{ minWidth: '100%' }} imageKeyAws={this.state.animalDetails.img}></ImageLoaderViewer>
+                </Grid>
+                <Grid item xs={0} sm={5} md={5} large={4} xl={2} zeroMinWidth style={{ width: '100%' }} >
+                    <ListGroup style={{ background: 'aliceblue' }}>
+                        {this.state.listDetails}
+                    </ListGroup>
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} large={12} xl={12} zeroMinWidth style={{ width: '100%', margin: 0 }} >
+                    <h4 align='justify' style={{ marginLeft: '10%', marginRight: '10%' }}>{this.state.animalDetails.tipologyDetails} </h4>
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} large={12} xl={12} zeroMinWidth style={{ width: '100%', margin: 0 }} >
+                    <Accordion /*defaultActiveKey="0"*/ style={{ marginLeft: '3%', marginRight: '3%' }}>
+                        {this.state.listSections}
+                    </Accordion>
+                </Grid>
+            </Grid>)
+        }
+        return (componentToShow)
 
     }
 

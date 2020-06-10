@@ -29,7 +29,7 @@
 					"defaultAuthentication": {
 						"authenticationType": "API_KEY",
 						"apiKeyConfig": {
-							"description": "key",
+							"description": "keyGiugno",
 							"apiKeyExpirationDays": "30"
 						}
 					}
