@@ -74,7 +74,7 @@ export const QuizResources = {
             {
                 limit: 9999999,
                 filter: {
-                    groupCreator:{contains: "administrator"}
+                    groupCreator: { contains: "administrator" }
                 }
             }));
         console.log(adminQuiz)
@@ -213,8 +213,8 @@ export const QuizResources = {
     },
     deleteUserQuizUncompleted: async function deleteUserQuizUncompleted(id) {
         var quizUncompleted = await API.graphql(graphqlOperation(mutations.deleteQuizUncompleted,
-                { input: { id: id}}
-            ));
+            { input: { id: id } }
+        ));
     },
 }
 
@@ -246,13 +246,13 @@ export const UserResources = {
 }
 
 export const AtlanteResources = {
-    insertNewAnimal: async function insertNewAnimal(categoryTmp, animalNameTmp,imageNameTmp,descriptionIdTmp) {
+    insertNewAnimal: async function insertNewAnimal(categoryTmp, animalNameTmp, imageNameTmp, descriptionIdTmp) {
         try {
             const animalsList = {
                 category: categoryTmp,
                 animalName: animalNameTmp,
                 image: imageNameTmp,
-                descriptionID:descriptionIdTmp
+                descriptionID: descriptionIdTmp
             };
             const result = await API.graphql(graphqlOperation(mutations.createAnimalsList, { input: animalsList }));
             console.log(result)
@@ -275,8 +275,10 @@ export const AtlanteResources = {
     getByCategory: async function getByCategory(categoryWished) {
         var listAnimals = await API.graphql(graphqlOperation(queries.getByCategory,
             {
-                category: categoryWished
+                category: categoryWished,
+                limit:10000
             }));
+        console.log(listAnimals)
         return listAnimals
     },
     getAnimalDetails: async function getAnimalDetails(id) {
@@ -286,5 +288,5 @@ export const AtlanteResources = {
             }));
         return listAnimals
     },
-    
+
 }
