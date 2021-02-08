@@ -25,10 +25,10 @@ const awsmobile = {
     "aws_content_delivery_url": "http://contestsitegod-20200109174043-hostingbucket-devgood.s3-website-us-east-1.amazonaws.com",
     "aws_user_files_s3_bucket": "bucketsite102828-devgood",
     "aws_user_files_s3_bucket_region": "us-east-1",
-    "aws_appsync_graphqlEndpoint": "https://agtvca7ltfhkbkp64miyvix4nm.appsync-api.us-east-1.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://ph2ka7z66fbhtczkvunyqwiqhi.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_appsync_region": "us-east-1",
     "aws_appsync_authenticationType": "API_KEY",
-    "aws_appsync_apiKey": "da2-rhihsri7nne6fndk4tjzrm4wqy",
+    "aws_appsync_apiKey": "da2-olv7ji6u3bcz7dkb2gmyegg644",
     "aws_mobile_analytics_app_id": "e1beb67a86bf4b119b021928ee3461c3",
     "aws_mobile_analytics_app_region": "us-east-1"
 };
