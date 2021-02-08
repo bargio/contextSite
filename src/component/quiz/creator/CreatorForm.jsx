@@ -243,8 +243,8 @@ export class CreatorForm extends React.Component {
                         </Form.Group>*/}
                         <Accordion style={{ margin: 0 }} >
                             {this.state.questions.map((question, index) => (
-                                <Card key={index} style={{ marginBottom: '20px' }}>
-                                    <Accordion.Toggle as={Card.Header} eventKey={index}>
+                                <Card key={1+index} style={{ marginBottom: '20px' }}>
+                                    <Accordion.Toggle as={Card.Header} eventKey={1+index}>
                                         <Navbar bg="light" variant="light">
                                             <Navbar.Brand>
                                                 <Badge variant="dark">Domanda {index + 1}</Badge>
@@ -254,7 +254,7 @@ export class CreatorForm extends React.Component {
                                             </Navbar.Collapse>
                                         </Navbar>
                                     </Accordion.Toggle>
-                                    <Accordion.Collapse eventKey={index}>
+                                    <Accordion.Collapse eventKey={1+index}>
                                         <Card.Body ><Question ref={question} questionData={this.props.uncompleted ? this.props.questionData[index] : undefined} questionIndex={index}></Question></Card.Body>
                                     </Accordion.Collapse>
                                 </Card>)
